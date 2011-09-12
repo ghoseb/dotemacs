@@ -3,8 +3,8 @@
 ;; color-theme
 (add-lib-path "color-theme")
 (require 'color-theme)
-(load-file (concat dotfiles-lib-dir "tango2.el"))
-(color-theme-tango-2)
+(load-file (concat dotfiles-lib-dir "blackbored.el"))
+(color-theme-blackbored)
 
 ;; set cursor colour
 (set-cursor-color "yellow")
