@@ -1,0 +1,27 @@
+[submodule "vendor/submodules/smex"]
+	path = vendor/submodules/smex
+	url = https://github.com/nonsequitur/smex.git
+[submodule "vendor/submodules/slime"]
+	path = vendor/submodules/slime
+	url = https://github.com/technomancy/slime.git
+[submodule "vendor/submodules/scratch-el"]
+	path = vendor/submodules/scratch-el
+	url = https://github.com/ieure/scratch-el.git
+[submodule "vendor/submodules/magit"]
+	path = vendor/submodules/magit
+	url = https://github.com/philjackson/magit.git
+[submodule "vendor/submodules/durendal"]
+	path = vendor/submodules/durendal
+	url = https://github.com/samaaron/durendal.git
+[submodule "vendor/submodules/clojure-mode"]
+	path = vendor/submodules/clojure-mode
+	url = https://github.com/samaaron/clojure-mode.git
+[submodule "vendor/submodules/auto-complete"]
+	path = vendor/submodules/auto-complete
+	url = https://github.com/m2ym/auto-complete.git
+[submodule "vendor/submodules/align-cljlet"]
+	path = vendor/submodules/align-cljlet
+	url = https://github.com/gstamp/align-cljlet.git
+[submodule "vendor/submodules/ac-slime"]
+	path = vendor/submodules/ac-slime
+	url = https://github.com/purcell/ac-slime.git

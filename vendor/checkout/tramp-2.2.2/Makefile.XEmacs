@@ -1,0 +1,50 @@
+# Makefile for tramp code
+
+# This file is part of XEmacs.
+
+# XEmacs is free software; you can redistribute it and/or modify it
+# under the terms of the GNU General Public License as published by the
+# Free Software Foundation; either version 2, or (at your option) any
+# later version.
+
+# XEmacs is distributed in the hope that it will be useful, but WITHOUT
+# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+# for more details.
+
+# You should have received a copy of the GNU General Public License
+# along with XEmacs; see the file COPYING.  If not, write to
+# the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+# Boston, MA 02110-1301, USA.
+
+VERSION = 1.19
+AUTHOR_VERSION = 2.0.45
+MAINTAINER = Kai Groﬂjohann <kai.grossjohann@gmx.net>
+PACKAGE = tramp
+PKG_TYPE = regular
+REQUIRES = tramp xemacs-base vc efs dired mail-lib gnus ediff sh-script
+CATEGORY = standard
+
+include ../../Local.rules.inc
+
+ELCS = lisp/tramp-util.elc lisp/tramp.elc lisp/tramp-vc.elc \
+	lisp/trampcache.elc lisp/tramp-uu.elc lisp/tramp-efs.elc \
+	lisp/tramp-ftp.elc lisp/tramp-smb.elc lisp/trampver.elc
+
+EXTRA_SOURCES = ChangeLog.upstream
+
+EXPLICIT_DOCS = texi/$(PACKAGE).texi
+MAKEINFO_FLAGS = --footnote-style=end -D xemacs
+
+ifneq ('$(BUILD_WITHOUT_MULE)','t')
+EXPLICIT_DOCS += texi/$(PACKAGE)_ja.texi
+# #### Yuck!!!!!! texi2html (v 1.56k, at least) hangs on me when trying
+# to convert the japanese files, so forcibly override things to make
+# sure they don't get converted. --ben
+override HTML_FILES = texi/$(PACKAGE)*.html
+override HTML_DEP = texi/$(PACKAGE)_toc.html
+endif
+
+AUTOLOAD_PATH = lisp
+
+include ../../XEmacs.rules

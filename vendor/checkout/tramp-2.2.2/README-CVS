@@ -1,0 +1,33 @@
+-*- text -*-
+
+                     Tramp CVS usage instructions
+
+The Tramp version number is in the `AC_INIT' macro in `configure.ac',
+everywhere else it is generated from this macro.  You should update
+this version number whenever you make a release.  After that, you need
+to call `make configure' (or `autoconf --trace=AC_INIT' if you've
+cleaned up the Makefile).  The version number looks like "X.Y.Z" where
+X is the major revision, Y is the minor revision, and Z is a patch
+level.
+
+Tramp versions which are not released yet have a version number
+"X.Y.Z-pre" in CVS, with Z being the next patch level to be released.
+
+Together with each version "X.Y.Z" there should be a CVS tag "V-X-Y-Z"
+so that each released version can be identified.
+
+Maybe someday the version number should be auto-generated from the
+CVS tag name so that you don't have to maintain the version number
+three times.
+
+A Tramp version X.Y, which is regarded as stable, is maintained in a
+CVS branch "branch-X-Y-stable".  Those Tramp versions don't get new
+features but just bug fixes.  Ususally, the CVS HEAD is not based on
+such a version but a higher one.
+
+Tramp exists in three incarnations.  The CVS tree on Savannah is the
+main version, but there is also a copy in XEmacs and a copy in the
+Emacs distribution.  Typically, these downstream versions are based
+on, or identical to, an earlier stable version from Savannah.
+
+TODO: explain how to get the main version into XEmacs and into Emacs.

@@ -1,0 +1,20 @@
+(tramp
+  (standards-version 1.1
+   version VERSION
+   author-version AUTHOR_VERSION
+   date DATE
+   build-date BUILD_DATE
+   maintainer MAINTAINER
+   distribution xemacs
+   priority low
+   category CATEGORY
+   dump nil
+   description "Remote shell-based file editing."
+   filename FILENAME
+   md5sum MD5SUM
+   size SIZE
+   provides (tramp tramp-efs tramp-ftp tramp-smb tramp-util tramp-uu
+             tramp-vc trampcache)
+   requires (REQUIRES)
+   type regular
+))
