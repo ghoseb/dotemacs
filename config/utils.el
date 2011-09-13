@@ -64,3 +64,31 @@
   "Kill the current buffer, without confirmation."
   (interactive)
   (kill-buffer (current-buffer)))
+
+
+(defun full-screen-toggle ()
+  "toggle full-screen mode"
+  (interactive)
+  (shell-command "wmctrl -r :ACTIVE: -btoggle,fullscreen"))
+
+
+;;; ----------------------
+;;; Bondage and discipline
+;;; ----------------------
+
+(defvar punishment-counter 0)
+
+(defvar punishment-insults '("YOU SUCK!"
+                             "OBEY ME, INSECT!"
+                             "OBEY ME, SUBSERVIENT BIOMASS!"
+                             "GET BACK TO VIM OR APTANA, YOU MORON!"
+                             "YOU ARE NOT WORTHY OF EMACS!"))
+
+(defface punishment-face '((t (:foreground "black" :background "yellow" :bold t)))
+  "Face for punishment messages.")
+
+(defun punish-me ()
+  (interactive)
+  (message "%s" (propertize (nth (random (length punishment-insults))
+                                 punishment-insults)
+                            'face 'punishment-face)))
