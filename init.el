@@ -42,3 +42,4 @@
 (load-config "undo-tree")
 (load-config "yas")
 (load-config "bindings")
+(load-config "git")

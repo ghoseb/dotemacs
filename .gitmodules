@@ -25,3 +25,6 @@
 [submodule "vendor/submodules/ac-slime"]
 	path = vendor/submodules/ac-slime
 	url = https://github.com/purcell/ac-slime.git
+[submodule "vendor/submodules/mo-git-blame"]
+	path = vendor/submodules/mo-git-blame
+	url = https://github.com/voins/mo-git-blame.git
