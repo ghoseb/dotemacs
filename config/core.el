@@ -24,9 +24,6 @@
 (add-to-list 'Info-default-directory-list (concat dotfiles-lib-dir "tramp/info/"))
 (require 'tramp)
 
-(add-lib-path "magit")
-(require 'magit)
-
 (add-to-list 'auto-mode-alist '("zshrc$" . shell-script-mode))
 
 (setq custom-file (concat dotfiles-etc-dir "emacs-custom.el"))
