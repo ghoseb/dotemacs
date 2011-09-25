@@ -28,3 +28,6 @@
 [submodule "vendor/submodules/mo-git-blame"]
 	path = vendor/submodules/mo-git-blame
 	url = https://github.com/voins/mo-git-blame.git
+[submodule "vendor/submodules/markdown-mode"]
+	path = vendor/submodules/markdown-mode
+	url = git://jblevins.org/git/markdown-mode.git
