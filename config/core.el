@@ -9,6 +9,8 @@
               standard-indent 4
               indent-tabs-mode nil)
 
+(defalias 'yes-or-no-p 'y-or-n-p)
+
 (require 'smooth-scrolling)
 (require 'rainbow-parens)
 (require 'rainbow-delimiters)
