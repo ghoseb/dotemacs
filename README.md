@@ -31,7 +31,7 @@ corresponding files in `lib` and `vendor/submodules`.
 ## Supported Languages ##
 
 * Clojure
-* <contributions welcome!>
+* Contributions welcome!
 
 ## Acknowledgements ##
 
