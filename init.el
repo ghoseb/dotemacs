@@ -44,3 +44,4 @@
 (load-config "bindings")
 (load-config "git")
 (load-config "markdown")
+(load-config "golang")
