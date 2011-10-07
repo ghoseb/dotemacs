@@ -484,7 +484,7 @@ functions, and some types.  It also provides indentation that is
   (set (make-local-variable 'comment-end)   "")
 
   ;; Go style
-  (setq indent-tabs-mode t))
+  (setq indent-tabs-mode nil))
 
 ;;;###autoload
 (add-to-list 'auto-mode-alist (cons "\\.go$" #'go-mode))
@@ -515,7 +515,7 @@ Replace the current buffer on success; display errors on failure."
          (save-restriction
            (let (deactivate-mark)
              (widen)
-             (if (= 0 (shell-command-on-region (point-min) (point-max) "gofmt"
+             (if (= 0 (shell-command-on-region (point-min) (point-max) "gofmt -spaces=true -tabwidth=4 -tabindent=false"
                                                outbuf nil errbuf))
                  ;; gofmt succeeded: replace the current buffer with outbuf,
                  ;; restore the mark and point, and discard errbuf.
