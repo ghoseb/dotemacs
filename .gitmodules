@@ -31,3 +31,9 @@
 [submodule "vendor/submodules/markdown-mode"]
 	path = vendor/submodules/markdown-mode
 	url = git://jblevins.org/git/markdown-mode.git
+[submodule "vendor/submodules/js2-mode"]
+	path = vendor/submodules/js2-mode
+	url = https://github.com/mooz/js2-mode.git
+[submodule "vendor/submodules/scss-mode"]
+	path = vender/submodules/scss-mode
+	url = https://github.com/antonj/scss-mode.git
