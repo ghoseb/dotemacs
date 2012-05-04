@@ -45,3 +45,7 @@
 (load-config "git")
 (load-config "markdown")
 (load-config "golang")
+(load-config "js2-mode")
+(load-config "js-mode")
+(load-config "scss-mode")
+(load-config "magit")
