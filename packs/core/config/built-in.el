@@ -135,6 +135,12 @@
                "%-" ;; fill with '-'
                ))
 
+(setq-default frame-title-format
+              '((:eval (if (buffer-file-name)
+                           (abbreviate-file-name (buffer-file-name))
+                         "%b"))
+                " [%*]"))
+
 ;;; Avoid iconizing emacs.
 (global-unset-key "\C-z")
 
