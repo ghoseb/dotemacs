@@ -61,6 +61,18 @@
    `(org-link ((t (:foreground ,blue))))
    `(org-todo ((t (:foreground ,red))))
 
+   ;; raninbow delimiters
+   `(rainbow-delimiters-depth-1-face ((t (:foreground "#fa2e59"))))
+   `(rainbow-delimiters-depth-2-face ((t (:foreground "#f8b88b"))))
+   `(rainbow-delimiters-depth-3-face ((t (:foreground "#faf884"))))
+   `(rainbow-delimiters-depth-4-face ((t (:foreground "#baed91"))))
+   `(rainbow-delimiters-depth-5-face ((t (:foreground "#b2cefe"))))
+   `(rainbow-delimiters-depth-6-face ((t (:foreground "#f2a2e8"))))
+   `(rainbow-delimiters-depth-7-face ((t (:foreground "#fa2e59"))))
+   `(rainbow-delimiters-depth-8-face ((t (:foreground "#f8b88b"))))
+   `(rainbow-delimiters-depth-9-face ((t (:foreground "#faf884"))))
+   `(rainbow-delimiters-unmatched-face ((t (:foreground "white"))))
+
    ;; show-paren-mode
    `(show-paren-match ((t (:background ,blue :foreground ,current-line))))
    `(show-paren-mismatch ((t (:background ,orange :foreground ,current-line)))))
