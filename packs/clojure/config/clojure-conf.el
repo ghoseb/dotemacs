@@ -1,8 +1,5 @@
 (live-add-pack-lib "clojure-mode")
 
-(add-hook 'clojure-mode-hook 'enable-paredit-mode)
-(add-hook 'clojure-mode-hook 'rainbow-delimiters-mode)
-
 (eval-after-load 'clojure-mode
   '(font-lock-add-keywords
     'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
@@ -31,8 +28,10 @@
 
 (add-hook 'clojure-mode-hook
           (lambda ()
+            (enable-paredit-mode)
+            (rainbow-delimiters-mode)
             (add-to-list 'ac-sources 'ac-source-yasnippet)
-            (clojure-test-mode 1)
+            (clojure-test-mode -1)
             (setq buffer-save-without-query t)))
 
 ;;command to align let statements
