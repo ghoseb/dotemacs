@@ -1,0 +1,6 @@
+#name: ns
+# --
+(ns ^{:doc "${1:doc-string}"
+      :author "Baishampayan Ghose <b.ghose@helpshift.com>"}
+  ${2:name}
+  $0)
