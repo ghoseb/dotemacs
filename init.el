@@ -110,6 +110,7 @@
 ;;           http://github.com/ghoseb/dotemacs
 ;;
 ;; " (live-welcome-message) "
+
 "))
 
 ;;;
@@ -117,7 +118,7 @@
 ;;;
 
 ;;default live packs
-(setq live-packs '("core" "themes" "power" "clojure" "programming"))
+(setq live-packs '("core" "themes" "power" "clojure" "programming" "notes"))
 
 ;; Load all packs - Power Extreme!
 (live-load-all-packs live-packs)
