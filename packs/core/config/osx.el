@@ -28,3 +28,6 @@
                             (height . 45)))
 (setq frame-title-format "%b")
 (setq icon-title-format  "%b")
+
+(global-unset-key (kbd "s-p")) ;; stupid binding
+(global-unset-key (kbd "M-TAB"))
