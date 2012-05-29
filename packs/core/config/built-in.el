@@ -56,6 +56,11 @@
 (auto-compression-mode t)
 (show-paren-mode 1)
 
+;;; eldoc mode for elisp
+(add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+(add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 
 (random t) ;; Seed the random-number generator
