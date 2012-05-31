@@ -1,5 +1,7 @@
 (live-add-pack-lib "magit")
 (require 'magit)
+(require 'magit-blame)
+(require 'magit-bisect)
 
 (eval-after-load 'magit
   '(progn
