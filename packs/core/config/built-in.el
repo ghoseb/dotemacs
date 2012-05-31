@@ -116,7 +116,8 @@
 
 (setq-default tab-width 4
               standard-indent 4
-              indent-tabs-mode nil)
+              indent-tabs-mode nil
+              show-trailing-whitespace t)
 
 ;; real Emacs hackers don't use the arrow keys
 (global-unset-key [up])
