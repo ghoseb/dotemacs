@@ -31,7 +31,6 @@
             (enable-paredit-mode)
             (rainbow-delimiters-mode)
             (add-to-list 'ac-sources 'ac-source-yasnippet)
-            (clojure-test-mode -1)
             (setq buffer-save-without-query t)))
 
 ;;command to align let statements
