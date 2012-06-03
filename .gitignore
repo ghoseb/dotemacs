@@ -1,3 +1,4 @@
 *~
+*.elc
 tmp/*
 etc/emacs-custom.el
