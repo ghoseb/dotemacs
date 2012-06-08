@@ -1,3 +1,7 @@
+# This branch is deprecated! #
+
+This branch is deprecated. All new work is happening on the [v2 branch](https://github.com/ghoseb/dotemacs/tree/v2/).
+
 # BG's Emacs Setup #
 
 A fresh approach to managing my Emacs setup.
