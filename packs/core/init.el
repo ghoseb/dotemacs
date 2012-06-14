@@ -14,6 +14,7 @@
 (live-load-config-file "window-number-conf.el")
 (live-load-config-file "recentf-conf.el")
 (live-load-config-file "multi-term-conf.el")
+(live-load-config-file "which-func-conf.el")
 
 (when (eq system-type 'darwin)
   (live-load-config-file "osx.el"))
