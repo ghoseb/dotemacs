@@ -3,6 +3,7 @@
 ;; "Org Mode - Organize Your Life In Plain Text!" by Bernt Hansen,
 ;; with time stamp: 2012-06-06T22:30-0400
 (require 'org-install)
+(require 'org-habit)
 (live-load-config-file "basic.el")
 (live-load-config-file "agenda.el")
 (live-load-config-file "narrow.el")
