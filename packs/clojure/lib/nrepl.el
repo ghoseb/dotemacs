@@ -5,7 +5,7 @@
 ;; Author: Tim King <kingtim@gmail.com>
 ;;         Phil Hagelberg <technomancy@gmail.com>
 ;; URL: http://www.github.com/kingtim/nrepl.el
-;; Version: 0.1.4
+;; Version: 0.1.5
 ;; Keywords: languages, clojure, nrepl
 ;; Package-Requires: ((clojure-mode "1.11"))
 
@@ -30,10 +30,16 @@
 
 ;;; Installation:
 
-;; Available as a package in marmalade-repo.org.
+;; Available as a package in marmalade-repo.org and melpa.milkbox.net.
 
 ;; (add-to-list 'package-archives
 ;;              '("marmalade" . "http://marmalade-repo.org/packages/"))
+;;
+;; or
+;;
+;; (add-to-list 'package-archives
+;;              '("melpa" . "http://melpa.milkbox.net/packages/") t)
+;;
 ;; M-x package-install nrepl
 
 ;;; Usage:
@@ -47,8 +53,8 @@
 (require 'etags)
 (require 'arc-mode)
 (require 'ansi-color)
-(eval-when-compile
-  (require 'cl))
+(require 'eldoc)
+(require 'cl)
 
 (defgroup nrepl nil
   "Interaction with the Clojure nREPL Server."
@@ -60,7 +66,7 @@
   :type 'hook
   :group 'nrepl)
 
-(defvar nrepl-version "0.1.4-preview"
+(defvar nrepl-version "0.1.5-preview"
   "The current nrepl version.")
 
 (defface nrepl-prompt-face
@@ -137,6 +143,12 @@ joined together.")
 
 (defvar nrepl-sync-response nil
   "Result of the last sync request.")
+
+(defvar nrepl-err-handler 'nrepl-default-err-handler
+  "Evaluation error handler")
+
+(defvar nrepl-extra-eldoc-commands '("nrepl-complete" "yas/expand")
+  "Extra commands to be added to eldoc's safe commands list.")
 
 (defcustom nrepl-popup-stacktraces t
   "Non-nil means pop-up error stacktraces.
@@ -310,12 +322,14 @@ joined together.")
 
 (defun nrepl-jump-to-def (var)
   "Jump to the definition of the var at point."
-  (let ((form (format "((juxt (comp str clojure.java.io/resource :file)
-                              (comp str clojure.java.io/file :file) :line)
-                        (meta (resolve '%s)))"
+  (let ((form (format "((clojure.core/juxt
+                         (comp clojure.core/str clojure.java.io/resource :file)
+                         (comp clojure.core/str clojure.java.io/file :file) :line)
+                        (clojure.core/meta (clojure.core/resolve '%s)))"
                       var)))
-    (nrepl-send-string form nrepl-buffer-ns
-                       (nrepl-jump-to-def-handler (current-buffer)))))
+    (nrepl-send-string form
+                       (nrepl-jump-to-def-handler (current-buffer))
+                       nrepl-buffer-ns)))
 
 (defun nrepl-jump (query)
   (interactive "P")
@@ -323,42 +337,24 @@ joined together.")
 
 (defalias 'nrepl-jump-back 'pop-tag-mark)
 
-(defun nrepl-perform-complete (buffer beginning-of-symbol value)
-  (with-current-buffer buffer
-    (let* ((completions (car (read-from-string value)))
-           (current (buffer-substring-no-properties beginning-of-symbol (point))))
-      (if (not completions)
-          (message "No match.")
-        (let ((try (try-completion current completions)))
-          (if (char-or-string-p try)
-              (progn
-                (save-excursion
-                  (delete-region beginning-of-symbol (point)))
-                (insert (try-completion current completions))))
-          (if (= (length completions) 1)
-              (insert " ")
-            (message "Completions: %s"
-                     (mapconcat 'identity completions " "))))))))
+(defvar nrepl-completion-fn 'nrepl-completion-complete-core-fn)
 
-(defun nrepl-complete-handler (buffer beginning-of-symbol)
-  (lexical-let ((beginning-of-symbol beginning-of-symbol))
-    (nrepl-make-response-handler buffer
-                                 (lambda (buffer value)
-                                   (nrepl-perform-complete buffer beginning-of-symbol value))
-                                 nil nil nil)))
+(defun nrepl-completion-complete-core-fn (str)
+  "Return a list of completions using complete.core/completions."
+  (let ((strlst (plist-get
+                 (nrepl-send-string-sync
+                  (format "(complete.core/completions \"%s\" *ns*)" str)
+                  nrepl-buffer-ns)
+                 :value)))
+    (when strlst
+      (car (read-from-string strlst)))))
 
-(defun nrepl-complete ()
-  (interactive)
-  ;; TODO: need a unified way to trigger this loading at connect-time
-  ;; TODO: better error handling if dependency is missing
-  (nrepl-send-string "(require 'complete.core)" "user" 'identity)
-  (let ((form (format "(complete.core/completions \"%s\" *ns*)"
-                      (symbol-at-point))))
-    (nrepl-send-string form nrepl-buffer-ns (nrepl-complete-handler
-                                             (current-buffer)
-                                             (save-excursion
-                                               (backward-sexp)
-                                               (point))))))
+(defun nrepl-complete-at-point ()
+  (let ((sap (symbol-at-point)))
+    (when (and sap (not (in-string-p)))
+      (let ((bounds (bounds-of-thing-at-point 'symbol)))
+        (list (car bounds) (cdr bounds)
+              (completion-table-dynamic nrepl-completion-fn))))))
 
 (defun nrepl-eldoc-format-thing (thing)
   (propertize thing 'face 'font-lock-function-name-face))
@@ -385,16 +381,20 @@ joined together.")
   (let* ((thing (nrepl-operator-before-point))
          (form (format "(try
                          (:arglists 
-                          (meta (resolve (read-string \"%s\"))))
+                          (clojure.core/meta
+                           (clojure.core/resolve
+                            (clojure.core/read-string \"%s\"))))
                          (catch Throwable t nil))" thing)))
     (when thing
-        (nrepl-send-string form nrepl-buffer-ns
+        (nrepl-send-string form
                            (nrepl-eldoc-handler (current-buffer)
-                                                thing)))))
+                                                thing)
+                           nrepl-buffer-ns))))
 
-(defun nrepl-eldoc-enable-in-current-buffer ()
+(defun nrepl-turn-on-eldoc-mode ()
   (make-local-variable 'eldoc-documentation-function)
   (setq eldoc-documentation-function 'nrepl-eldoc)
+  (apply 'eldoc-add-command nrepl-extra-eldoc-commands)
   (turn-on-eldoc-mode))
 
 ;;; Response handlers
@@ -430,7 +430,9 @@ joined together.")
                (if (member "interrupted" status)
                    (message "Evaluation interrupted."))
                (if (member "eval-error" status)
-                   (nrepl-err-handler buffer ex root-ex))
+                   (funcall nrepl-err-handler buffer ex root-ex))
+               (if (member "namespace-not-found" status)
+                   (message "Namespace not found."))
                (if (member "need-input" status)
                    (nrepl-need-input buffer))
                (if (member "done" status)
@@ -463,7 +465,8 @@ joined together.")
   (nrepl-make-response-handler buffer
                                (lambda (buffer value)
                                  (message (format "%s" value)))
-                               '()
+                               (lambda (buffer value)
+                                 (nrepl-emit-interactive-output value))
                                (lambda (buffer err)
                                  (message (format "%s" err)))
                                '()))
@@ -496,7 +499,7 @@ joined together.")
                                  (nrepl-emit-into-popup-buffer buffer str))
                                '()))
 
-(defun nrepl-err-handler (buffer ex root-ex)
+(defun nrepl-default-err-handler (buffer ex root-ex)
   ;; TODO: use pst+ here for colorization. currently breaks bencode.
   ;; TODO: use ex and root-ex as fallback values to display when pst/print-stack-trace-not-found
   (if (or nrepl-popup-stacktraces
@@ -504,9 +507,8 @@ joined together.")
                    (cdr (assq 'major-mode 
                               (buffer-local-variables buffer))))))
       (with-current-buffer buffer
-        (nrepl-send-string "(if-let [pst+ (resolve 'clj-stacktrace.repl/pst)]
+        (nrepl-send-string "(if-let [pst+ (clojure.core/resolve 'clj-stacktrace.repl/pst+)]
                         (pst+ *e) (clojure.stacktrace/print-stack-trace *e))"
-                           nrepl-buffer-ns
                            (nrepl-make-response-handler
                             (nrepl-popup-buffer "*nREPL error*" t)
                             nil
@@ -628,7 +630,7 @@ joined together.")
    "Mode for nrepl macroexpansion buffers"
    nil
    (" ")
-   '(("g" .  nrepl-macroexpand-again)))
+   '(("g" .  nrepl-macroexpand-1-last-expression)))
 
 (defun nrepl-macroexpand-expr (macroexpand expr pprint-p &optional buffer)
   "Evaluate the expression preceding point and print the result
@@ -637,14 +639,15 @@ into the special buffer. Prefix argument forces pretty-printed output."
   (let* ((ns nrepl-buffer-ns)
         (form (format
                (if pprint-p
-                   "(pprint (%s '%s))"
+                   "(clojure.pprint/pprint (%s '%s))"
                  "(%s '%s)") macroexpand expr))
         (macroexpansion-buffer (or buffer (nrepl-initialize-macroexpansion-buffer)))
         (handler (if pprint-p 
                    #'nrepl-popup-eval-out-handler
                    #'nrepl-popup-eval-print-handler)))
-    (nrepl-send-string form ns
-                       (funcall handler macroexpansion-buffer))))
+    (nrepl-send-string form
+                       (funcall handler macroexpansion-buffer)
+                       ns)))
 
 (defun nrepl-macroexpand-last-expression (&optional prefix)
   "Invoke 'macroexpand' on the expression preceding point and display the result
@@ -676,19 +679,23 @@ in a macroexpansion buffer. Prefix argument forces pretty-printed output."
 (defun nrepl-popup-eval-print (form)
   "Evaluate the given form and print value in current buffer."
   (let ((buffer (current-buffer)))
-    (nrepl-send-string form nrepl-buffer-ns
-                       (nrepl-popup-eval-print-handler buffer))))
+    (nrepl-send-string form
+                       (nrepl-popup-eval-print-handler buffer)
+                       nrepl-buffer-ns)))
 
 (defun nrepl-interactive-eval-print (form)
   "Evaluate the given form and print value in current buffer."
   (let ((buffer (current-buffer)))
-    (nrepl-send-string form nrepl-buffer-ns
-                       (nrepl-interactive-eval-print-handler buffer))))
+    (nrepl-send-string form
+                       (nrepl-interactive-eval-print-handler buffer)
+                       nrepl-buffer-ns)))
 
 (defun nrepl-interactive-eval (form)
   "Evaluate the given form and print value in minibuffer."
   (let ((buffer (current-buffer)))
-    (nrepl-send-string form nrepl-buffer-ns (nrepl-interactive-eval-handler buffer))))
+    (nrepl-send-string form
+                       (nrepl-interactive-eval-handler buffer)
+                       nrepl-buffer-ns)))
 
 (defun nrepl-eval-last-expression (&optional prefix)
   "Evaluate the expression preceding point."
@@ -858,10 +865,9 @@ This function is meant to be used in hooks to avoid lambda
 
 (defvar nrepl-interaction-mode-map
   (let ((map (make-sparse-keymap)))
-    (set-keymap-parent map clojure-mode-map)
     (define-key map (kbd "M-.") 'nrepl-jump)
     (define-key map (kbd "M-,") 'nrepl-jump-back)
-    (define-key map (kbd "M-TAB") 'nrepl-complete)
+    (define-key map (kbd "M-TAB") 'complete-symbol)
     (define-key map (kbd "C-M-x") 'nrepl-eval-expression-at-point)
     (define-key map (kbd "C-x C-e") 'nrepl-eval-last-expression)
     (define-key map (kbd "C-c C-e") 'nrepl-eval-last-expression)
@@ -883,7 +889,7 @@ This function is meant to be used in hooks to avoid lambda
     (define-key map (kbd "M-.") 'nrepl-jump)
     (define-key map (kbd "M-,") 'nrepl-jump-back)
     (define-key map (kbd "RET") 'nrepl-return)
-    (define-key map (kbd "TAB") 'nrepl-complete)
+    (define-key map (kbd "TAB") 'complete-symbol)
     (define-key map (kbd "C-<return>") 'nrepl-closing-return)
     (define-key map (kbd "C-j") 'nrepl-newline-and-indent)
     (define-key map (kbd "C-c C-d") 'nrepl-doc)
@@ -906,7 +912,10 @@ This function is meant to be used in hooks to avoid lambda
   "Minor mode for nrepl interaction from a Clojure buffer."
    nil
    " nREPL"
-   nrepl-interaction-mode-map)
+   nrepl-interaction-mode-map
+   (make-local-variable 'completion-at-point-functions)
+   (add-to-list 'completion-at-point-functions
+		'nrepl-complete-at-point))
 
 (defun nrepl-mode ()
   "Major mode for nREPL interactions."
@@ -915,8 +924,11 @@ This function is meant to be used in hooks to avoid lambda
   (use-local-map nrepl-mode-map)
   (setq mode-name "nREPL"
         major-mode 'nrepl-mode)
+  (make-local-variable 'completion-at-point-functions)
+  (add-to-list 'completion-at-point-functions
+	       'nrepl-complete-at-point)
   (set-syntax-table nrepl-mode-syntax-table)
-  (nrepl-eldoc-enable-in-current-buffer)
+  (nrepl-turn-on-eldoc-mode)
   (when nrepl-history-file
     (nrepl-history-load nrepl-history-file)
     (make-local-variable 'kill-buffer-hook)
@@ -979,13 +991,13 @@ Return the position of the prompt beginning."
         (set-marker nrepl-prompt-start-mark prompt-start)
         prompt-start))))
 
-(defun nrepl-emit-output (buffer string &optional bol)
+(defun nrepl-emit-output-at-pos (buffer string position &optional bol)
   ;; insert STRING and mark it as output
   (with-current-buffer buffer
     (save-excursion
       (nrepl-save-marker nrepl-output-start
         (nrepl-save-marker nrepl-output-end
-          (goto-char nrepl-input-start-mark)
+          (goto-char position)
           (when (and bol (not (bolp))) (insert-before-markers "\n"))
           (nrepl-propertize-region `(face nrepl-output-face
                                           rear-nonsticky (face))
@@ -995,6 +1007,14 @@ Return the position of the prompt beginning."
               (insert-before-markers "\n")
               (set-marker nrepl-output-end (1- (point))))))))
     (nrepl-show-maximum-output)))
+
+(defun nrepl-emit-interactive-output (string)
+  (with-current-buffer "*nrepl*"
+    (nrepl-emit-output-at-pos (current-buffer) string (1- (nrepl-input-line-beginning-position)) t)))
+
+(defun nrepl-emit-output (buffer string &optional bol)
+  (with-current-buffer buffer
+    (nrepl-emit-output-at-pos buffer string nrepl-input-start-mark bol)))
 
 (defun nrepl-emit-prompt (buffer)
   (with-current-buffer buffer
@@ -1140,12 +1160,15 @@ buffer."
                             "interrupt-id" pending-request-id)
                       callback))
 
-(defun nrepl-send-string (input ns callback)
-  (nrepl-send-request (list "op" "eval"
-                            "session" (nrepl-current-session)
-                            "ns" ns
-                            "code" input)
-                      callback))
+(defun nrepl-eval-request (input &optional ns)
+  (append (if ns (list "ns" ns))
+          (list
+           "op" "eval"
+           "session" (nrepl-current-session)
+           "code" input)))
+
+(defun nrepl-send-string (input callback &optional ns)
+  (nrepl-send-request (nrepl-eval-request input ns) callback))
 
 (defun nrepl-sync-request-handler (buffer)
   (nrepl-make-response-handler buffer
@@ -1176,12 +1199,11 @@ The result is a plist with keys :value, :stderr and :stdout."
       (accept-process-output nil 0 5))
     nrepl-sync-response))
 
-(defun nrepl-send-string-sync (input ns)
-  (nrepl-send-request-sync (list "op" "eval"
-                                 "session" (nrepl-current-session)
-                                 "ns" ns
-                                 "code" input)))
+(defun nrepl-send-string-sync (input &optional ns)
+  (nrepl-send-request-sync (nrepl-eval-request input ns)))
 
+(defalias 'nrepl-eval 'nrepl-send-string-sync)
+(defalias 'nrepl-eval-async 'nrepl-send-string)
 
 (defun nrepl-send-input (&optional newline)
   "Goto to the end of the input and send the current input.
@@ -1209,7 +1231,7 @@ If NEWLINE is true then add a newline at the end of the input."
     (nrepl-mark-input-start)
     (nrepl-mark-output-start)
     (setq nrepl-input-history-index -1)
-    (nrepl-send-string input nrepl-buffer-ns (nrepl-handler (current-buffer)))))
+    (nrepl-send-string input (nrepl-handler (current-buffer)) nrepl-buffer-ns)))
 
 (defun nrepl-newline-and-indent ()
   "Insert a newline, then indent the next line.
@@ -1296,15 +1318,19 @@ balanced."
           (goto-char start)
           (insert ";;; output cleared"))))))
 
+(defun nrepl-find-ns ()
+  (or (save-restriction
+        (widen)
+        (clojure-find-ns))
+      "user"))
+
 (defun nrepl-current-ns ()
    "Return the ns in the current context.
  If `nrepl-buffer-ns' has a value then return that, otherwise
  search for and read a `ns' form."
    (let ((ns nrepl-buffer-ns))
      (or (and (string= ns "user")
-              (save-restriction
-                (widen)
-                (clojure-find-ns)))
+              (nrepl-find-ns))
          ns)))
 
 ;; Words of inspiration
@@ -1369,7 +1395,7 @@ the buffer should appear."
   "Switch the namespace of the nREPL buffer to ns."
   (interactive (list (nrepl-current-ns)))
   (with-current-buffer "*nrepl*"
-    (nrepl-send-string (format "(in-ns '%s)" ns) nrepl-buffer-ns (nrepl-handler (current-buffer)))))
+    (nrepl-send-string (format "(in-ns '%s)" ns) (nrepl-handler (current-buffer)))))
 
 (defun nrepl-symbol-at-point ()
   "Return the name of the symbol at point, otherwise nil."
@@ -1421,8 +1447,9 @@ the buffer should appear."
 (defun nrepl-ido-read-var (ns ido-callback)
   ;; Have to be stateful =(
   (setq nrepl-ido-ns ns)
-  (nrepl-send-string (prin1-to-string (nrepl-ido-form nrepl-ido-ns)) nrepl-buffer-ns
-                     (nrepl-ido-read-var-handler ido-callback (current-buffer))))
+  (nrepl-send-string (prin1-to-string (nrepl-ido-form nrepl-ido-ns))
+                     (nrepl-ido-read-var-handler ido-callback (current-buffer))
+                     nrepl-buffer-ns))
 
 (defun nrepl-operator-before-point ()
   (ignore-errors
@@ -1444,8 +1471,9 @@ symbol at point, or if QUERY is non-nil."
 (defun nrepl-doc-handler (symbol)
   (let ((form (format "(clojure.repl/doc %s)" symbol))
         (doc-buffer (nrepl-popup-buffer "*nREPL doc*" t)))
-    (nrepl-send-string form nrepl-buffer-ns
-                       (nrepl-popup-eval-out-handler doc-buffer))))
+    (nrepl-send-string form
+                       (nrepl-popup-eval-out-handler doc-buffer)
+                       nrepl-buffer-ns)))
 
 (defun nrepl-doc (query)
   "Open a window with the docstring for the given entry.
@@ -1455,6 +1483,10 @@ under point, prompts for a var."
   (nrepl-read-symbol-name "Symbol: " 'nrepl-doc-handler query))
 
 ;; TODO: implement reloading ns
+(defun nrepl-eval-load-file (form)
+  (let ((buffer (current-buffer)))
+    (nrepl-send-string form (nrepl-interactive-eval-handler buffer))))
+
 (defun nrepl-load-file (filename)
    "Load the clojure file FILENAME."
    (interactive (list
@@ -1462,9 +1494,12 @@ under point, prompts for a var."
                                  nil (if (buffer-file-name)
                                          (file-name-nondirectory
                                           (buffer-file-name))))))
-   (let ((fn (convert-standard-filename (expand-file-name filename))))
-     (nrepl-interactive-eval
-      (format "(clojure.core/load-file \"%s\")\n(in-ns '%s)\n" fn (nrepl-current-ns)))
+   (let ((fn (replace-regexp-in-string
+        "\\\\" "\\\\\\\\"
+	      (convert-standard-filename (expand-file-name filename)))))
+     (nrepl-eval-load-file
+      (format "(clojure.core/load-file \"%s\")\n(in-ns '%s)\n"
+              fn (nrepl-find-ns)))
      (message "Loading %s..." fn)))
 
 (defun nrepl-load-current-buffer ()
@@ -1501,7 +1536,7 @@ under point, prompts for a var."
   (when (string-match "nREPL server started on port \\([0-9]+\\)" output)
     (let ((port (string-to-number (match-string 1 output))))
       (message (format "nREPL server started on %s" port))
-      (nrepl port))))
+      (nrepl "localhost" port))))
 
 (defun nrepl-server-sentinel (process event)
   (let* ((b (process-buffer process))
@@ -1518,10 +1553,12 @@ under point, prompts for a var."
 (defun nrepl-enable-on-existing-clojure-buffers ()
   (interactive)
   (add-hook 'clojure-mode-hook 'clojure-enable-nrepl)
+  (add-hook 'clojurescript-mode-hook 'clojure-enable-nrepl)
   (save-window-excursion
     (dolist (buffer (buffer-list))
       (with-current-buffer buffer
-        (when (eq major-mode 'clojure-mode)
+        (when (or (eq major-mode 'clojure-mode)
+                  (eq major-mode 'clojurescript-mode))
           (clojure-enable-nrepl))))))
 
 ;;;###autoload
@@ -1539,15 +1576,24 @@ under point, prompts for a var."
     (message "Starting nREPL server...")))
 
 ;;; client
-(defun nrepl-new-session-handler (buffer)
-  (lexical-let ((buffer buffer))
+(defun nrepl-create-nrepl-buffer (process)
+  (nrepl-init-repl-buffer process
+    (let ((buf (generate-new-buffer-name "*nrepl*")))
+      (switch-to-buffer-other-window buf)
+      buf)))
+
+(defun nrepl-new-session-handler (process &optional create-nrepl-buffer-p)
+  (lexical-let ((process process)
+                (create-nrepl-buffer-p create-nrepl-buffer-p))
     (lambda (response)
       (nrepl-dbind-response response (id new-session)
         (cond (new-session
-               (with-current-buffer buffer
+               (with-current-buffer (process-buffer process)
                  (message "Connected.  %s" (nrepl-random-words-of-inspiration))
                  (setq nrepl-session new-session)
                  (remhash id nrepl-requests)
+                 (if create-nrepl-buffer-p
+                   (nrepl-create-nrepl-buffer process))
                  (run-hooks 'nrepl-connected-hook))))))))
 
 (defun nrepl-connect (host port)
@@ -1557,7 +1603,7 @@ under point, prompts for a var."
     (set-process-filter process 'nrepl-net-filter)
     (set-process-sentinel process 'nrepl-sentinel)
     (set-process-coding-system process 'utf-8-unix 'utf-8-unix)
-    (nrepl-create-client-session (nrepl-new-session-handler (process-buffer process)))
+    (nrepl-create-client-session (nrepl-new-session-handler process t))
     process))
 
 
@@ -1565,11 +1611,9 @@ under point, prompts for a var."
 (add-hook 'nrepl-connected-hook 'nrepl-enable-on-existing-clojure-buffers)
 
 ;;;###autoload
-(defun nrepl (port)
-  (interactive "nPort: ")
-  (let ((nrepl-buffer (switch-to-buffer-other-window (generate-new-buffer-name "*nrepl*")))
-        (process (nrepl-connect "localhost" port)))
-    (nrepl-init-repl-buffer process nrepl-buffer)))
+(defun nrepl (host port)
+  (interactive "MHost: \nnPort: ")
+  (nrepl-connect host port))
 
 (provide 'nrepl)
 ;;; nrepl.el ends here

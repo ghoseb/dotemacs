@@ -1,8 +1,8 @@
 ;;; ac-nrepl.el --- An auto-complete source for Clojure using nrepl completions
 
-;; Copyright (C) 2012  Steve <steve@sanityinc.com>
+;; Copyright (C) 2012  Steve Purcell <steve@sanityinc.com>
 
-;; Author: Steve <steve@sanityinc.com>
+;; Author: Steve Purcell <steve@sanityinc.com>
 ;; URL: https://github.com/purcell/ac-nrepl
 ;; Keywords: languages, clojure, nrepl
 ;; Version: 0.1
@@ -35,10 +35,19 @@
 
 ;;     (require 'ac-nrepl)
 ;;     (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
-;;     (add-hook 'clojure-nrepl-mode-hook 'ac-nrepl-setup)
+;;     (add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
 ;;     (eval-after-load "auto-complete"
 ;;       '(add-to-list 'ac-modes 'nrepl-mode))
 
+;; If you want to trigger auto-complete using TAB in nrepl buffers, you may
+;; want to use auto-complete in your `completion-at-point-functions':
+
+;;     (defun set-auto-complete-as-completion-at-point-function ()
+;;       (setq completion-at-point-functions '(auto-complete)))
+;;     (add-hook 'auto-complete-mode-hook 'set-auto-complete-as-completion-at-point-function)
+;;
+;;     (add-hook 'nrepl-mode-hook 'set-auto-complete-as-completion-at-point-function)
+;;     (add-hook 'nrepl-interaction-mode-hook 'set-auto-complete-as-completion-at-point-function)
 
 ;;; Code:
 
@@ -47,22 +56,38 @@
 
 (defun ac-nrepl-available-p ()
   "Return t if nrepl is available for completion, otherwise nil."
-  (not (null (nrepl-current-session))))
+  (condition-case nil
+      (not (null (nrepl-current-session)))
+    (error nil)))
 
 ;;; TODO: upstream should handle error when current NS is not compiled
 (defun ac-nrepl-candidates ()
-  (let ((form (format "(complete.core/completions \"%s\" *ns*)" ac-prefix)))
-    (car (read-from-string (plist-get (nrepl-send-string-sync form (nrepl-current-ns)) :value)))))
+  "Return completion candidates beginning with the string in variable `ac-prefix'."
+  (if (fboundp 'nrepl-completion-complete-core-fn)
+      (nrepl-completion-complete-core-fn ac-prefix)
+    ;; TODO: remove the following once nrepl-completion-complete-core-fn is in stable nrepl release
+    (let* ((form (format "(complete.core/completions \"%s\" *ns*)" ac-prefix))
+           (response (plist-get (nrepl-send-string-sync form (nrepl-current-ns)) :value)))
+      (when response
+        (car (read-from-string response))))))
 
 (defun ac-nrepl-documentation (symbol)
   "Return documentation for the given SYMBOL, if available."
   (substring-no-properties
    (replace-regexp-in-string
-    "^\\(  \\|-------------------------\n\\)" ""
-    (plist-get (nrepl-send-string-sync
-                (format "(clojure.repl/doc %s)" symbol)
-                (nrepl-current-ns))
-               :stdout))))
+    "\r" ""
+    (replace-regexp-in-string
+     "^\\(  \\|-------------------------\r?\n\\)" ""
+     (plist-get (nrepl-send-string-sync
+                 (format "(clojure.repl/doc %s)" symbol)
+                 (nrepl-current-ns))
+                :stdout)))))
+
+(defun ac-nrepl-symbol-start-pos ()
+  "Find the starting position of the symbol at point, unless inside a string."
+  (let ((sap (symbol-at-point)))
+    (when (and sap (not (in-string-p)))
+      (car (bounds-of-thing-at-point 'symbol)))))
 
 ;;;###autoload
 (defface ac-nrepl-candidate-face
@@ -82,6 +107,7 @@
     (available . ac-nrepl-available-p)
     (candidate-face . ac-nrepl-candidate-face)
     (selection-face . ac-nrepl-selection-face)
+    (prefix . ac-nrepl-symbol-start-pos)
     (symbol . "n")
     (document . ac-nrepl-documentation))
   "Auto-complete source for nrepl completion.")
