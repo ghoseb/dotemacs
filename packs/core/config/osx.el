@@ -22,12 +22,22 @@
   (setq system-name (car (split-string system-name "\\."))))
 
 ;;; frames
-(setq initial-frame-alist '((top . 0)
+(setq initial-frame-alist '((top . 23)
                             (left . 0)
-                            (width . 155)
-                            (height . 45)))
+                            (width . 168)
+                            (height . 48)))
 (setq frame-title-format "%b")
 (setq icon-title-format  "%b")
 
 (global-unset-key (kbd "s-p")) ;; stupid binding
 (global-unset-key (kbd "M-TAB"))
+
+
+;;; Set the path properly
+(setenv "PATH"
+        (concat
+         "/usr/local/bin" ":"
+         (getenv "PATH")))
+
+(setq exec-path
+      (append '("/usr/local/bin") exec-path))
