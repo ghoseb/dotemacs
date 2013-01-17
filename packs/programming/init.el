@@ -10,3 +10,4 @@
 (live-load-config-file "js-conf.el")
 (live-load-config-file "zencoding-conf.el")
 (live-load-config-file "lua-conf.el")
+(live-load-config-file "sml-conf.el")
