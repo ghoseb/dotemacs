@@ -60,6 +60,8 @@ said file for more information.
 * Haskell
 * JavaScript
 * HTML/CSS/SCSS
+* Lua
+* SML
 
 ## Contributing ##
 I welcome any contribution to the project in the form of patches, etc. I
