@@ -62,6 +62,7 @@ said file for more information.
 * HTML/CSS/SCSS
 * Lua
 * SML
+* Racket (via Geiser)
 
 ## Contributing ##
 I welcome any contribution to the project in the form of patches, etc. I
