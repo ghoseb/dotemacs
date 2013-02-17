@@ -2,6 +2,8 @@
 
 (load "geiser")
 
+(add-hook 'geiser-repl-mode 'enable-paredit-mode)
+
 (eval-after-load 'geiser
   '(progn
      (setq scheme-program-name "/Applications/Racket v5.3.1/bin/racket")
