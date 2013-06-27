@@ -1,25 +1,21 @@
 # Clojure Mode
 
 Provides Emacs font-lock, indentation, and navigation for the
-[Clojure language](http://clojure.org).
+[Clojure programming language](http://clojure.org).
 
-### Manual Installation
+A more thorough walkthrough is available at [clojure-doc.org](http://clojure-doc.org/articles/tutorials/emacs.html)
 
-You can do a manual install by downloading `clojure-mode.el` and
-placing it in the `~/.emacs.d/` directory, creating it if it doesn't
-exist. Then add this to the file `~/.emacs.d/init.el`:
+## Installation
 
-```lisp
-(add-to-list 'load-path "~/.emacs.d/")
-(require 'clojure-mode)
-```
+Available on both [Marmalade](http://marmalade-repo.org/packages/clojure-mode) and
+[MELPA](http://melpa.milkbox.net) repos.
 
-### Marmalade
+Marmalade is recommended as it has the latest stable version, but
+MELPA has a development snapshot for users who don't mind breakage but
+don't want to run from a git checkout.
 
-It can be more convenient to use Emacs's package manager to handle
-installation for you if you use many elisp libraries. If you have
-package.el but haven't added [Marmalade](http://marmalade-repo.org),
-the community package source, yet, add this to `~/.emacs.d/init.el`:
+If you're not already using Marmalade, add this to your
+`~/.emacs.d/init.el` and load it with <kbd>M-x eval-buffer</kbd>.
 
 ```lisp
 (require 'package)
@@ -28,57 +24,90 @@ the community package source, yet, add this to `~/.emacs.d/init.el`:
 (package-initialize)
 ```
 
-Then do this to load the package listing:
+If you're feeling adventurous and you'd like to use MELPA add this bit
+of code instead:
 
-* <kbd>M-x eval-buffer</kbd>
-* <kbd>M-x package-refresh-contents</kbd>
+```lisp
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+```
 
-If you use a version of Emacs prior to 24 that doesn't include
-package.el, you can get it from http://bit.ly/pkg-el23.
+And then you can install:
 
-If you have an older ELPA package.el installed from tromey.com, you
-should upgrade in order to support installation from multiple sources.
-The ELPA archive is deprecated and no longer accepting new packages,
-so the version there (1.7.1) is very outdated.
+<kbd>M-x package-refresh-contents</kbd>
+
+<kbd>M-x package-install [RET] clojure-mode [RET]</kbd>
+
+or if you'd rather keep it in your dotfiles:
+
+```lisp
+(unless (package-installed-p 'clojure-mode)
+  (package-refresh-contents)
+  (package-install 'clojure-mode))
+```
+
+On Emacs 23 you will need to get [package.el](http://bit.ly/pkg-el23)
+yourself or install manually by placing `clojure-mode.el` on your `load-path`
+and `require`ing it.
 
 ## Clojure Test Mode
 
 This source repository also includes `clojure-test-mode.el`, which
-provides support for running Clojure tests (using the clojure.test
-framework) via SLIME and seeing feedback in the test buffer about
+provides support for running Clojure tests (using the `clojure.test`
+framework) via nrepl.el and seeing feedback in the test buffer about
 which tests failed or errored. The installation instructions above
 should work for clojure-test-mode as well.
 
-Once you have a SLIME session active (see below), you can run the
-tests in the current buffer with `C-c C-,`. Failing tests and errors
-will be highlighted using overlays. To clear the overlays, use `C-c k`.
+Once you have a repl session active, you can run the tests in the
+current buffer with <kbd>C-c C-,</kbd>. Failing tests and errors will be
+highlighted using overlays. To clear the overlays, use <kbd>C-c k</kbd>.
 
-You can jump between implementation and test files with `C-c t` if
-your project is laid out in a way that clojure-test-mode expects. Your
-project root should have a src/ directory containing files that
-correspond to their namespace. It should also have a test/ directory
-containing files that correspond to their namespace, and the test
-namespaces should mirror the implementation namespaces with the
-addition of "test" as the second-to-last segment of the namespace.
+You can jump between implementation and test files with <kbd>C-c C-t</kbd> if
+your project is laid out in a way that clojure-test-mode expects. Your project
+root should have a `src/` directory containing files that correspond to their
+namespace. It should also have a `test/` directory containing files that
+correspond to their namespace, and the test namespaces should mirror the
+implementation namespaces with the addition of "-test" as the suffix to the last
+segment of the namespace.
 
-So `my.project.frob` would be found in `src/my/project/frob.clj` and
-its tests would be in `test/my/project/test/frob.clj` in the
-`my.project.test.frob` namespace.
+So `my.project.frob` would be found in `src/my/project/frob.clj` and its tests
+would be in `test/my/project/frob_test.clj` in the `my.project.frob-test`
+namespace.
+
+This behavior can also be overridden by setting `clojure-test-for-fn` and
+`clojure-test-implementation-for-fn` with functions of your choosing.
+`clojure-test-for-fn` takes an implementation namespace and returns the full
+path of the test file.  `clojure-test-implementation-for-fn` takes a test
+namespace and returns the full path for the implementation file.
 
 ## Paredit
 
-Using clojure-mode with paredit is highly recommended. It is also
-available using package.el from the above archive.
+Using clojure-mode with
+[Paredit](http://mumble.net/~campbell/emacs/paredit.el) is highly
+recommended. It helps ensure the structure of your forms is not
+compromised and offers a number of operations that work on code
+structure at a higher level than just characters and words.
 
-Use paredit as you normally would with any other mode; for instance:
+It is also available using package.el from the above archives.
+
+Use Paredit as you normally would any other minor mode; for instance:
 
 ```lisp
-;; (require 'paredit) if you didn't install via package.el
-(defun turn-on-paredit () (paredit-mode 1))
-(add-hook 'clojure-mode-hook 'turn-on-paredit)
+;; (require 'paredit) if you didn't install it via package.el
+(add-hook 'clojure-mode-hook 'paredit-mode)
 ```
 
-## Basic REPL
+See [the cheat sheet](http://www.emacswiki.org/emacs/PareditCheatsheet)
+for Paredit usage hints.
+
+## REPL Interaction
+
+A number of options exist for connecting to a running Clojure process
+and evaluating code interactively.
+
+### Basic REPL
 
 Use <kbd>M-x run-lisp</kbd> to open a simple REPL subprocess using
 [Leiningen](http://github.com/technomancy/leiningen). Once that has
@@ -88,19 +117,26 @@ opened, you can use <kbd>C-c C-r</kbd> to evaluate the region or
 If you don't use Leiningen, you can set `inferior-lisp-program` to
 a different REPL command.
 
-## SLIME
+### nrepl.el
 
-You can also use [Leiningen](http://github.com/technomancy/leiningen)
-to start an enhanced REPL via SLIME. Install the `lein-swank` plugin
-as per
-[the Swank Clojure Readme](https://github.com/technomancy/swank-clojure)
-and then from a file inside a Clojure project run <kbd>M-x
-clojure-jack-in</kbd>. This will handle installing Slime for you; it's
-best if you do not install it by hand.
+You can also use [Leiningen](http://leiningen.org) to start an
+enhanced REPL via [nrepl.el](https://github.com/kingtim/nrepl.el).
+
+### Ritz
+
+Another option is [Ritz](https://github.com/pallet/ritz), which is a
+bit more complicated but offers advanced debugging functionality using
+SLIME.
+
+### Swank Clojure
+
+SLIME is available via
+[swank-clojure](http://github.com/technomancy/swank-clojure) in `clojure-mode` 1.x.
+SLIME support was removed in version 2.x in favor of `nrepl.el`.
 
 ## License
 
-Copyright © 2007-2012 Jeffrey Chu, Lennart Staflin, Phil Hagelberg,
+Copyright © 2007-2013 Jeffrey Chu, Lennart Staflin, Phil Hagelberg,
 and [contributors](https://github.com/technomancy/clojure-mode/contributors).
 
-Distributed under the GNU General Public License; see C-h t to view.
+Distributed under the GNU General Public License; type <kbd>C-h C-c</kbd> to view it.

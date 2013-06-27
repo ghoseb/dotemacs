@@ -2,6 +2,7 @@
 (live-add-pack-lib "auto-complete")
 (require 'auto-complete)
 (require 'auto-complete-config)
+
 (ac-config-default)
 (ac-flyspell-workaround)
 (add-to-list 'ac-dictionary-directories (concat (live-pack-lib-dir) "auto-complete/dict"))
