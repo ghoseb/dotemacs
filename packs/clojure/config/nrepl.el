@@ -14,6 +14,9 @@
 (eval-after-load "auto-complete"
   '(add-to-list 'ac-modes 'nrepl-mode))
 
+(eval-after-load "nrepl"
+  '(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
+
 ;;; some personal settings. customize at will
 (setq nrepl-hide-special-buffers t)
 (setq nrepl-popup-stacktraces nil)
