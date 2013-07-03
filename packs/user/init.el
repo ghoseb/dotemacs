@@ -1,5 +1,5 @@
-(setq user-full-name "Baishampayan Ghose")
-(setq user-mail-address "b.ghose@helpshift.com")
+(setq user-full-name "Mayank Jain")
+(setq user-mail-address "mayank@helpshift.com")
 
 ;;; change this according to your needs
 (defvar default-font "Anonymous Pro-14" "My default Emacs font.")
