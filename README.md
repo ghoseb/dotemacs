@@ -62,7 +62,17 @@ said file for more information.
 * HTML/CSS/SCSS
 * Lua
 * SML
-* Racket (via Geiser)
+* Racket (via Geiser) 
+
+## Note for OSX Users ##
+If the display looks weird, Comment out the following lines in ~/.emacs.d/packs/core/config/osx.el
+
+    ;;; frames
+    ;; (setq initial-frame-alist '((top . 23)
+    ;;                             (left . 0)
+    ;;                             (width . 168)
+    ;;                             (height . 48)))
+
 
 ## Contributing ##
 I welcome any contribution to the project in the form of patches, etc. I
