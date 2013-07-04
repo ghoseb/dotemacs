@@ -9,3 +9,4 @@
 (live-load-config-file "undo-tree-conf.el")
 (live-load-config-file "refheap-conf.el")
 (live-load-config-file "git-conf.el")
+(live-load-config-file "expand-region-conf.el")
