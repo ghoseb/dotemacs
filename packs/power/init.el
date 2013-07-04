@@ -10,3 +10,4 @@
 (live-load-config-file "refheap-conf.el")
 (live-load-config-file "git-conf.el")
 (live-load-config-file "expand-region-conf.el")
+(live-load-config-file "git-gutter-conf.el")
