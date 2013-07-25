@@ -15,7 +15,9 @@
   '(add-to-list 'ac-modes 'nrepl-mode))
 
 (eval-after-load "nrepl"
-  '(define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc))
+  '(progn
+     (define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
+     (custom-set-variables '(nrepl-history-file (concat live-etc-dir "nrepl-history.eld")))))
 
 ;;; some personal settings. customize at will
 (setq nrepl-hide-special-buffers t)
