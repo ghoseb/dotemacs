@@ -13,3 +13,4 @@
 (live-load-config-file "sml-conf.el")
 (live-load-config-file "geiser-conf.el")
 (live-load-config-file "ruby-conf.el")
+(live-load-config-file "slime-conf.el") ;will conflict with Clojure's slime

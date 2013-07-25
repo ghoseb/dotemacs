@@ -4,3 +4,4 @@ tmp/*
 etc/emacs-custom.el
 /tramp
 /elpa
+/etc/nrepl-history.eld

@@ -1,3 +1,5 @@
+;;; WILL CONFLICT WITH CL'S SLIME. ENABLE THIS AT YOUR OWN RISK
+
 (live-add-pack-lib "slime")
 (require 'slime)
 (slime-setup '(slime-repl slime-scratch slime-editing-commands))
