@@ -17,7 +17,8 @@
 (eval-after-load "nrepl"
   '(progn
      (define-key nrepl-interaction-mode-map (kbd "C-c C-d") 'ac-nrepl-popup-doc)
-     (custom-set-variables '(nrepl-history-file (concat live-etc-dir "nrepl-history.eld")))))
+     (custom-set-variables '(nrepl-history-file (concat live-etc-dir "nrepl-history.eld"))
+                           '(nrepl-port "4005"))))
 
 ;;; some personal settings. customize at will
 (setq nrepl-hide-special-buffers t)
