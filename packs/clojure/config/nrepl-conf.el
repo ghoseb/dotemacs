@@ -20,6 +20,18 @@
      (custom-set-variables '(nrepl-history-file (concat live-etc-dir "nrepl-history.eld"))
                            '(nrepl-port "4005"))))
 
+
+;;; indent Clojure code properly
+(eval-after-load "clojure-mode"
+  '(progn
+    (unless (fboundp 'setq-local)
+      (defmacro setq-local (var val)
+        `(set (make-local-variable ',var) ,val)))
+    (defun fix-nrepl-indentation ()
+      (setq-local lisp-indent-function 'clojure-indent-function))
+    (add-hook 'nrepl-mode-hook 'fix-nrepl-indentation)))
+
+
 ;;; some personal settings. customize at will
 (setq nrepl-hide-special-buffers t)
 (setq nrepl-popup-stacktraces nil)
