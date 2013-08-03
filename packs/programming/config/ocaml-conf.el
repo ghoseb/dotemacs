@@ -24,4 +24,14 @@
             (define-key tuareg-mode-map [f6] 'recompile)
             (define-key tuareg-mode-map [f7] 'next-error)
             (auto-fill-mode 1)
-            (setq tuareg-sym-lock-keywords nil) ))
+            (setq tuareg-sym-lock-keywords nil)))
+
+;;; you need to have Opam & Utop for this to work
+;;; http://opam.ocamlpro.com/
+;;; https://github.com/diml/utop
+(autoload 'utop "utop" "Toplevel for OCaml" t)
+(eval-after-load "utop"
+  (setq utop-command "opam config exec \"utop -emacs\""))
+
+(autoload 'utop-setup-ocaml-buffer "utop" "Toplevel for OCaml" t)
+(add-hook 'tuareg-mode-hook 'utop-setup-ocaml-buffer)
