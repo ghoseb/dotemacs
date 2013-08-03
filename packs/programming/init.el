@@ -14,3 +14,4 @@
 (live-load-config-file "geiser-conf.el")
 (live-load-config-file "ruby-conf.el")
 (live-load-config-file "slime-conf.el") ;will conflict with Clojure's slime
+(live-load-config-file "ocaml-conf.el")

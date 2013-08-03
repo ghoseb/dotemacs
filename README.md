@@ -62,7 +62,8 @@ said file for more information.
 * HTML/CSS/SCSS
 * Lua
 * SML
-* Racket (via Geiser) 
+* Racket (via Geiser)
+* OCaml (via Tuareg)
 
 ## Note for OSX Users ##
 If the display looks weird, Comment out the following lines in ~/.emacs.d/packs/core/config/osx.el
