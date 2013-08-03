@@ -19,6 +19,8 @@
              'tuareg-indent-phrase)
             (define-key tuareg-mode-map (kbd "C-c C-i")
              'caml-types-show-ident)
+            (define-key tuareg-mode-map (kbd "C-c C-c") 'tuareg-eval-phrase)
+            (define-key tuareg-mode-map (kbd "C-c C-k") 'tuareg-eval-buffer)
             (define-key tuareg-mode-map [f4] 'goto-line)
             (define-key tuareg-mode-map [f5] 'compile)
             (define-key tuareg-mode-map [f6] 'recompile)
