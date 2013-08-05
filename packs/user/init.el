@@ -6,6 +6,9 @@
 
 (set-frame-font default-font nil t)
 
+;;; Always have cursor above a number of lines from bottom
+(setq scroll-margin 10)
+
 (require 'package)
 (add-to-list 'package-archives
   '("marmalade" . "http://marmalade-repo.org/packages/"))
