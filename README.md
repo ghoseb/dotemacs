@@ -3,7 +3,7 @@ A fresh approach to managing my Emacs setup.
 
 *Still a work in progress.*
 
-## Philosphy ##
+## Philosophy ##
 * No magic
 * Simple
 * Extensible
