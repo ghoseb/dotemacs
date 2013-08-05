@@ -5,3 +5,4 @@ etc/emacs-custom.el
 /tramp
 /elpa
 /etc/nrepl-history.eld
+/etc/projectile-bookmarks.eld
