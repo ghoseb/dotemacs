@@ -15,3 +15,5 @@
 (live-load-config-file "ruby-conf.el")
 (live-load-config-file "slime-conf.el") ;will conflict with Clojure's slime
 (live-load-config-file "ocaml-conf.el")
+(live-load-config-file "flx-ido-conf.el")
+(live-load-config-file "projectile-conf.el")
