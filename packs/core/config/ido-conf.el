@@ -3,7 +3,8 @@
       ido-enable-flex-matching t
       ido-create-new-buffer 'always
       ido-use-filename-at-point 'guess
-      ido-max-prospects 10)
+      ido-max-prospects 10
+      ido-use-faces nil)
 
 
 (defun ido-goto-symbol (&optional symbol-list)

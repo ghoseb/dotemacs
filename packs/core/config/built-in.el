@@ -41,7 +41,9 @@
       uniquify-buffer-name-style 'forward
       ediff-window-setup-function 'ediff-setup-windows-plain
       xterm-mouse-mode t
-      confirm-nonexistent-file-or-buffer nil)
+      confirm-nonexistent-file-or-buffer nil
+      ;; increase GC threshold to 20MB from 0.76MB
+      gc-cons-threshold 20000000)
 
 ;; UTF-8 everywhere
 (setq locale-coding-system 'utf-8)
