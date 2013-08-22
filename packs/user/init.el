@@ -2,7 +2,9 @@
 (setq user-mail-address "b.ghose@helpshift.com")
 
 ;;; change this according to your needs
-(defvar default-font "Anonymous Pro-14" "My default Emacs font.")
+;;; you can get "Source Code Pro" from http://sourceforge.net/projects/sourcecodepro.adobe/
+;;; it's a great coding font
+(defvar default-font "Source Code Pro Regular-12" "My default Emacs font.")
 
 (set-frame-font default-font nil t)
 

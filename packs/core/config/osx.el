@@ -24,8 +24,8 @@
 ;;; frames
 (setq initial-frame-alist '((top . 23)
                             (left . 0)
-                            (width . 168)
-                            (height . 48)))
+                            (width . 180)
+                            (height . 47)))
 (setq frame-title-format "%b")
 (setq icon-title-format  "%b")
 
