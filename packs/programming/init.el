@@ -17,3 +17,4 @@
 (live-load-config-file "ocaml-conf.el")
 (live-load-config-file "flx-ido-conf.el")
 (live-load-config-file "projectile-conf.el")
+(live-load-config-file "scala-conf.el")

@@ -64,6 +64,7 @@ said file for more information.
 * SML
 * Racket (via Geiser)
 * OCaml (via Tuareg)
+* Scala (via scala-mode2 & ensime)
 
 ## Note for OSX Users ##
 If the display looks weird, Comment out the following lines in ~/.emacs.d/packs/core/config/osx.el
