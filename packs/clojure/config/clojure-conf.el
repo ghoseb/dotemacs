@@ -33,6 +33,9 @@
 (live-add-pack-lib "align-cljlet")
 (require 'align-cljlet)
 
+(define-key clojure-mode-map (kbd "C-c l l") 'align-cljlet)
+(define-key clojure-mode-map (kbd "C-M-z")   'align-cljlet)
+
 ;;Treat hyphens as a word character when transposing words
 (defvar clojure-mode-with-hyphens-as-word-sep-syntax-table
   (let ((st (make-syntax-table clojure-mode-syntax-table)))
