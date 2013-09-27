@@ -20,10 +20,11 @@
   '(add-to-list 'ffip-patterns "*.clj"))
 
 (require 'clojure-mode)
+(require 'smartparens)
 
 (add-hook 'clojure-mode-hook
           (lambda ()
-            (enable-paredit-mode)
+            (smartparens-strict-mode 1)
             (rainbow-delimiters-mode)
             (add-to-list 'ac-sources 'ac-source-yasnippet)
             (setq buffer-save-without-query t)))

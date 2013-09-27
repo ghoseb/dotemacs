@@ -2,6 +2,7 @@
 
 (live-add-pack-lib "slime")
 (require 'slime)
+(require 'smartparens)
 (slime-setup '(slime-fancy))
 
 (setq inferior-lisp-program "/usr/local/bin/sbcl"
@@ -24,11 +25,11 @@
 (setq slime-protocol-version 'ignore)
 (setq slime-net-coding-system 'utf-8-unix)
 
-(add-hook 'slime-repl-mode-hook 'enable-paredit-mode)
+(add-hook 'slime-repl-mode-hook (lambda () (smartparens-strict-mode 1)))
 (add-hook 'slime-mode-hook (lambda () (slime-autodoc-mode t)))
-(add-hook 'lisp-mode-hook (lambda () (paredit-mode +1)))
-(add-hook 'slime-repl-mode-hook (lambda () (paredit-mode +1)))
-(add-hook 'slime-connected-hook (lambda () (paredit-mode +1)))
+(add-hook 'lisp-mode-hook (lambda () (smartparens-strict-mode 1)))
+(add-hook 'slime-repl-mode-hook (lambda () (smartparens-strict-mode 1)))
+(add-hook 'slime-connected-hook (lambda () (smartparens-strict-mode 1)))
 
 (define-key slime-mode-map (kbd "C-M-t") 'transpose-chars)
 (define-key slime-mode-map (kbd "C-t") 'transpose-sexps)

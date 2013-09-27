@@ -3,12 +3,13 @@
 
 (require 'nrepl)
 (require 'ac-nrepl)
+(require 'smartparens)
 
 (add-hook 'nrepl-mode-hook 'ac-nrepl-setup)
 (add-hook 'nrepl-interaction-mode-hook 'ac-nrepl-setup)
 (add-hook 'nrepl-interaction-mode-hook 'nrepl-turn-on-eldoc-mode)
 (add-hook 'nrepl-mode-hook 'subword-mode)
-(add-hook 'nrepl-mode-hook 'paredit-mode)
+(add-hook 'nrepl-mode-hook '(smartparens-strict-mode 1))
 (add-hook 'nrepl-mode-hook 'rainbow-delimiters-mode)
 
 (eval-after-load "auto-complete"

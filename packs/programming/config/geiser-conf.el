@@ -2,7 +2,8 @@
 
 (load "geiser")
 
-(add-hook 'geiser-repl-mode 'enable-paredit-mode)
+(require 'smartparens)
+(add-hook 'geiser-repl-mode '(smartparens-strict-mode 1))
 
 (eval-after-load 'geiser
   '(progn
