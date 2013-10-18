@@ -54,3 +54,16 @@
                         (string= (car imenu--rescan-item) name))
               (add-to-list 'symbol-names name)
               (add-to-list 'name-and-pos (cons name position))))))))
+
+(add-hook 'ido-setup-hook
+          (lambda ()
+            ;; Go straight to home : http://whattheemacsd.com/setup-ido.el-02.html
+            (define-key ido-file-completion-map
+                (kbd "~")
+              (lambda ()
+                (interactive)
+                (if (looking-back "~/")
+                    (insert ".emacs.d/")
+                    (if (looking-back "/")
+                        (insert "~/")
+                        (call-interactively 'self-insert-command)))))))
