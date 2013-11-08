@@ -3,8 +3,7 @@
 ;; Copyright (C) 2012 Magnar Sveen
 
 ;; Author: Magnar Sveen <magnars@gmail.com>
-;; Version: 20130712.2307
-;; X-Original-Version: 1.5.0
+;; Version: 2.3.0
 ;; Keywords: lists
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -302,6 +301,13 @@ To get the first item in the list no questions asked, use `car'."
   "Return the last x in LIST where (PRED x) is non-nil, else nil."
   (--last (funcall pred it) list))
 
+(defalias '-first-item 'car
+  "Returns the first item of LIST, or nil on an empty list.")
+
+(defun -last-item (list)
+  "Returns the first item of LIST, or nil on an empty list."
+  (car (last list)))
+
 (defmacro --count (pred list)
   "Anaphoric form of `-count'."
   (let ((r (make-symbol "result")))
@@ -451,6 +457,13 @@ FROM or TO may be negative."
         (!cdr list)))
     (list (nreverse result) list)))
 
+(defun -rotate (n list)
+  "Rotate LIST N places to the right.  With N negative, rotate to the left.
+The time complexity is O(n)."
+  (if (> n 0)
+      (append (last list n) (butlast list n))
+    (append (-drop (- n) list) (-take (- n) list))))
+
 (defun -insert-at (n x list)
   "Returns a list with X inserted into LIST at position N."
   (let ((split-list (-split-at n list)))
@@ -573,7 +586,7 @@ those items are discarded."
            (while ,l
              (let* ((it (car ,l))
                     (,n ,form))
-               (if (equal ,h, n)
+               (if (equal ,h ,n)
                    (when ,b
                      (!cons (nreverse ,s) ,r)
                      (setq ,s nil)
@@ -684,33 +697,64 @@ When called, the returned function calls FN with ARGS first and
 then additional args."
   (apply 'apply-partially fn args))
 
-(defun -rpartial (fn &rest args)
-  "Takes a function FN and fewer than the normal arguments to FN,
-and returns a fn that takes a variable number of additional ARGS.
-When called, the returned function calls FN with the additional
-args first and then ARGS.
+(defun -elem-index (elem list)
+  "Return the index of the first element in the given LIST which
+is equal to the query element ELEM, or nil if there is no
+such element."
+  (car (-elem-indices elem list)))
 
-Requires Emacs 24 or higher."
-  `(closure (t) (&rest args)
-            (apply ',fn (append args ',args))))
+(defun -elem-indices (elem list)
+  "Return the indices of all elements in LIST equal to the query
+element ELEM, in ascending order."
+  (-find-indices (-partial 'equal elem) list))
 
-(defun -juxt (&rest fns)
-  "Takes a list of functions and returns a fn that is the
-juxtaposition of those fns. The returned fn takes a variable
-number of args, and returns a list containing the result of
-applying each fn to the args (left-to-right).
+(defun -find-indices (pred list)
+  "Return the indices of all elements in LIST satisfying the
+predicate PRED, in ascending order."
+  (let ((i 0))
+    (apply 'append (--map-indexed (when (funcall pred it) (list it-index)) list))))
 
-Requires Emacs 24 or higher."
-  (let ((r (make-symbol "result")))
-    `(closure (t) (&rest args)
-              (let (,r)
-                (--each ',fns (!cons (apply it args) ,r))
-                (nreverse ,r)))))
+(defmacro --find-indices (form list)
+  "Anaphoric version of `-find-indices'."
+  `(-find-indices (lambda (it) ,form) ,list))
 
-(defun -applify (fn)
-  "Changes an n-arity function FN to a 1-arity function that
-expects a list with n items as arguments"
-  (apply-partially 'apply fn))
+(defun -find-index (pred list)
+  "Take a predicate PRED and a LIST and return the index of the
+first element in the list satisfying the predicate, or nil if
+there is no such element."
+  (car (-find-indices pred list)))
+
+(defmacro --find-index (form list)
+  "Anaphoric version of `-find-index'."
+  `(-find-index (lambda (it) ,form) ,list))
+
+(defun -select-by-indices (indices list)
+  "Return a list whose elements are elements from LIST selected
+as `(nth i list)` for all i from INDICES."
+  (let (r)
+    (--each indices
+      (!cons (nth it list) r))
+    (nreverse r)))
+
+(defun -grade-up (comparator list)
+  "Grades elements of LIST using COMPARATOR relation, yielding a
+permutation vector such that applying this permutation to LIST
+sorts it in ascending order."
+  ;; ugly hack to "fix" lack of lexical scope
+  (let ((comp `(lambda (it other) (funcall ',comparator (car it) (car other)))))
+    (->> (--map-indexed (cons it it-index) list)
+      (-sort comp)
+      (-map 'cdr))))
+
+(defun -grade-down (comparator list)
+  "Grades elements of LIST using COMPARATOR relation, yielding a
+permutation vector such that applying this permutation to LIST
+sorts it in descending order."
+  ;; ugly hack to "fix" lack of lexical scope
+  (let ((comp `(lambda (it other) (funcall ',comparator (car other) (car it)))))
+    (->> (--map-indexed (cons it it-index) list)
+      (-sort comp)
+      (-map 'cdr))))
 
 (defmacro -> (x &optional form &rest more)
   "Threads the expr through the forms. Inserts X as the second
@@ -753,6 +797,7 @@ in in second form, etc."
 (defmacro -when-let (var-val &rest body)
   "If VAL evaluates to non-nil, bind it to VAR and execute body.
 VAR-VAL should be a (VAR VAL) pair."
+  (declare (debug ((symbolp form) body)))
   (let ((var (car var-val))
         (val (cadr var-val)))
     `(let ((,var ,val))
@@ -763,6 +808,7 @@ VAR-VAL should be a (VAR VAL) pair."
   "If all VALS evaluate to true, bind them to their corresponding
   VARS and execute body. VARS-VALS should be a list of (VAR VAL)
   pairs (corresponding to bindings of `let*')."
+  (declare (debug ((&rest (symbolp form)) body)))
   (if (= (length vars-vals) 1)
       `(-when-let ,(car vars-vals)
          ,@body)
@@ -773,42 +819,46 @@ VAR-VAL should be a (VAR VAL) pair."
 (defmacro --when-let (val &rest body)
   "If VAL evaluates to non-nil, bind it to `it' and execute
 body."
+  (declare (debug (form body)))
   `(let ((it ,val))
      (when it
        ,@body)))
 
-(defmacro -if-let (var-val then &optional else)
+(defmacro -if-let (var-val then &rest else)
   "If VAL evaluates to non-nil, bind it to VAR and do THEN,
 otherwise do ELSE. VAR-VAL should be a (VAR VAL) pair."
+  (declare (debug ((symbolp form) form body)))
   (let ((var (car var-val))
         (val (cadr var-val)))
     `(let ((,var ,val))
-       (if ,var ,then ,else))))
+       (if ,var ,then ,@else))))
 
-(defmacro -if-let* (vars-vals then &optional else)
+(defmacro -if-let* (vars-vals then &rest else)
   "If all VALS evaluate to true, bind them to their corresponding
   VARS and do THEN, otherwise do ELSE. VARS-VALS should be a list
   of (VAR VAL) pairs (corresponding to the bindings of `let*')."
+  (declare (debug ((&rest (symbolp form)) form body)))
   (let ((first-pair (car vars-vals))
         (rest (cdr vars-vals)))
     (if (= (length vars-vals) 1)
-        `(-if-let ,first-pair ,then ,else)
+        `(-if-let ,first-pair ,then ,@else)
       `(-if-let ,first-pair
-         (-if-let* ,rest ,then ,else)
-         ,else))))
+         (-if-let* ,rest ,then ,@else)
+         ,@else))))
 
-(defmacro --if-let (val then &optional else)
+(defmacro --if-let (val then &rest else)
   "If VAL evaluates to non-nil, bind it to `it' and do THEN,
 otherwise do ELSE."
+  (declare (debug (form form body)))
   `(let ((it ,val))
-     (if it ,then ,else)))
+     (if it ,then ,@else)))
 
 (put '-when-let 'lisp-indent-function 1)
 (put '-when-let* 'lisp-indent-function 1)
 (put '--when-let 'lisp-indent-function 1)
-(put '-if-let 'lisp-indent-function 1)
-(put '-if-let* 'lisp-indent-function 1)
-(put '--if-let 'lisp-indent-function 1)
+(put '-if-let 'lisp-indent-function 2)
+(put '-if-let* 'lisp-indent-function 2)
+(put '--if-let 'lisp-indent-function 2)
 
 (defun -distinct (list)
   "Return a new list with all duplicates removed.
@@ -867,12 +917,12 @@ or with `-compare-fn' if that's non-nil."
 
 (defalias '-contains-p '-contains?)
 
-(defun -sort (predicate list)
-  "Sort LIST, stably, comparing elements using PREDICATE.
+(defun -sort (comparator list)
+  "Sort LIST, stably, comparing elements using COMPARATOR.
 Returns the sorted list.  LIST is NOT modified by side effects.
-PREDICATE is called with two elements of LIST, and should return non-nil
+COMPARATOR is called with two elements of LIST, and should return non-nil
 if the first element should sort before the second."
-  (sort (copy-sequence list) predicate))
+  (sort (copy-sequence list) comparator))
 
 (defmacro --sort (form list)
   "Anaphoric form of `-sort'."
@@ -894,128 +944,325 @@ Returns nil if N is less than 1."
   "Return the product of LIST."
   (apply '* list))
 
-(eval-after-load "lisp-mode"
-  '(progn
-     (let ((new-keywords '(
-                           "--each"
-                           "-each"
-                           "--each-while"
-                           "-each-while"
-                           "--dotimes"
-                           "-dotimes"
-                           "-map"
-                           "--map"
-                           "--reduce-from"
-                           "-reduce-from"
-                           "--reduce"
-                           "-reduce"
-                           "--reduce-r-from"
-                           "-reduce-r-from"
-                           "--reduce-r"
-                           "-reduce-r"
-                           "--filter"
-                           "-filter"
-                           "-select"
-                           "--select"
-                           "--remove"
-                           "-remove"
-                           "-reject"
-                           "--reject"
-                           "--keep"
-                           "-keep"
-                           "-flatten"
-                           "-concat"
-                           "--mapcat"
-                           "-mapcat"
-                           "--first"
-                           "-first"
-                           "--any?"
-                           "-any?"
-                           "-some?"
-                           "--some?"
-                           "-any-p"
-                           "--any-p"
-                           "-some-p"
-                           "--some-p"
-                           "--all?"
-                           "-all?"
-                           "-every?"
-                           "--every?"
-                           "-all-p"
-                           "--all-p"
-                           "-every-p"
-                           "--every-p"
-                           "--none?"
-                           "-none?"
-                           "-none-p"
-                           "--none-p"
-                           "-only-some?"
-                           "--only-some?"
-                           "-only-some-p"
-                           "--only-some-p"
-                           "-take"
-                           "-drop"
-                           "--take-while"
-                           "-take-while"
-                           "--drop-while"
-                           "-drop-while"
-                           "-split-at"
-                           "-insert-at"
-                           "--split-with"
-                           "-split-with"
-                           "-partition"
-                           "-partition-in-steps"
-                           "-partition-all"
-                           "-partition-all-in-steps"
-                           "-interpose"
-                           "-interleave"
-                           "--zip-with"
-                           "-zip-with"
-                           "-zip"
-                           "--map-indexed"
-                           "-map-indexed"
-                           "--map-when"
-                           "-map-when"
-                           "--replace-where"
-                           "-replace-where"
-                           "-partial"
-                           "-rpartial"
-                           "-juxt"
-                           "->"
-                           "->>"
-                           "-->"
-                           "-when-let"
-                           "-when-let*"
-                           "--when-let"
-                           "-if-let"
-                           "-if-let*"
-                           "--if-let"
-                           "-distinct"
-                           "-intersection"
-                           "-difference"
-                           "-contains?"
-                           "-contains-p"
-                           "-repeat"
-                           "-cons*"
-                           "-sum"
-                           "-product"
-                           ))
-           (special-variables '(
-                                "it"
-                                "it-index"
-                                "acc"
-                                "other"
-                                )))
-       (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "\\<" (regexp-opt special-variables 'paren) "\\>")
-                                                   1 font-lock-variable-name-face)) 'append)
-       (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\s-*" (regexp-opt new-keywords 'paren) "\\>")
-                                                   1 font-lock-keyword-face)) 'append))
-     (--each (buffer-list)
-       (with-current-buffer it
-         (when (and (eq major-mode 'emacs-lisp-mode)
-                    (boundp 'font-lock-mode)
-                    font-lock-mode)
-           (font-lock-refresh-defaults))))))
+(defun -max (list)
+  "Return the largest value from LIST of numbers or markers."
+  (apply 'max list))
+
+(defun -min (list)
+  "Return the smallest value from LIST of numbers or markers."
+  (apply 'min list))
+
+(defun -max-by (comparator list)
+  "Take a comparison function COMPARATOR and a LIST and return
+the greatest element of the list by the comparison function.
+
+See also combinator `-on' which can transform the values before
+comparing them."
+  (--reduce (if (funcall comparator it acc) it acc) list))
+
+(defun -min-by (comparator list)
+  "Take a comparison function COMPARATOR and a LIST and return
+the least element of the list by the comparison function.
+
+See also combinator `-on' which can transform the values before
+comparing them."
+  (--reduce (if (funcall comparator it acc) acc it) list))
+
+(defmacro --max-by (form list)
+  "Anaphoric version of `-max-by'.
+
+The items for the comparator form are exposed as \"it\" and \"other\"."
+  `(-max-by (lambda (it other) ,form) ,list))
+
+(defmacro --min-by (form list)
+  "Anaphoric version of `-min-by'.
+
+The items for the comparator form are exposed as \"it\" and \"other\"."
+  `(-min-by (lambda (it other) ,form) ,list))
+
+(defun -cons-pair? (con)
+  "Return non-nil if CON is true cons pair.
+That is (A . B) where B is not a list."
+  (and (listp con)
+       (not (listp (cdr con)))))
+
+(defun -cons-to-list (con)
+  "Convert a cons pair to a list with `car' and `cdr' of the pair respectively."
+  (list (car con) (cdr con)))
+
+(defun -value-to-list (val)
+  "Convert a value to a list.
+
+If the value is a cons pair, make a list with two elements, `car'
+and `cdr' of the pair respectively.
+
+If the value is anything else, wrap it in a list."
+  (cond
+   ((-cons-pair? val) (-cons-to-list val))
+   (t (list val))))
+
+(defun -tree-mapreduce-from (fn folder init-value tree)
+  "Apply FN to each element of TREE, and make a list of the results.
+If elements of TREE are lists themselves, apply FN recursively to
+elements of these nested lists.
+
+Then reduce the resulting lists using FOLDER and initial value
+INIT-VALUE. See `-reduce-r-from'.
+
+This is the same as calling `-tree-reduce-from' after `-tree-map'
+but is twice as fast as it only traverse the structure once."
+  (cond
+   ((not tree) nil)
+   ((-cons-pair? tree) (funcall fn tree))
+   ((listp tree)
+    (-reduce-r-from folder init-value (mapcar (lambda (x) (-tree-mapreduce-from fn folder init-value x)) tree)))
+   (t (funcall fn tree))))
+
+(defmacro --tree-mapreduce-from (form folder init-value tree)
+  "Anaphoric form of `-tree-mapreduce-from'."
+  `(-tree-mapreduce-from (lambda (it) ,form) (lambda (it acc) ,folder) ,init-value ,tree))
+
+(defun -tree-mapreduce (fn folder tree)
+  "Apply FN to each element of TREE, and make a list of the results.
+If elements of TREE are lists themselves, apply FN recursively to
+elements of these nested lists.
+
+Then reduce the resulting lists using FOLDER and initial value
+INIT-VALUE. See `-reduce-r-from'.
+
+This is the same as calling `-tree-reduce' after `-tree-map'
+but is twice as fast as it only traverse the structure once."
+  (cond
+   ((not tree) nil)
+   ((-cons-pair? tree) (funcall fn tree))
+   ((listp tree)
+    (-reduce-r folder (mapcar (lambda (x) (-tree-mapreduce fn folder x)) tree)))
+   (t (funcall fn tree))))
+
+(defmacro --tree-mapreduce (form folder tree)
+  "Anaphoric form of `-tree-mapreduce'."
+  `(-tree-mapreduce (lambda (it) ,form) (lambda (it acc) ,folder) ,tree))
+
+(defun -tree-map (fn tree)
+  "Apply FN to each element of TREE while preserving the tree structure."
+  (cond
+   ((not tree) nil)
+   ((-cons-pair? tree) (funcall fn tree))
+   ((listp tree)
+    (mapcar (lambda (x) (-tree-map fn x)) tree))
+   (t (funcall fn tree))))
+
+(defmacro --tree-map (form tree)
+  "Anaphoric form of `-tree-map'."
+  `(-tree-map (lambda (it) ,form) ,tree))
+
+(defun -tree-reduce-from (fn init-value tree)
+  "Use FN to reduce elements of list TREE.
+If elements of TREE are lists themselves, apply the reduction recursively.
+
+FN is first applied to INIT-VALUE and first element of the list,
+then on this result and second element from the list etc.
+
+The initial value is ignored on cons pairs as they always contain
+two elements."
+  (cond
+   ((not tree) nil)
+   ((-cons-pair? tree) tree)
+   ((listp tree)
+    (-reduce-r-from fn init-value (mapcar (lambda (x) (-tree-reduce-from fn init-value x)) tree)))
+   (t tree)))
+
+(defmacro --tree-reduce-from (form init-value tree)
+  "Anaphoric form of `-tree-reduce-from'."
+  `(-tree-reduce-from (lambda (it acc) ,form) ,init-value ,tree))
+
+(defun -tree-reduce (fn tree)
+  "Use FN to reduce elements of list TREE.
+If elements of TREE are lists themselves, apply the reduction recursively.
+
+FN is first applied to first element of the list and second
+element, then on this result and third element from the list etc.
+
+See `-reduce-r' for how exactly are lists of zero or one element handled."
+  (cond
+   ((not tree) nil)
+   ((-cons-pair? tree) tree)
+   ((listp tree)
+    (-reduce-r fn (mapcar (lambda (x) (-tree-reduce fn x)) tree)))
+   (t tree)))
+
+(defmacro --tree-reduce (form tree)
+  "Anaphoric form of `-tree-reduce'."
+  `(-tree-reduce (lambda (it acc) ,form) ,tree))
+
+(defun -clone (list)
+  "Create a deep copy of LIST.
+The new list has the same elements and structure but all cons are
+replaced with new ones.  This is useful when you need to clone a
+structure such as plist or alist."
+  (-tree-map 'identity list))
+
+(defun dash-enable-font-lock ()
+  "Add syntax highlighting to dash functions, macros and magic values."
+  (eval-after-load "lisp-mode"
+    '(progn
+       (let ((new-keywords '(
+                             "--each"
+                             "-each"
+                             "--each-while"
+                             "-each-while"
+                             "--dotimes"
+                             "-dotimes"
+                             "-map"
+                             "--map"
+                             "--reduce-from"
+                             "-reduce-from"
+                             "--reduce"
+                             "-reduce"
+                             "--reduce-r-from"
+                             "-reduce-r-from"
+                             "--reduce-r"
+                             "-reduce-r"
+                             "--filter"
+                             "-filter"
+                             "-select"
+                             "--select"
+                             "--remove"
+                             "-remove"
+                             "-reject"
+                             "--reject"
+                             "--keep"
+                             "-keep"
+                             "-flatten"
+                             "-concat"
+                             "--mapcat"
+                             "-mapcat"
+                             "--first"
+                             "-first"
+                             "--any?"
+                             "-any?"
+                             "-some?"
+                             "--some?"
+                             "-any-p"
+                             "--any-p"
+                             "-some-p"
+                             "--some-p"
+                             "--all?"
+                             "-all?"
+                             "-every?"
+                             "--every?"
+                             "-all-p"
+                             "--all-p"
+                             "-every-p"
+                             "--every-p"
+                             "--none?"
+                             "-none?"
+                             "-none-p"
+                             "--none-p"
+                             "-only-some?"
+                             "--only-some?"
+                             "-only-some-p"
+                             "--only-some-p"
+                             "-take"
+                             "-drop"
+                             "--take-while"
+                             "-take-while"
+                             "--drop-while"
+                             "-drop-while"
+                             "-split-at"
+                             "-rotate"
+                             "-insert-at"
+                             "--split-with"
+                             "-split-with"
+                             "-partition"
+                             "-partition-in-steps"
+                             "-partition-all"
+                             "-partition-all-in-steps"
+                             "-interpose"
+                             "-interleave"
+                             "--zip-with"
+                             "-zip-with"
+                             "-zip"
+                             "--map-indexed"
+                             "-map-indexed"
+                             "--map-when"
+                             "-map-when"
+                             "--replace-where"
+                             "-replace-where"
+                             "-partial"
+                             "-rpartial"
+                             "-juxt"
+                             "-applify"
+                             "-on"
+                             "-flip"
+                             "-const"
+                             "-cut"
+                             "-orfn"
+                             "-andfn"
+                             "-elem-index"
+                             "-elem-indices"
+                             "-find-indices"
+                             "--find-indices"
+                             "-find-index"
+                             "--find-index"
+                             "-select-by-indices"
+                             "-grade-up"
+                             "-grade-down"
+                             "->"
+                             "->>"
+                             "-->"
+                             "-when-let"
+                             "-when-let*"
+                             "--when-let"
+                             "-if-let"
+                             "-if-let*"
+                             "--if-let"
+                             "-union"
+                             "-distinct"
+                             "-intersection"
+                             "-difference"
+                             "-contains?"
+                             "-contains-p"
+                             "-repeat"
+                             "-cons*"
+                             "-sum"
+                             "-product"
+                             "-min"
+                             "-min-by"
+                             "--min-by"
+                             "-max"
+                             "-max-by"
+                             "--max-by"
+                             "-cons-to-list"
+                             "-value-to-list"
+                             "-tree-mapreduce-from"
+                             "--tree-mapreduce-from"
+                             "-tree-mapreduce"
+                             "--tree-mapreduce"
+                             "-tree-map"
+                             "--tree-map"
+                             "-tree-reduce-from"
+                             "--tree-reduce-from"
+                             "-tree-reduce"
+                             "--tree-reduce"
+                             "-clone"
+                             ))
+             (special-variables '(
+                                  "it"
+                                  "it-index"
+                                  "acc"
+                                  "other"
+                                  )))
+         (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "\\<" (regexp-opt special-variables 'paren) "\\>")
+                                                     1 font-lock-variable-name-face)) 'append)
+         (font-lock-add-keywords 'emacs-lisp-mode `((,(concat "(\\s-*" (regexp-opt new-keywords 'paren) "\\>")
+                                                     1 font-lock-keyword-face)) 'append))
+       (--each (buffer-list)
+         (with-current-buffer it
+           (when (and (eq major-mode 'emacs-lisp-mode)
+                      (boundp 'font-lock-mode)
+                      font-lock-mode)
+             (font-lock-refresh-defaults)))))))
 
 (provide 'dash)
 ;;; dash.el ends here
