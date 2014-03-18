@@ -1,0 +1,44 @@
+Distel is compatible with Win32 (tested on 2000 and XP) with Cygwin,
+but the installation procedure is more laborious. These instructions
+are sufficient but not necessarily optimal - if you know a better way,
+please send a note to the mailing list
+(distel-hackers@lists.sourceforge.net).
+
+Step 1: Some random windows hacker admonishes us:
+        Install Erlang in a directory _without spaces_ in the
+        path. The default location in "C:\Program Files" won't
+        work. Having a path without spaces is necessary to use erlc
+        from cygwin's bash.
+
+        But to the rescue jacobg23! (http://code.google.com/u/jacobg23):
+        You can use Windows short paths (e.g., c:\progra~1\ instead of
+        c:\Program Files) - so edit your PATH environment variable so
+        that the path to the erlang executables looks like
+        c:\progra~1\erl5.5.4 (or whatever) instead.  (Ditto for any
+        config in your .emacs)
+
+Step 2: Edit your PATH environment variable via the System control
+        panel: remove the quotes from the path to the Erlang
+        installation.
+
+Step 3: Do a "make".
+
+Step 4: We must now update the ~/.erlang and ~/.emacs files to load
+        Distel. However, Erlang and Emacs don't use the same algorithm
+        to find the home directory: Emacs uses the %HOME% environment
+        variable, and Erlang uses %HOMEDRIVE%\%HOMEPATH%. Both default
+        to C:\ (as far as I know..)
+
+        After figuring out or setting these paths, edit your .erlang
+        to include (substitute real path):
+
+          code:add_pathz("c:/jungerl/lib/distel/ebin").
+
+        And update your ~/.emacs to contain:
+
+          (add-to-list 'load-path "c:/jungerl/lib/distel/elisp")
+          (require 'distel)
+          (distel-setup)
+
+Distel should now work correctly. If you have problems, please send a
+note to the mailing list.
