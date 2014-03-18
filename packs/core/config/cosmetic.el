@@ -8,7 +8,9 @@
 ;; get rid of clutter
 (if (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
 (if (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+
+;;; uncomment if you don't want menu bar mode.
+;; (if (fboundp 'menu-bar-mode) (menu-bar-mode -1))
 
 ;;make evil tabs visible as arrows
 (let ((d (make-display-table)))
