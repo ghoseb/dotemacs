@@ -1,0 +1,13 @@
+*~
+.DS_Store
+*.elc
+tmp/*
+etc/emacs-custom.el
+/tramp
+/elpa
+/etc/nrepl-history.eld
+/etc/projectile-bookmarks.eld
+/projectile-bookmarks.eld
+/projectile.cache
+/.cask/
+/eshell/
