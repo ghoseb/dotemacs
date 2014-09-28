@@ -96,6 +96,7 @@
 
 
 (use-package flycheck
+  :diminish "Fly"
   :config
   (progn
     (setq flycheck-display-errors-function nil)
@@ -130,6 +131,7 @@
 
 
 (use-package git-gutter
+  :diminish "GG"
   :init (global-git-gutter-mode +1))
 
 
@@ -146,9 +148,11 @@
 
 
 (use-package yasnippet
+  :diminish yas-minor-mode
   :init
   (progn
     (yas-global-mode 1)
+    (setq yas-verbosity 1)
     (setq-default yas/prompt-functions '(yas/ido-prompt))))
 
 
@@ -212,6 +216,7 @@
 
 
 (use-package projectile
+  :diminish projectile-mode
   :init (projectile-global-mode 1)
   :config
   (progn
@@ -334,6 +339,12 @@
   (progn
     (setq eshell-history-size 5000)
     (setq eshell-save-history-on-exit t)))
+
+
+(use-package smart-mode-line
+  :config (progn
+            (setq sml/theme 'automatic)
+            (sml/setup)))
 
 ;; --------
 ;; Bindings

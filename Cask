@@ -42,6 +42,7 @@
 (depends-on "projectile")
 (depends-on "rainbow-delimiters")
 (depends-on "s")
+(depends-on "smart-mode-line")
 (depends-on "smartparens")
 (depends-on "smex")
 (depends-on "sublime-themes")

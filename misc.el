@@ -30,6 +30,11 @@
 (setq dotfiles-etc-dir (concat dotfiles-dir "etc/"))
 
 
+;; Custom path
+(setq custom-file (concat dotfiles-dir "custom.el"))
+(load custom-file)
+
+
 ;; Do not pause on redisplay
 (setq redisplay-dont-pause t)
 
