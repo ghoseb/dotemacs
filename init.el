@@ -58,6 +58,7 @@
   :demand t
   :bind ("M-z" . zap-up-to-char))
 
+
 (use-package defuns
   :demand t)
 
@@ -117,6 +118,7 @@
     (bind-key "M-p" 'open-line-above markdown-mode-map))
   :mode (("\\.markdown$" . markdown-mode)
          ("\\.md$" . markdown-mode)))
+
 
 (use-package flx-ido
   :init (flx-ido-mode 1))
@@ -272,39 +274,41 @@
   :bind ("C-x g" . magit-status))
 
 
-(use-package smartparens
-  :init
-  (progn
-    (use-package smartparens-config)
-    (use-package smartparens-html)
-    (smartparens-global-mode 1)
-    (show-smartparens-global-mode 1))
-  :config
-  (progn
-    (setq smartparens-strict-mode t)
-    (setq sp-autoescape-string-quote nil)
-    (setq sp-autoinsert-if-followed-by-word t)
-    (sp-local-pair 'emacs-lisp-mode "`" nil :when '(sp-in-string-p))
-    (sp-pair "(" ")" :wrap "M-("))
-  :bind
-  (("C-M-k" . sp-kill-sexp-with-a-twist-of-lime)
-   ("C-M-f" . sp-forward-sexp)
-   ("C-M-b" . sp-backward-sexp)
-   ("C-M-n" . sp-up-sexp)
-   ("C-M-d" . sp-down-sexp)
-   ("C-M-u" . sp-backward-up-sexp)
-   ("C-M-p" . sp-backward-down-sexp)
-   ("C-M-w" . sp-copy-sexp)
-   ("M-s" . sp-splice-sexp)
-   ("M-<up>" . sp-splice-sexp)
-   ("M-r" . sp-splice-sexp-killing-around)
-   ("C-)" . sp-forward-slurp-sexp)
-   ("C-}" . sp-forward-barf-sexp)
-   ("C-(" . sp-backward-slurp-sexp)
-   ("C-{" . sp-backward-barf-sexp)
-   ("M-S" . sp-split-sexp)
-   ("M-J" . sp-join-sexp)
-   ("C-M-t" . sp-transpose-sexp)))
+;; (use-package smartparens
+;;   :init
+;;   (progn
+;;     (use-package smartparens-config)
+;;     (use-package smartparens-html)
+;;     (smartparens-global-mode 1)
+;;     (show-smartparens-global-mode 1))
+;;   :config
+;;   (progn
+;;     (setq smartparens-strict-mode t)
+;;     (setq sp-autoescape-string-quote nil)
+;;     (setq sp-autoinsert-if-followed-by-word t)
+;;     (sp-local-pair 'emacs-lisp-mode "`" nil :when '(sp-in-string-p))
+;;     (sp-with-modes '(html-mode sgml-mode)
+;;       (sp-local-pair "<" ">"))
+;;     (sp-pair "(" ")" :wrap "M-("))
+;;   :bind
+;;   (("C-M-k" . sp-kill-sexp-with-a-twist-of-lime)
+;;    ("C-M-f" . sp-forward-sexp)
+;;    ("C-M-b" . sp-backward-sexp)
+;;    ("C-M-n" . sp-up-sexp)
+;;    ("C-M-d" . sp-down-sexp)
+;;    ("C-M-u" . sp-backward-up-sexp)
+;;    ("C-M-p" . sp-backward-down-sexp)
+;;    ("C-M-w" . sp-copy-sexp)
+;;    ("M-s" . sp-splice-sexp)
+;;    ("M-<up>" . sp-splice-sexp)
+;;    ("M-r" . sp-splice-sexp-killing-around)
+;;    ("C-)" . sp-forward-slurp-sexp)
+;;    ("C-}" . sp-forward-barf-sexp)
+;;    ("C-(" . sp-backward-slurp-sexp)
+;;    ("C-{" . sp-backward-barf-sexp)
+;;    ("M-S" . sp-split-sexp)
+;;    ("M-J" . sp-join-sexp)
+;;    ("C-M-t" . sp-transpose-sexp)))
 
 
 (use-package ace-jump-mode
@@ -399,6 +403,28 @@
        mode-line-modes
        mode-line-misc-info
        mode-line-end-spaces))))
+
+
+(use-package paredit
+  :diminish paredit-mode
+  :init
+  (progn
+    (add-hook 'clojure-mode-hook 'enable-paredit-mode)
+    (add-hook 'cider-repl-mode-hook 'enable-paredit-mode)
+    (add-hook 'lisp-mode-hook 'enable-paredit-mode)
+    (add-hook 'emacs-lisp-mode-hook 'enable-paredit-mode)
+    (add-hook 'lisp-interaction-mode-hook 'enable-paredit-mode)
+    (add-hook 'ielm-mode-hook 'enable-paredit-mode)
+    (add-hook 'json-mode-hook 'enable-paredit-mode))
+  :config
+  (bind-keys :map clojure-mode-map
+             ("M-[" . paredit-wrap-square)
+             ("M-{" . paredit-wrap-curly))
+  :bind (("M-)" . paredit-forward-slurp-sexp)
+         ("M-(" . paredit-wrap-round)
+         ("M-[". paredit-wrap-square)
+         ("M-{" . paredit-wrap-curly)))
+
 
 ;; --------
 ;; Bindings
