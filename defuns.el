@@ -274,3 +274,5 @@ them. These include the path relative to the project root."
       (setq end (re-search-forward "\\_>" nil t))))
   (kill-ring-save beg end))
 
+
+(provide 'defuns)

@@ -1,6 +1,7 @@
 (source gnu)
 (source melpa)
 
+(depends-on "auto-compile" :git "https://github.com/tarsius/auto-compile" :ref "822c6fc0ffc84bd567482132" :files ("*.el"))
 (depends-on "ace-jump-mode")
 (depends-on "ack-and-a-half")
 (depends-on "bind-key")
@@ -12,6 +13,7 @@
 (depends-on "company")
 (depends-on "dash")
 (depends-on "diff-hl")
+(depends-on "discover")
 (depends-on "emmet-mode")
 (depends-on "exec-path-from-shell")
 (depends-on "expand-region")

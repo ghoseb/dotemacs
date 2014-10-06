@@ -3,6 +3,7 @@
 ;; ---------
 ;; Clean GUI
 ;; ---------
+(setq ns-use-srgb-colorspace t)
 
 (mapc
  (lambda (mode)
@@ -41,6 +42,32 @@
 
 (use-package sublime-themes
   :config (load-theme 'brin :no-confirm))
+
+
+(use-package auto-compile
+  :init (progn
+          (auto-compile-on-load-mode 1)
+          (auto-compile-on-save-mode -1))
+  :config (progn
+            (setq load-prefer-newer t)
+            (setq auto-compile-display-buffer nil)
+            (setq auto-compile-mode-line-counter t)))
+
+
+(use-package misc
+  :demand t
+  :bind ("M-z" . zap-up-to-char))
+
+(use-package defuns
+  :demand t)
+
+
+(use-package whitespace
+  :init (global-whitespace-mode)
+  :config (progn
+            (setq whitespace-style '(face empty lines-tail trailing))
+            (setq whitespace-line-column 80)
+            (setq whitespace-global-modes '(not git-commit-mode))))
 
 
 (use-package ansi-color
@@ -127,7 +154,10 @@
 
 
 (use-package swoop
-  :bind ("C-o" . swoop))
+  :config (setq swoop-window-split-direction: 'split-window-vertically)
+  :bind (("C-o" . swoop)
+         ("C-M-o" . swoop-multi)
+         ("C-x M-o" . swoop-pcre-regexp)))
 
 
 (use-package git-gutter
@@ -148,7 +178,7 @@
 
 
 (use-package yasnippet
-  :diminish yas-minor-mode
+  :diminish '(yas/minor-mode . "Y")
   :init
   (progn
     (yas-global-mode 1)
@@ -310,6 +340,11 @@
   :config (add-hook 'vc-checkin-hook 'diff-hl-update))
 
 
+(use-package company
+  :diminish "Cmp"
+  :init (add-hook 'after-init-hook 'global-company-mode))
+
+
 (use-package cider
   :config (progn
             (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
@@ -344,7 +379,26 @@
 (use-package smart-mode-line
   :config (progn
             (setq sml/theme 'automatic)
-            (sml/setup)))
+            (sml/setup))
+  :init
+  (progn
+    (setq-default
+     mode-line-format
+     '("%e"
+       mode-line-front-space
+       mode-line-mule-info
+       mode-line-client
+       mode-line-modified
+       mode-line-remote
+       mode-line-frame-identification
+       mode-line-buffer-identification
+       "   "
+       mode-line-position
+       (vc-mode vc-mode)
+       "  "
+       mode-line-modes
+       mode-line-misc-info
+       mode-line-end-spaces))))
 
 ;; --------
 ;; Bindings

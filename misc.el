@@ -46,6 +46,7 @@
 
 ;; Do not show startup message
 (setq inhibit-startup-message t)
+(setq inhibit-startup-echo-area-message t)
 
 ;; Show keystrokes in minibuffer early
 (setq echo-keystrokes 0.1)
@@ -121,6 +122,9 @@
 ;; Increase GC threshold
 (setq gc-cons-threshold 20000000)
 
+;; no bell
+(setq ring-bell-function 'ignore)
+
 ;; welcome message
 (defun user-first-name ()
   (car  (split-string user-full-name)))
@@ -156,3 +160,6 @@
 ;; " (welcome-message) "
 
 "))
+
+
+(provide 'misc)
