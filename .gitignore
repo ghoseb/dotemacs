@@ -11,3 +11,5 @@ etc/emacs-custom.el
 /projectile.cache
 /.cask/
 /eshell/
+/flycheck_init.el
+/url/

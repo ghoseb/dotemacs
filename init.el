@@ -1,5 +1,14 @@
 ;;; init.el - Baishampayan Ghose -*- lexical-binding: t; -*-
 
+;;; Code:
+(setq root-dir (file-name-directory
+                (or (buffer-file-name) load-file-name)))
+
+(setq etc-dir (file-name-as-directory (concat root-dir "etc")))
+
+(make-directory etc-dir t)
+
+
 ;; ---------
 ;; Clean GUI
 ;; ---------
@@ -362,9 +371,10 @@
             (setq cider-prompt-save-file-on-load nil)
             (setq cider-interactive-eval-result-prefix ";; => ")
             (setq cider-repl-history-size 1000)
+            (setq cider-repl-history-file (concat etc-dir "cider-history.dat"))
             (add-hook 'cider-repl-mode-hook 'company-mode)
             (add-hook 'cider-mode-hook 'company-mode)
-            (add-hook 'cider-repl-mode-hook 'smartparens-strict-mode)
+            (add-hook 'cider-repl-mode-hook 'paredit-mode)
             (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)))
 
 
@@ -424,6 +434,29 @@
          ("M-(" . paredit-wrap-round)
          ("M-[". paredit-wrap-square)
          ("M-{" . paredit-wrap-curly)))
+
+
+(use-package fsharp-mode
+  :mode "\\.fs[iylx]?$")
+
+(use-package hi2)
+
+(use-package haskell-mode
+  :init (progn
+          (add-hook 'haskell-mode-hook 'turn-on-hi2))
+  :config (progn
+            (setq haskell-process-suggest-remove-import-lines t)
+            (setq haskell-process-auto-import-loaded-modules t)
+            (setq haskell-process-log t)
+            (setq haskell-process-type 'cabal-repl)
+            (bind-keys :map haskell-mode-map
+                       ("C-c C-l" . haskell-process-load-or-reload)
+                       ("C-c C-z" . haskell-interactive-switch)
+                       ("C-c C-n C-t" . haskell-process-do-type)
+                       ("C-c C-n C-i" . haskell-process-do-info)
+                       ("C-c C-n C-c" . haskell-process-cabal-build)
+                       ("C-c C-n c" . haskell-process-cabal)
+                       ("SPC" . haskell-mode-contextual-space))))
 
 
 ;; --------
