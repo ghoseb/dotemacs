@@ -13,3 +13,4 @@ etc/emacs-custom.el
 /eshell/
 /flycheck_init.el
 /url/
+/etc/cider-history.dat

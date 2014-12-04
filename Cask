@@ -43,6 +43,7 @@
 (depends-on "org")
 (depends-on "pallet")
 (depends-on "paredit")
+(depends-on "paxedit")
 (depends-on "popwin")
 (depends-on "pretty-mode")
 (depends-on "projectile")

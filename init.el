@@ -436,6 +436,27 @@
          ("M-{" . paredit-wrap-curly)))
 
 
+(use-package paxedit
+  :diminish paxedit-mode
+  :init
+  (progn
+    (add-hook 'clojure-mode-hook 'paxedit-mode)
+    (add-hook 'elisp-mode-hook 'paxedit-mode))
+  :bind (("M-<right>". paxedit-transpose-forward)
+         ("M-<left>". paxedit-transpose-backward)
+         ("M-<up>". paxedit-backward-up)
+         ("M-<down>" . paxedit-backward-end)
+         ("M-b" . paxedit-previous-symbol)
+         ("M-f" . paxedit-next-symbol)
+         ("C-%" . paxedit-copy)
+         ("C-&" . paxedit-kill)
+         ("C-*" . paxedit-delete)
+         ("C-^" . paxedit-sexp-raise)
+         ("M-u" . paxedit-symbol-change-case)
+         ("C-@" . paxedit-symbol-copy)
+         ("C-#" . paxedit-symbol-kill)))
+
+
 (use-package fsharp-mode
   :mode "\\.fs[iylx]?$")
 

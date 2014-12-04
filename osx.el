@@ -16,7 +16,9 @@
 (setq delete-by-moving-to-trash t)
 
 ;; Set font
-(set-default-font "Source Code Pro Regular-12")
+(set-default-font "Anonymous Pro-14")
+
+
 
 (defun finder ()
   "Opens file directory in Finder."
@@ -48,10 +50,10 @@
 (setq system-name (car (split-string system-name "\\.")))
 
 ;;; frames
-(setq initial-frame-alist '((top . 23)
-                            (left . 0)
-                            (width . 165)
-                            (height . 40)))
+;; (setq initial-frame-alist '((top . 23)
+;;                             (left . 0)
+;;                             (width . 155)
+;;                             (height . 55)))
 (setq frame-title-format "%b")
 (setq icon-title-format  "%b")
 
