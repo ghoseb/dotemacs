@@ -479,6 +479,11 @@
                        ("C-c C-n c" . haskell-process-cabal)
                        ("SPC" . haskell-mode-contextual-space))))
 
+(use-package window-number
+  :init (progn
+         (window-number-meta-mode 1)
+         (window-number-mode 1)))
+
 
 ;; --------
 ;; Bindings

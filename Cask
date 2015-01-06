@@ -59,3 +59,4 @@
 (depends-on "web-mode")
 (depends-on "yaml-mode")
 (depends-on "yasnippet")
+(depends-on "window-number")
