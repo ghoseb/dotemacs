@@ -161,8 +161,6 @@
 (use-package httprepl)
 
 
-(use-package ack-and-a-half)
-
 
 (use-package swoop
   :config (setq swoop-window-split-direction: 'split-window-vertically)

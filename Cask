@@ -3,7 +3,6 @@
 
 (depends-on "auto-compile" :git "https://github.com/tarsius/auto-compile" :ref "822c6fc0ffc84bd567482132" :files ("*.el"))
 (depends-on "ace-jump-mode")
-(depends-on "ack-and-a-half")
 (depends-on "bind-key")
 (depends-on "browse-kill-ring")
 (depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "14a7a7f42af5c8f" :files ("*.el")) ; v0.8.1
