@@ -24,8 +24,9 @@
 ;; Basic Setup
 ;; -----------
 
-(setq user-full-name "Baishampayan Ghose")
-(setq user-mail-address "b.ghose@gmail.com")
+(setq user-full-name "Mayank Jain")
+(setq user-mail-address "firesofmay@gmail.com")
+(setq office-mail-address "mayank@helpshift.com")
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
@@ -161,7 +162,7 @@
 (use-package httprepl)
 
 
-(use-package ack-and-a-half)
+;;(use-package ack-and-a-half)
 
 
 (use-package swoop
@@ -173,7 +174,11 @@
 
 (use-package git-gutter
   :diminish "GG"
-  :init (global-git-gutter-mode +1))
+  :init (global-git-gutter-mode +1)
+  :bind (("C-x q" . git-gutter:revert-hunk)
+         ("C-c C-s" . git-gutter:stage-hunk)
+         ("C-x p" . git-gutter:previous-hunk)
+         ("C-x n" . git-gutter:next-hunk)))
 
 
 (use-package ibuffer-vc
@@ -478,6 +483,11 @@
                        ("C-c C-n C-c" . haskell-process-cabal-build)
                        ("C-c C-n c" . haskell-process-cabal)
                        ("SPC" . haskell-mode-contextual-space))))
+
+(use-package window-number
+  :init (progn
+         (window-number-meta-mode 1)
+         (window-number-mode 1)))
 
 
 ;; --------
