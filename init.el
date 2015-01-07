@@ -24,8 +24,9 @@
 ;; Basic Setup
 ;; -----------
 
-(setq user-full-name "Baishampayan Ghose")
-(setq user-mail-address "b.ghose@gmail.com")
+(setq user-full-name "Mayank Jain")
+(setq user-mail-address "firesofmay@gmail.com")
+(setq office-mail-address "mayank@helpshift.com")
 
 (require 'cask "~/.cask/cask.el")
 (cask-initialize)
