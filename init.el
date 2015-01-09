@@ -73,6 +73,7 @@
 
 
 (use-package whitespace
+  :diminish global-whitespace-mode
   :init (global-whitespace-mode)
   :config (progn
             (setq whitespace-style '(face empty lines-tail trailing))
@@ -114,6 +115,7 @@
   :init
   (progn
     (use-package eldoc
+      :diminish eldoc-mode
       :init (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)))
   :bind (("M-." . find-function-at-point))
   :interpreter (("emacs" . emacs-lisp-mode))
@@ -277,6 +279,7 @@
 
 
 (use-package magit
+  :diminish magit-auto-revert-mode
   :init
   (progn
     (use-package magit-blame)
