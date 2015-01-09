@@ -1,4 +1,5 @@
 ;;; osx.el --- OSX related configuration -*- lexical-binding: t; -*-
+(setq ns-use-srgb-colorspace t)
 
 ;; Switch the Cmd and Meta keys
 (setq mac-option-key-is-meta nil)

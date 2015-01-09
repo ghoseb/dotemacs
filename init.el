@@ -12,8 +12,6 @@
 ;; ---------
 ;; Clean GUI
 ;; ---------
-(setq ns-use-srgb-colorspace t)
-
 (mapc
  (lambda (mode)
    (when (fboundp mode)
@@ -197,18 +195,18 @@
 
 
 (use-package yasnippet
-  :diminish '(yas/minor-mode . "Y")
+  :if (not noninteractive)
+  :diminish yas-minor-mode
+  :commands (yas-global-mode yas-minor-mode)
   :init
   (progn
     (yas-global-mode 1)
     (setq yas-verbosity 1)
     (setq-default yas/prompt-functions '(yas/ido-prompt))))
 
-(use-package clojure-snippets
-  :demand t)
-
 
 (use-package cc-mode
+  :defer t
   :config
   (progn
     (add-hook 'c-mode-hook (lambda () (c-set-style "linux")))
@@ -279,11 +277,9 @@
 
 
 (use-package magit
+  :defer t
   :diminish magit-auto-revert-mode
-  :init
-  (progn
-    (use-package magit-blame)
-    (bind-key "C-c C-a" 'magit-just-amend magit-mode-map))
+  :init (use-package magit-blame)
   :config
   (progn
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
@@ -292,7 +288,8 @@
     (setq magit-stage-all-confirm nil)
     (setq magit-unstage-all-confirm nil)
     (setq magit-restore-window-configuration t))
-  :bind ("C-x g" . magit-status))
+  :bind (("C-x g" . magit-status)
+         ("C-c C-a" . magit-just-amend)))
 
 
 ;; (use-package smartparens
@@ -361,7 +358,9 @@
 
 
 (use-package diff-hl
-  :init (global-diff-hl-mode)
+  :init (progn
+          (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
+          (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
   :config (add-hook 'vc-checkin-hook 'diff-hl-update))
 
 
@@ -372,6 +371,7 @@
 
 (use-package cider
   :config (progn
+            (use-package clojure-snippets)
             (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
             (setq nrepl-hide-special-buffers t)
             (setq cider-prefer-local-resources t)
@@ -475,6 +475,7 @@
 (use-package hi2)
 
 (use-package haskell-mode
+  :defer t
   :init (progn
           (add-hook 'haskell-mode-hook 'turn-on-hi2))
   :config (progn
