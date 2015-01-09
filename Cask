@@ -8,6 +8,7 @@
 (depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "14a7a7f42af5c8f" :files ("*.el")) ; v0.8.1
 (depends-on "cl-lib-highlight")
 (depends-on "clojure-mode")
+(depends-on "clojure-snippets")
 (depends-on "color-theme")
 (depends-on "company")
 (depends-on "dash")
@@ -47,6 +48,7 @@
 (depends-on "pretty-mode")
 (depends-on "projectile")
 (depends-on "rainbow-delimiters")
+(depends-on "rainbow-identifiers")
 (depends-on "s")
 (depends-on "smart-mode-line")
 ;; (depends-on "smartparens")

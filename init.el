@@ -186,6 +186,10 @@
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 
+(use-package rainbow-identifiers
+  :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
+
+
 (use-package yaml-mode
   :mode ("\\.yml$" . yaml-mode))
 
@@ -197,6 +201,9 @@
     (yas-global-mode 1)
     (setq yas-verbosity 1)
     (setq-default yas/prompt-functions '(yas/ido-prompt))))
+
+(use-package clojure-snippets
+  :demand t)
 
 
 (use-package cc-mode
