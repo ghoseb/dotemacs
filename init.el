@@ -490,6 +490,11 @@
          (window-number-meta-mode 1)
          (window-number-mode 1)))
 
+(use-package transpose-frame
+  :bind (("M-<right>" . rotate-frame)
+         ("M-<left>" . rotate-frame)
+         ("M-<up>" . rotate-frame-clockwise)
+         ("M-<down>" . rotate-frame-anticlockwise)))
 
 ;; --------
 ;; Bindings
