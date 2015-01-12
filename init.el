@@ -490,6 +490,10 @@
          (window-number-meta-mode 1)
          (window-number-mode 1)))
 
+(use-package paren
+  :init (show-paren-mode +1)
+  :config (setq show-paren-style 'parenthesis))
+
 (use-package transpose-frame
   :bind (("M-<right>" . rotate-frame)
          ("M-<left>" . rotate-frame)
