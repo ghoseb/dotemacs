@@ -76,7 +76,8 @@
 (use-package whitespace
   :init (global-whitespace-mode)
   :config (progn
-            (setq whitespace-style '(face empty lines-tail trailing))
+            ;(setq whitespace-style '(face empty lines-tail trailing))
+            (setq whitespace-style 'nil)
             (setq whitespace-line-column 80)
             (setq whitespace-global-modes '(not git-commit-mode))))
 
