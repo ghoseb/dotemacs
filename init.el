@@ -176,6 +176,7 @@
   :diminish "GG"
   :init (global-git-gutter-mode +1)
   :bind (("C-x q" . git-gutter:revert-hunk)
+         ("C-x x" . git-gutter:popup-diff)
          ("C-c C-s" . git-gutter:stage-hunk)
          ("C-x p" . git-gutter:previous-hunk)
          ("C-x n" . git-gutter:next-hunk)))
