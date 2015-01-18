@@ -43,6 +43,7 @@
 (depends-on "nyan-mode")
 (depends-on "org")
 (depends-on "pallet")
+(depends-on "restclient")
 (depends-on "paredit")
 (depends-on "paxedit")
 (depends-on "popwin")

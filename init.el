@@ -496,6 +496,10 @@
   :init (show-paren-mode +1)
   :config (setq show-paren-style 'parenthesis))
 
+;; https://github.com/pashky/restclient.el
+;; http://emacsrocks.com/e15.html
+(use-package restclient)
+
 (use-package transpose-frame
   :bind (("M-<right>" . rotate-frame)
          ("M-<left>" . rotate-frame)
