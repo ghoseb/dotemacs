@@ -25,6 +25,8 @@
 (depends-on "git")
 (depends-on "git-gutter")
 (depends-on "git-timemachine")
+(depends-on "go-mode")
+(depends-on "go-eldoc")
 (depends-on "guru-mode")
 (depends-on "haskell-mode")
 (depends-on "hi2")

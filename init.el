@@ -109,6 +109,11 @@
     (add-to-list 'ido-ignore-files "\\.DS_Store")))
 
 
+(use-package company
+  :diminish "Cmp"
+  :init (add-hook 'after-init-hook 'global-company-mode))
+
+
 (use-package emacs-lisp-mode
   :init
   (progn
@@ -176,6 +181,43 @@
          ("C-c C-s" . git-gutter:stage-hunk)
          ("C-x p" . git-gutter:previous-hunk)
          ("C-x n" . git-gutter:next-hunk)))
+
+
+;;; Install: godef and gocode first
+
+(use-package go-mode
+  :ensure go-mode
+  :mode "\\.go\\'"
+  :commands (godoc gofmt gofmt-before-save)
+  :init
+  (progn
+    (defun schnouki/maybe-gofmt-before-save ()
+      (when (eq major-mode 'go-mode)
+	(gofmt-before-save)))
+    (defun bg/go-mode-hook ()
+      (if (not (string-match "go" compile-command))
+          (set (make-local-variable 'compile-command)
+               "go build -v && go test -v && go vet")))
+    (add-hook 'before-save-hook 'schnouki/maybe-gofmt-before-save)
+    (add-hook 'go-mode-hook 'bg/go-mode-hook))
+  :config
+  (bind-keys :map go-mode-map
+             ("C-c C-f" . gofmt)
+             ("C-c C-g" . go-goto-imports)
+             ("C-c C-k" . godoc)
+             ("C-c C-r" . go-remove-unused-imports)
+             ("M-." . godef-jump)))
+
+
+(use-package company-go
+  :ensure company-go
+  :init (add-to-list 'company-backends 'company-go))
+
+
+(use-package go-eldoc
+  :ensure go-eldoc
+  :commands go-eldoc-setup
+  :init (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 
 (use-package ibuffer-vc
@@ -362,11 +404,6 @@
           (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
           (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
   :config (add-hook 'vc-checkin-hook 'diff-hl-update))
-
-
-(use-package company
-  :diminish "Cmp"
-  :init (add-hook 'after-init-hook 'global-company-mode))
 
 
 (use-package cider
