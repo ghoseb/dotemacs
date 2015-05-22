@@ -52,10 +52,9 @@
 
 
 (use-package auto-compile
-  :init (progn
-          (auto-compile-on-load-mode 1)
-          (auto-compile-on-save-mode -1))
   :config (progn
+            (auto-compile-on-load-mode 1)
+            (auto-compile-on-save-mode -1)
             (setq load-prefer-newer t)
             (setq auto-compile-display-buffer nil)
             (setq auto-compile-mode-line-counter t)))
@@ -304,7 +303,7 @@
 
 
 (use-package popwin
-  :init (popwin-mode 1))
+  :config (popwin-mode 1))
 
 
 (use-package projectile
@@ -329,7 +328,9 @@
     (setq magit-completing-read-function 'magit-ido-completing-read)
     (setq magit-stage-all-confirm nil)
     (setq magit-unstage-all-confirm nil)
-    (setq magit-restore-window-configuration t))
+    (setq magit-restore-window-configuration t)
+    (setq magit-last-seen-setup-instructions "1.4.0")
+    (setq magit-auto-revert-mode nil))
   :bind (("C-x g" . magit-status)
          ("C-c C-a" . magit-just-amend)))
 
@@ -530,9 +531,9 @@
                        ("SPC" . haskell-mode-contextual-space))))
 
 (use-package window-number
-  :init (progn
-         (window-number-meta-mode 1)
-         (window-number-mode 1)))
+  :config (progn
+            (window-number-meta-mode 1)
+            (window-number-mode 1)))
 
 
 ;; --------

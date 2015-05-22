@@ -5,7 +5,7 @@
 (depends-on "ace-jump-mode")
 (depends-on "bind-key")
 (depends-on "browse-kill-ring")
-(depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "14a7a7f42af5c8f" :files ("*.el")) ; v0.8.1
+(depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "4c0b1141fd087" :files ("*.el")) ; v0.8.2
 (depends-on "cl-lib-highlight")
 (depends-on "clojure-mode")
 (depends-on "clojure-snippets")
