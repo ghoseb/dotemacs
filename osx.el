@@ -17,7 +17,7 @@
 (setq delete-by-moving-to-trash t)
 
 ;; Set font
-(set-default-font "Anonymous Pro-14")
+(set-default-font "-*-Source Code Pro-light-normal-normal-*-15-*-*-*-m-0-iso10646-1")
 
 
 
@@ -64,3 +64,6 @@
 (use-package exec-path-from-shell
   :init (progn (exec-path-from-shell-initialize)
                (exec-path-from-shell-copy-env "GOPATH")))
+
+(provide 'osx)
+;;; osx.el ends here

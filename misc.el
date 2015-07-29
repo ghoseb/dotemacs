@@ -163,3 +163,4 @@
 
 
 (provide 'misc)
+;;; misc.el ends here

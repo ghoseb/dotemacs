@@ -47,8 +47,9 @@
 ;; Packages
 ;; --------
 
-(use-package sublime-themes
-  :config (load-theme 'brin :no-confirm))
+(use-package badger-theme
+  :ensure t
+  :config (load-theme 'badger :no-confirm))
 
 
 (use-package auto-compile
@@ -163,7 +164,6 @@
 
 
 (use-package httprepl)
-
 
 
 (use-package swoop
@@ -318,9 +318,7 @@
 
 
 (use-package magit
-  :defer t
-  ;; :diminish magit-auto-revert-mode
-  :init (use-package magit-blame)
+  :init (use-package magit-blame :defer t)
   :config
   (progn
     (setq magit-default-tracking-name-function 'magit-default-tracking-name-branch-only)
@@ -329,9 +327,7 @@
     (setq magit-stage-all-confirm nil)
     (setq magit-unstage-all-confirm nil)
     (setq magit-restore-window-configuration t)
-    (setq magit-last-seen-setup-instructions "1.4.0")
-    ;; (setq magit-auto-revert-mode nil)
-    )
+    (setq magit-last-seen-setup-instructions "1.4.0"))
   :bind (("C-x g" . magit-status)
          ("C-c C-a" . magit-just-amend)))
 
