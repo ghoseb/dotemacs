@@ -14,3 +14,6 @@ etc/emacs-custom.el
 /flycheck_init.el
 /url/
 /etc/cider-history.dat
+/ido.last
+/places
+/smex-items

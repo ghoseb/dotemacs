@@ -138,7 +138,7 @@
 
 
 (use-package flycheck
-  :diminish "Fly"
+  :diminish flycheck-mode
   :config
   (progn
     (setq flycheck-display-errors-function nil)
@@ -319,7 +319,7 @@
 
 (use-package magit
   :defer t
-  :diminish magit-auto-revert-mode
+  ;; :diminish magit-auto-revert-mode
   :init (use-package magit-blame)
   :config
   (progn
@@ -330,7 +330,8 @@
     (setq magit-unstage-all-confirm nil)
     (setq magit-restore-window-configuration t)
     (setq magit-last-seen-setup-instructions "1.4.0")
-    (setq magit-auto-revert-mode nil))
+    ;; (setq magit-auto-revert-mode nil)
+    )
   :bind (("C-x g" . magit-status)
          ("C-c C-a" . magit-just-amend)))
 
@@ -514,8 +515,7 @@
 
 (use-package haskell-mode
   :defer t
-  :init (progn
-          (add-hook 'haskell-mode-hook 'turn-on-hi2))
+  :init (add-hook 'haskell-mode-hook 'turn-on-hi2)
   :config (progn
             (setq haskell-process-suggest-remove-import-lines t)
             (setq haskell-process-auto-import-loaded-modules t)
@@ -535,6 +535,24 @@
             (window-number-meta-mode 1)
             (window-number-mode 1)))
 
+
+(use-package flyspell
+  :diminish flyspell-mode
+  :init (progn (add-hook 'text-mode-hook 'flyspell-mode)
+               (add-hook 'prog-mode-hook 'flyspell-prog-mode)
+               (use-package flyspell-lazy
+                 :init (flyspell-lazy-mode 1)))
+  :config (progn
+            (setq flyspell-issue-message-flag nil)
+            (setq ispell-dictionary "en_GB-ize")
+            (when (executable-find "aspell")
+              (setq ispell-program-name "aspell")
+              (setq ispell-list-command "--list")
+              (setq ispell-extra-args '("--sug-mode=ultra"
+                                        "--lang=en_GB"
+                                        "--run-together"
+                                        "--run-together-limit=5"
+                                        "--run-together-min=2")))))
 
 ;; --------
 ;; Bindings
