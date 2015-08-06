@@ -16,10 +16,21 @@
 ;; In dired, move deletions to trash
 (setq delete-by-moving-to-trash t)
 
-;; Set font
-(set-default-font "-*-Source Code Pro-light-normal-normal-*-15-*-*-*-m-0-iso10646-1")
+;; Set font etc
+(set-face-font 'default "fontset-standard")
+(set-frame-font "-*-Source Code Pro-light-normal-normal-*-15-*-*-*-m-0-iso10646-1")
 
+;; Emoji :-P
+(set-fontset-font "fontset-standard"
+                  (cons (decode-char 'ucs #x1F600)
+                        (decode-char 'ucs #x1F64F))
+                  "Symbola")
 
+;; Greek
+(set-fontset-font "fontset-standard"
+                  (cons (decode-char 'ucs #x1F00)
+                        (decode-char 'ucs #x1FFF))
+                  "Gentium Plus")
 
 (defun finder ()
   "Opens file directory in Finder."
