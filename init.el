@@ -110,7 +110,7 @@
 
 
 (use-package company
-  :diminish "Cmp"
+  :diminish "Co"
   :init (add-hook 'after-init-hook 'global-company-mode))
 
 
@@ -174,7 +174,7 @@
 
 
 (use-package git-gutter
-  :diminish "GG"
+  :diminish git-gutter-mode
   :init (global-git-gutter-mode +1)
   :bind (("C-x q" . git-gutter:revert-hunk)
          ("C-c C-s" . git-gutter:stage-hunk)
