@@ -14,3 +14,8 @@ Still a work in progress...
   - Source Code Pro
   - Symbola (for Emoji etc)
   - Gentium Plus (for Greek)
+
+Your `~/.lein/profiles.clj` should at least have the following stuff:
+
+    [[cider/cider-nrepl "0.9.1"]
+     [refactor-nrepl "1.1.0"]]
