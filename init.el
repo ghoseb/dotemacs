@@ -74,8 +74,9 @@
   :diminish global-whitespace-mode
   :init (global-whitespace-mode)
   :config (progn
-            (setq whitespace-style '(face empty lines-tail trailing))
-            (setq whitespace-line-column 80)
+            (setq whitespace-style
+                  '(face lines-tail trailing tabs indentation::space))
+            (setq whitespace-line-column 78)
             (setq whitespace-global-modes '(not git-commit-mode))))
 
 
@@ -481,6 +482,14 @@
          ("M-(" . paredit-wrap-round)
          ("M-[". paredit-wrap-square)
          ("M-{" . paredit-wrap-curly)))
+
+
+(use-package clj-refactor
+  :ensure t
+  :init (progn (add-hook 'clojure-mode-hook
+                         (lambda ()
+                           (clj-refactor-mode 1)
+                           (cljr-add-keybindings-with-prefix "C-c C-m")))))
 
 
 (use-package paxedit
