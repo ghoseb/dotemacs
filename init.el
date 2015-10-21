@@ -111,7 +111,7 @@
 
 
 (use-package company
-  :diminish "Co"
+  :diminish company-mode
   :init (add-hook 'after-init-hook 'global-company-mode))
 
 
@@ -178,6 +178,7 @@
   :diminish git-gutter-mode
   :init (global-git-gutter-mode +1)
   :bind (("C-x q" . git-gutter:revert-hunk)
+         ("C-x x" . git-gutter:popup-diff)
          ("C-c C-s" . git-gutter:stage-hunk)
          ("C-x p" . git-gutter:previous-hunk)
          ("C-x n" . git-gutter:next-hunk)))
@@ -535,6 +536,7 @@
                        ("C-c C-n c" . haskell-process-cabal)
                        ("SPC" . haskell-mode-contextual-space))))
 
+
 (use-package window-number
   :config (progn
             (window-number-meta-mode 1)
@@ -558,6 +560,18 @@
                                         "--run-together"
                                         "--run-together-limit=5"
                                         "--run-together-min=2")))))
+
+(use-package golden-ratio
+  :diminish golden-ratio-mode
+  :ensure t
+  :init (golden-ratio-mode 1)
+  :config (progn (setq golden-ratio-auto-scale t)
+                 (setq split-width-threshold nil)
+                 (setq golden-ratio-exclude-modes
+                       '("ediff-mode"
+                         "eshell-mode"
+                         "dired-mode"))))
+
 
 ;; --------
 ;; Bindings

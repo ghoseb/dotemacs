@@ -17,3 +17,4 @@ etc/emacs-custom.el
 /ido.last
 /places
 /smex-items
+/.mc-lists.el

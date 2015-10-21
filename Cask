@@ -30,6 +30,7 @@
 (depends-on "git-timemachine")
 (depends-on "go-eldoc")
 (depends-on "go-mode")
+(depends-on "golden-ratio")
 (depends-on "guru-mode")
 (depends-on "haskell-mode")
 (depends-on "hi2")
