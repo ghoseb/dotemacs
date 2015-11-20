@@ -53,6 +53,7 @@
 
 
 (use-package auto-compile
+  :defer t
   :config (progn
             (auto-compile-on-load-mode 1)
             (auto-compile-on-save-mode -1)
@@ -71,6 +72,7 @@
 
 
 (use-package whitespace
+  :defer t
   :diminish global-whitespace-mode
   :init (global-whitespace-mode)
   :config (progn
@@ -92,10 +94,12 @@
   :config (dash-enable-font-lock))
 
 
-(use-package dired-x)
+(use-package dired-x
+  :defer t)
 
 
 (use-package ido
+  :defer t
   :init (progn (ido-mode 1)
                (ido-everywhere 1))
   :config
@@ -111,11 +115,13 @@
 
 
 (use-package company
+  :defer t
   :diminish company-mode
   :init (add-hook 'after-init-hook 'global-company-mode))
 
 
 (use-package emacs-lisp-mode
+  :defer t
   :init
   (progn
     (use-package eldoc
@@ -127,6 +133,7 @@
 
 
 (use-package markdown-mode
+  :defer t
   :config
   (progn
     (bind-key "M-n" 'open-line-below markdown-mode-map)
@@ -136,10 +143,12 @@
 
 
 (use-package flx-ido
+  :defer t
   :init (flx-ido-mode 1))
 
 
 (use-package flycheck
+  :defer t
   :diminish flycheck-mode
   :config
   (progn
@@ -148,26 +157,32 @@
 
 
 (use-package discover
+  :defer t
   :init (global-discover-mode 1))
 
 
 (use-package ibuffer
+  :defer t
   :config (setq ibuffer-expert t)
   :bind ("C-x C-b" . ibuffer))
 
 
 (use-package cl-lib-highlight
+  :defer t
   :init (cl-lib-highlight-initialize))
 
 
 (use-package idomenu
+  :defer t
   :bind ("M-i" . idomenu))
 
 
-(use-package httprepl)
+(use-package httprepl
+  :defer t)
 
 
 (use-package swoop
+  :defer t
   :config (setq swoop-window-split-direction: 'split-window-vertically)
   :bind (("C-o" . swoop)
          ("C-M-o" . swoop-multi)
@@ -175,6 +190,7 @@
 
 
 (use-package git-gutter
+  :defer t
   :diminish git-gutter-mode
   :init (global-git-gutter-mode +1)
   :bind (("C-x q" . git-gutter:revert-hunk)
@@ -187,6 +203,7 @@
 ;;; Install: godef and gocode first
 
 (use-package go-mode
+  :defer t
   :ensure go-mode
   :mode "\\.go\\'"
   :commands (godoc gofmt gofmt-before-save)
@@ -194,7 +211,7 @@
   (progn
     (defun schnouki/maybe-gofmt-before-save ()
       (when (eq major-mode 'go-mode)
-	(gofmt-before-save)))
+        (gofmt-before-save)))
     (defun bg/go-mode-hook ()
       (if (not (string-match "go" compile-command))
           (set (make-local-variable 'compile-command)
@@ -211,33 +228,42 @@
 
 
 (use-package company-go
+  :defer t
   :ensure company-go
-  :init (add-to-list 'company-backends 'company-go))
+  :init (progn
+          (use-package company)
+          (add-to-list 'company-backends 'company-go)))
 
 
 (use-package go-eldoc
+  :defer t
   :ensure go-eldoc
   :commands go-eldoc-setup
   :init (add-hook 'go-mode-hook 'go-eldoc-setup))
 
 
 (use-package ibuffer-vc
+  :defer t
   :init (ibuffer-vc-set-filter-groups-by-vc-root))
 
 
 (use-package rainbow-delimiters
+  :defer t
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 
 (use-package rainbow-identifiers
+  :defer t
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 
 
 (use-package yaml-mode
+  :defer t
   :mode ("\\.yml$" . yaml-mode))
 
 
 (use-package yasnippet
+  :defer t
   :if (not noninteractive)
   :diminish yas-minor-mode
   :commands (yas-global-mode yas-minor-mode)
@@ -259,10 +285,12 @@
 
 
 (use-package css-mode
+  :defer t
   :config (setq css-indent-offset 2))
 
 
 (use-package js-mode
+  :defer t
   :mode ("\\.json$" . js-mode)
   :init
   (progn
@@ -270,6 +298,7 @@
 
 
 (use-package js2-mode
+  :defer t
   :mode (("\\.js$" . js2-mode)
          ("Jakefile$" . js2-mode))
   :interpreter ("node" . js2-mode)
@@ -283,14 +312,17 @@
 
 
 (use-package ido-ubiquitous
+  :defer t
   :init (ido-ubiquitous-mode 1))
 
 
 (use-package nyan-mode
+  :defer t
   :init (nyan-mode 1))
 
 
 (use-package smex
+  :defer t
   :init (smex-initialize)
   :bind (("M-x" . smex)
          ("C-x M-m" . smex)
@@ -300,15 +332,18 @@
 
 
 (use-package multiple-cursors
+  :defer t
   :bind (("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)))
 
 
 (use-package popwin
+  :defer t
   :config (popwin-mode 1))
 
 
 (use-package projectile
+  :defer t
   :diminish projectile-mode
   :init (projectile-global-mode 1)
   :config
@@ -320,6 +355,7 @@
 
 
 (use-package magit
+  :defer t
   :init (use-package magit-blame :defer t)
   :config
   (progn
@@ -372,10 +408,12 @@
 
 
 (use-package ace-jump-mode
+  :defer t
   :bind ("C-c SPC" . ace-jump-mode))
 
 
 (use-package expand-region
+  :defer t
   :bind ("C-=" . er/expand-region))
 
 
@@ -400,6 +438,7 @@
 
 
 (use-package diff-hl
+  :defer t
   :init (progn
           (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
           (add-hook 'vc-dir-mode-hook 'turn-on-diff-hl-mode))
@@ -407,8 +446,9 @@
 
 
 (use-package cider
+  :defer t
   :config (progn
-            (use-package clojure-snippets)
+            (use-package clojure-snippets :defer t)
             (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
             (setq nrepl-hide-special-buffers t)
             (setq cider-prefer-local-resources t)
@@ -428,6 +468,7 @@
 
 
 (use-package eshell
+  :defer t
   :bind ("M-e" . eshell)
   :init
   (add-hook 'eshell-first-time-mode-hook
@@ -465,6 +506,7 @@
 
 
 (use-package paredit
+  :defer t
   :diminish paredit-mode
   :init
   (progn
@@ -476,9 +518,11 @@
     (add-hook 'ielm-mode-hook 'enable-paredit-mode)
     (add-hook 'json-mode-hook 'enable-paredit-mode))
   :config
-  (bind-keys :map clojure-mode-map
-             ("M-[" . paredit-wrap-square)
-             ("M-{" . paredit-wrap-curly))
+  (progn
+    (use-package clojure-mode)
+    (bind-keys :map clojure-mode-map
+               ("M-[" . paredit-wrap-square)
+               ("M-{" . paredit-wrap-curly)))
   :bind (("M-)" . paredit-forward-slurp-sexp)
          ("M-(" . paredit-wrap-round)
          ("M-[". paredit-wrap-square)
@@ -486,6 +530,7 @@
 
 
 (use-package clj-refactor
+  :defer t
   :ensure t
   :init (progn (add-hook 'clojure-mode-hook
                          (lambda ()
@@ -494,6 +539,7 @@
 
 
 (use-package paxedit
+  :defer t
   :diminish paxedit-mode
   :init
   (progn
@@ -515,9 +561,11 @@
 
 
 (use-package fsharp-mode
+  :defer t
   :mode "\\.fs[iylx]?$")
 
-(use-package hi2)
+(use-package hi2
+  :defer t)
 
 (use-package haskell-mode
   :defer t
@@ -544,6 +592,7 @@
 
 
 (use-package flyspell
+  :defer t
   :diminish flyspell-mode
   :init (progn (add-hook 'text-mode-hook 'flyspell-mode)
                (add-hook 'prog-mode-hook 'flyspell-prog-mode)
@@ -562,6 +611,7 @@
                                         "--run-together-min=2")))))
 
 (use-package golden-ratio
+  :defer t
   :diminish golden-ratio-mode
   :ensure t
   :init (golden-ratio-mode 1)
