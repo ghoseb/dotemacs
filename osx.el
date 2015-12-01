@@ -62,10 +62,7 @@
 (setq system-name (car (split-string system-name "\\.")))
 
 ;;; frames
-;; (setq initial-frame-alist '((top . 23)
-;;                             (left . 0)
-;;                             (width . 155)
-;;                             (height . 55)))
+(add-hook 'after-init-hook 'toggle-frame-maximized)
 (setq frame-title-format "%b")
 (setq icon-title-format  "%b")
 
