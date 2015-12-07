@@ -6,7 +6,7 @@
 (depends-on "badger-theme")
 (depends-on "bind-key")
 (depends-on "browse-kill-ring")
-(depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "v0.9.1" :files ("*.el"))
+(depends-on "cider" :git "https://github.com/clojure-emacs/cider" :ref "v0.10.0" :files ("*.el"))
 (depends-on "cl-lib-highlight")
 (depends-on "clj-refactor" :git "https://github.com/clojure-emacs/clj-refactor.el" :ref "1.1.0" :files ("*.el"))
 (depends-on "clojure-mode")
