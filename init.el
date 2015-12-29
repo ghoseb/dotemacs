@@ -29,6 +29,8 @@
 (cask-initialize)
 
 (require 'pallet)
+(pallet-mode t)
+
 (require 'f)
 (require 'use-package)
 
