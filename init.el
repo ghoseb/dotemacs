@@ -532,10 +532,11 @@
 (use-package clj-refactor
   :defer t
   :ensure t
+  :config (setq cljr-favor-prefix-notation nil)
   :init (progn (add-hook 'clojure-mode-hook
                          (lambda ()
-                           (clj-refactor-mode 1)
-                           (cljr-add-keybindings-with-prefix "C-c C-m")))))
+                           (cljr-add-keybindings-with-prefix "C-c RET")
+                           (clj-refactor-mode 1)))))
 
 
 (use-package paxedit
