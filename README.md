@@ -20,9 +20,9 @@ Still a work in progress...
 ## Prerequisites
 
 - Fonts
-  - Source Code Pro
-  - Symbola (for Emoji etc)
-  - Gentium Plus (for Greek)
+  - [Source Code Pro](https://github.com/adobe-fonts/source-code-pro/releases)
+  - [Symbola](http://www.fonts2u.com/symbola.font) (for Emoji etc)
+  - [Gentium Plus](http://software.sil.org/gentium/) (for Greek)
 
 Your `~/.lein/profiles.clj` should at least have the following stuff:
 
