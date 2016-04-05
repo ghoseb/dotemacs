@@ -27,8 +27,8 @@ Still a work in progress...
 Your `~/.lein/profiles.clj` should at least have the following stuff:
 
 ```Clojure
-{:user {:plugins [[cider/cider-nrepl "0.9.1"]
-                  [refactor-nrepl "1.1.0"]]}}
+{:user {:plugins [[cider/cider-nrepl "0.11.0"]
+                  [refactor-nrepl "2.2.0"]]}}
 ```
 
 ## Getting started

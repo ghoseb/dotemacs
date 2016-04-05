@@ -459,6 +459,7 @@
             (setq cider-stacktrace-fill-column 80)
             (setq nrepl-buffer-name-show-port t)
             (setq cider-repl-display-in-current-window t)
+            (setq cider-repl-display-help-banner nil)
             (setq cider-prompt-save-file-on-load nil)
             (setq cider-interactive-eval-result-prefix ";; => ")
             (setq cider-repl-history-size 1000)
@@ -466,7 +467,8 @@
             (add-hook 'cider-repl-mode-hook 'company-mode)
             (add-hook 'cider-mode-hook 'company-mode)
             (add-hook 'cider-repl-mode-hook 'paredit-mode)
-            (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode)))
+            (add-hook 'cider-repl-mode-hook 'rainbow-delimiters-mode))
+  :bind (("C-c C-l" . cider-repl-clear-buffer)))
 
 
 (use-package eshell
@@ -534,7 +536,9 @@
 (use-package clj-refactor
   :defer t
   :ensure t
-  :config (setq cljr-favor-prefix-notation nil)
+  :config (progn
+            (setq cljr-favor-prefix-notation nil)
+            (setq cljr-suppress-middleware-warnings t))
   :init (progn (add-hook 'clojure-mode-hook
                          (lambda ()
                            (cljr-add-keybindings-with-prefix "C-c RET")
