@@ -38,9 +38,6 @@
 ;; Do not pause on redisplay
 (setq redisplay-dont-pause t)
 
-;; Do not make any backup files
-(setq make-backup-files nil)
-
 ;; Kill whole line
 (setq kill-whole-line t)
 
