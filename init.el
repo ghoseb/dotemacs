@@ -81,7 +81,7 @@
             (setq whitespace-style
                   '(face lines-tail trailing tabs indentation::space))
             (setq whitespace-line-column 78)
-            (setq whitespace-global-modes '(not git-commit-mode))))
+            (setq whitespace-global-modes '(not git-commit-mode go-mode))))
 
 
 (use-package ansi-color
@@ -211,6 +211,10 @@
   :commands (godoc gofmt gofmt-before-save)
   :init
   (progn
+    (setq gofmt-command (cond
+                         ((executable-find "goimports")
+                          "goimports")
+                         (t "gofmt")))
     (defun schnouki/maybe-gofmt-before-save ()
       (when (eq major-mode 'go-mode)
         (gofmt-before-save)))
@@ -451,7 +455,6 @@
   :defer t
   :config (progn
             (use-package clojure-snippets :defer t)
-            (add-hook 'cider-mode-hook 'cider-turn-on-eldoc-mode)
             (setq nrepl-hide-special-buffers t)
             (setq cider-prefer-local-resources t)
             (setq cider-show-error-buffer 'only-in-repl)
