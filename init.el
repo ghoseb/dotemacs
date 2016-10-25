@@ -632,6 +632,27 @@
                          "eshell-mode"
                          "dired-mode"))))
 
+(use-package org
+  :defer t
+  :diminish t
+  :config (progn
+            (setq org-log-done 'time)
+            (setq org-agenda-files (list "~/Dropbox/org/"))
+            (setq org-todo-keywords
+                  '((sequence "TODO(t)" "FOLLOWUP(f)" "|" "DONE(d)" "DELEGATED(l)" "CANCELLED(c)")))
+            (setq org-capture-templates
+                  '(("t" "Todo" entry (file+headline "~/Dropbox/org/work.org" "Tasks")
+                     "* TODO %?\n%i")
+                    ("n" "Note" entry (file+headline "~/Dropbox/org/work.org" "Notes")
+                     "* %?\nEntered on %U")
+                    ("i" "Idea" entry (file+headline "~/Dropbox/org/work.org" "Ideas")
+                     "* %?\n%i\nHatched on %U\n%a")
+                    ("m" "Meeting" entry (file+datetree "~/Dropbox/org/meetings.org")
+                     "* %?\n  %i" :clock-in t)))
+            (bind-keys :map global-map
+                       ("C-c l" . org-store-link)
+                       ("C-c a" . org-agenda)
+                       ("C-c c" . org-capture))))
 
 ;; --------
 ;; Bindings
