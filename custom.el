@@ -13,8 +13,20 @@
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (zoom haskell-mode hi2 fsharp-mode diff-hl cl-lib-highlight magit diminish window-number smart-mode-line yasnippet rainbow-identifiers rainbow-delimiters flyspell-lazy projectile smex nyan-mode ido-ubiquitous ibuffer-vc discover golden-ratio clj-refactor go-eldoc idle-highlight-mode exec-path-from-shell company-go git-gutter flx-ido go-mode nimbus-theme badger-theme use-package pallet)))
- '(whitespace-display-mappings nil))
+    (clojure-snippets zoom haskell-mode hi2 fsharp-mode diff-hl cl-lib-highlight magit diminish window-number smart-mode-line yasnippet rainbow-identifiers rainbow-delimiters flyspell-lazy projectile smex nyan-mode ido-ubiquitous ibuffer-vc discover golden-ratio clj-refactor go-eldoc idle-highlight-mode exec-path-from-shell company-go git-gutter flx-ido go-mode nimbus-theme badger-theme use-package pallet)))
+ '(whitespace-display-mappings nil)
+ '(zoom-ignore-predicates
+   (quote
+    ((lambda nil
+       (>
+        (count-lines
+         (point-min)
+         (point-max))
+        20)))))
+ '(zoom-ignored-buffer-name-regexps (quote ("^*calc")))
+ '(zoom-ignored-buffer-names (quote ("zoom.el" "init.el")))
+ '(zoom-ignored-major-modes (quote (dired-mode markdown-mode)))
+ '(zoom-size (quote (0.618 . 0.618))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

@@ -5,9 +5,13 @@
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("marmalade" . "https://marmalade-repo.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
 
 (package-initialize)
+
+(unless (package-installed-p 'use-package)
+  (package-install 'use-package))
 
 (setq root-dir (file-name-directory
                 (or (buffer-file-name) load-file-name)))
@@ -474,6 +478,7 @@
 
 (use-package cider
   :ensure t
+  :pin melpa-stable
   :defer t
   :config (progn
             (use-package clojure-snippets :ensure t :defer t)
@@ -549,7 +554,7 @@
     (add-hook 'json-mode-hook 'enable-paredit-mode))
   :config
   (progn
-    (use-package clojure-mode)
+    (use-package clojure-mode :ensure t)
     (bind-keys :map clojure-mode-map
                ("M-[" . paredit-wrap-square)
                ("M-{" . paredit-wrap-curly)))
@@ -562,6 +567,7 @@
 (use-package clj-refactor
   :defer t
   :ensure t
+  :diminish clj-refactor-mode
   :config (progn
             (setq cljr-favor-prefix-notation nil)
             (setq cljr-suppress-middleware-warnings t))
