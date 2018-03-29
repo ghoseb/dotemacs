@@ -1,19 +1,9 @@
 # BG's dotemacs redux
 
-A completely new approach based on `Cask` and `use-package`.
+Clone the repository to `~/.emacs.d`.
 
-To install `Cask` on OS X run the following command:
-
-    curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
-
-The code inside `init.el` expects `cask.el` to be located in `"~/.cask/cask.el"`.
-If you've installed Cask in any other way then you may change the appropriate
-line in `init.el`.
-
-To start dotemacs setup on OS X run the following command `EMACS="/Applications/Emacs.app/Contents/MacOS/Emacs" cask install`
-(this is done to make sure you don't launch the ancient Emacs that's shipped with OS X).
-
-Afterwards you may launch Emacs as usual.
+Afterwards you may launch Emacs as usual. It will take some time to start up
+the first time, so hang tight.
 
 Still a work in progress...
 

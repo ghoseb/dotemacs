@@ -627,17 +627,21 @@
                                         "--run-together-limit=5"
                                         "--run-together-min=2")))))
 
-(use-package golden-ratio
+(use-package zoom
   :defer t
-  :diminish golden-ratio-mode
+  :diminish zoom-mode
   :ensure t
-  :init (golden-ratio-mode 1)
-  :config (progn (setq golden-ratio-auto-scale t)
-                 (setq split-width-threshold nil)
-                 (setq golden-ratio-exclude-modes
-                       '("ediff-mode"
-                         "eshell-mode"
-                         "dired-mode"))))
+  :init (zoom-mode t)
+  :config (progn (custom-set-variables
+                  '(zoom-size '(0.618 . 0.618))
+                  '(zoom-ignored-major-modes '(dired-mode markdown-mode))
+                  '(zoom-ignored-buffer-names '("zoom.el" "init.el"))
+                  '(zoom-ignored-buffer-name-regexps '("^*calc"))
+                  '(zoom-ignore-predicates '((lambda ()
+                                               (> (count-lines
+                                                   (point-min)
+                                                   (point-max))
+                                                  20)))))))
 
 (use-package org
   :defer t
