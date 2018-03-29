@@ -92,7 +92,7 @@
             kill-buffer-query-functions))
 
 ;; Highlight symbol at point
-(add-hook 'find-file-hook 'idle-highlight-mode)
+;; (add-hook 'find-file-hook 'idle-highlight-mode)
 
 (defalias 'dtw 'delete-trailing-whitespace)
 (defalias 'yes-or-no-p 'y-or-n-p)

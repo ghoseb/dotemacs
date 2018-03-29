@@ -1,6 +1,14 @@
 ;;; init.el - Baishampayan Ghose -*- lexical-binding: t; -*-
 
 ;;; Code:
+
+(require 'package)
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("marmalade" . "https://marmalade-repo.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
+
+(package-initialize)
+
 (setq root-dir (file-name-directory
                 (or (buffer-file-name) load-file-name)))
 
@@ -25,14 +33,9 @@
 (setq user-full-name "Baishampayan Ghose")
 (setq user-mail-address "b.ghose@gmail.com")
 
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
-
-(require 'pallet)
-(pallet-mode t)
-
 (require 'f)
-(require 'use-package)
+(eval-when-compile
+  (require 'use-package))
 
 (setq default-directory (f-full (getenv "HOME")))
 
@@ -49,9 +52,11 @@
 ;; Packages
 ;; --------
 
-(use-package badger-theme
-  :ensure t
-  :config (load-theme 'badger :no-confirm))
+(use-package diminish
+  :ensure t)
+
+(use-package nimbus-theme
+  :ensure t)
 
 
 (use-package auto-compile
@@ -124,6 +129,7 @@
 
 (use-package emacs-lisp-mode
   :defer t
+  :diminish t
   :init
   (progn
     (use-package eldoc
@@ -145,6 +151,7 @@
 
 
 (use-package flx-ido
+  :ensure t
   :defer t
   :init (flx-ido-mode 1))
 
@@ -159,6 +166,7 @@
 
 
 (use-package discover
+  :ensure t
   :defer t
   :init (global-discover-mode 1))
 
@@ -170,6 +178,7 @@
 
 
 (use-package cl-lib-highlight
+  :ensure t
   :defer t
   :init (cl-lib-highlight-initialize))
 
@@ -193,6 +202,7 @@
 
 (use-package git-gutter
   :defer t
+  :ensure t
   :diminish git-gutter-mode
   :init (global-git-gutter-mode +1)
   :bind (("C-x q" . git-gutter:revert-hunk)
@@ -249,26 +259,31 @@
 
 
 (use-package ibuffer-vc
+  :ensure t
   :defer t
   :init (ibuffer-vc-set-filter-groups-by-vc-root))
 
 
 (use-package rainbow-delimiters
+  :ensure t
   :defer t
   :config (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 
 (use-package rainbow-identifiers
+  :ensure t
   :defer t
   :config (add-hook 'prog-mode-hook 'rainbow-identifiers-mode))
 
 
 (use-package yaml-mode
+  :ensure t
   :defer t
   :mode ("\\.yml$" . yaml-mode))
 
 
 (use-package yasnippet
+  :ensure t
   :defer t
   :if (not noninteractive)
   :diminish yas-minor-mode
@@ -318,16 +333,19 @@
 
 
 (use-package ido-ubiquitous
+  :ensure t
   :defer t
   :init (ido-ubiquitous-mode 1))
 
 
 (use-package nyan-mode
+  :ensure t
   :defer t
   :init (nyan-mode 1))
 
 
 (use-package smex
+  :ensure t
   :defer t
   :init (smex-initialize)
   :bind (("M-x" . smex)
@@ -349,6 +367,7 @@
 
 
 (use-package projectile
+  :ensure t
   :defer t
   :diminish projectile-mode
   :init (projectile-global-mode 1)
@@ -361,6 +380,7 @@
 
 
 (use-package magit
+  :ensure t
   :defer t
   :init (use-package magit-blame :defer t)
   :config
@@ -444,6 +464,7 @@
 
 
 (use-package diff-hl
+  :ensure t
   :defer t
   :init (progn
           (add-hook 'prog-mode-hook 'turn-on-diff-hl-mode)
@@ -452,9 +473,10 @@
 
 
 (use-package cider
+  :ensure t
   :defer t
   :config (progn
-            (use-package clojure-snippets :defer t)
+            (use-package clojure-snippets :ensure t :defer t)
             (setq nrepl-hide-special-buffers t)
             (setq cider-prefer-local-resources t)
             (setq cider-show-error-buffer 'only-in-repl)
@@ -488,6 +510,7 @@
 
 
 (use-package smart-mode-line
+  :ensure t
   :config (progn
             (setq sml/theme 'automatic)
             (sml/setup))
@@ -548,36 +571,17 @@
                            (clj-refactor-mode 1)))))
 
 
-(use-package paxedit
-  :defer t
-  :diminish paxedit-mode
-  :init
-  (progn
-    (add-hook 'clojure-mode-hook 'paxedit-mode)
-    (add-hook 'elisp-mode-hook 'paxedit-mode))
-  :bind (("M-<right>". paxedit-transpose-forward)
-         ("M-<left>". paxedit-transpose-backward)
-         ("M-<up>". paxedit-backward-up)
-         ("M-<down>" . paxedit-backward-end)
-         ("M-b" . paxedit-previous-symbol)
-         ("M-f" . paxedit-next-symbol)
-         ("C-%" . paxedit-copy)
-         ("C-&" . paxedit-kill)
-         ("C-*" . paxedit-delete)
-         ("C-^" . paxedit-sexp-raise)
-         ("M-u" . paxedit-symbol-change-case)
-         ("C-@" . paxedit-symbol-copy)
-         ("C-#" . paxedit-symbol-kill)))
-
-
 (use-package fsharp-mode
+  :ensure t
   :defer t
   :mode "\\.fs[iylx]?$")
 
 (use-package hi2
+  :ensure t
   :defer t)
 
 (use-package haskell-mode
+  :ensure t
   :defer t
   :init (add-hook 'haskell-mode-hook 'turn-on-hi2)
   :config (progn
@@ -596,17 +600,20 @@
 
 
 (use-package window-number
+  :ensure t
   :config (progn
             (window-number-meta-mode 1)
             (window-number-mode 1)))
 
 
 (use-package flyspell
+  :ensure t
   :defer t
   :diminish flyspell-mode
   :init (progn (add-hook 'text-mode-hook 'flyspell-mode)
                (add-hook 'prog-mode-hook 'flyspell-prog-mode)
                (use-package flyspell-lazy
+                 :ensure t
                  :init (flyspell-lazy-mode 1)))
   :config (progn
             (setq flyspell-issue-message-flag nil)
@@ -653,6 +660,9 @@
                        ("C-c l" . org-store-link)
                        ("C-c a" . org-agenda)
                        ("C-c c" . org-capture))))
+
+(use-package elisp-mode
+  :diminish t)
 
 ;; --------
 ;; Bindings
