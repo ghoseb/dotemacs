@@ -1,6 +1,7 @@
 *.elc
 *.eln
 var/
+eln-cache/
 straight/build-cache.el
 straight/build/
 straight/repos/
