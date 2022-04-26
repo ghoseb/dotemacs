@@ -1,0 +1,10 @@
+(("ctrlf" . "56021fd53efd775d91db2730e4ab4d5c157c513f")
+ ("el-get" . "9353309744e4f8a7c9b1adf22ec99536fb2146b0")
+ ("emacsmirror-mirror" . "396f84f731b6364d03422a88aae75726104df40e")
+ ("gnu-elpa-mirror" . "410f31c33fedf77a4ae8ae0e0f4fff14df75a62e")
+ ("melpa" . "deae8f07ccee183288487c3fd3580705feae0fae")
+ ("prescient.el" . "c5295a9eecbd2935bb57684a4422638e03bf738c")
+ ("selectrum" . "7da932eeb89f1aa8060a73ddd040f95bbb127343")
+ ("straight.el" . "af5437f2afd00936c883124d6d3098721c2d306c")
+ ("use-package" . "a7422fb8ab1baee19adb2717b5b47b9c3812a84c"))
+:beta
