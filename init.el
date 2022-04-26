@@ -33,4 +33,22 @@
 (bg/maybe-load "utils.el")
 (bg/maybe-load "osx.el")
 
+(defun bg/display-startup-time ()
+  "Calculate Emacs startup time."
+  (message
+   "GNU/Emacs: %s secs / %d GC"
+   (format
+    "%.3f seconds"
+    (float-time
+     (time-subtract after-init-time before-init-time)))
+   gcs-done))
+
+(setq initial-scratch-message (concat ";; " (bg/display-startup-time)))
+
+(add-hook #'after-init-hook #'(lambda ()
+                              ;; restore after startup
+                              (setq gc-cons-threshold 16777216
+                                    gc-cons-percentage 0.1)))
+
+
 ;;; init.el ends here
