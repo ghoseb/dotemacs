@@ -8,7 +8,7 @@
   (("C-c C-l" . cider-repl-clear-buffer))
   :config
   (setq nrepl-log-messages t
-        cider-repl-display-in-current-window nil
+        cider-repl-display-in-current-window t
         cider-repl-pop-to-buffer-on-connect nil
         cider-repl-use-clojure-font-lock t
         cider-repl-use-content-types t
@@ -20,8 +20,14 @@
         cider-overlays-use-font-lock t
         cider-dynamic-indentation nil
         cider-repl-display-help-banner nil
+        cider-repl-prompt-function #'cider-repl-prompt-abbreviated
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
-  (cider-repl-toggle-pretty-printing))
+  (cider-repl-toggle-pretty-printing)
+  :init
+  (add-hook 'cider-repl-mode-hook #'smartparens-mode)
+  (add-hook 'cider-repl-mode-hook #'company-mode)
+  (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
+  (add-hook 'cider-repl-hook #'cider-company-enable-fuzzy-completion))
 
 
 (use-package smartparens

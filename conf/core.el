@@ -1,5 +1,22 @@
 ;;; core.el
 
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+
+(setq tab-always-indent 'complete)
+
+(setq require-final-newline t)
+
+(setq-default fill-column 115)
+
+(delete-selection-mode t)
+
+(prefer-coding-system 'utf-8)
+(set-default-coding-systems 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+
+
 (use-package selectrum
   :straight t
   :init (selectrum-mode +1))
@@ -20,6 +37,30 @@
 (use-package blackout
   :straight t
   :demand t)
+
+(use-package company
+  :straight t
+  :config (add-hook 'prog-mode-hook 'company-mode)
+  :bind (:map company-active-map
+              ("<tab>" . #'company-complete-selection)
+              ("TAB" . #'company-complete-selection)
+              ("C-s" . nil)
+              ([remap scroll-down-command] . nil)
+              ([remap scroll-up-command] . nil))
+  :config
+  (setq company-idle-delay 0.15)
+  (setq company-minimum-prefix-length 1)
+  (setq company-tooltip-minimum company-tooltip-limit)
+  (setq company-frontends '(company-pseudo-tooltip-frontend))
+  (setq company-show-quick-access t)
+  (setq company-require-match #'company-explicit-action-p)
+  (setq company-tooltip-align-annotations t))
+
+
+(use-package company-prescient
+  :straight t
+  :after (company prescient)
+  :init (company-prescient-mode +1))
 
 (blackout 'auto-fill-mode)
 (blackout 'eldoc-mode)
@@ -151,6 +192,48 @@
    ("C->" . mc/mark-next-like-this)
    ("C-<" . mc/mark-previous-like-this)
    ("C-c C-<" . mc/mark-all-like-this)))
+
+
+(use-package super-save
+  :defer t
+  :straight t
+  :config
+  (super-save-mode +1)
+  (setq super-save-auto-save-when-idle t)
+  (setq auto-save-default nil))
+
+
+(use-package saveplace
+  :straight t
+  :defer t
+  :config
+  (setq save-place-file
+        (expand-file-name "saveplace" bg/save-dir))
+  (setq-default save-place t))
+
+
+(use-package savehist
+  :straight t
+  :defer t
+  :config
+  (setq savehist-additional-variables
+        '(search-ring regexp-search-ring)
+        savehist-autosave-interval 60
+        savehist-file
+        (expand-file-name "savehist" bg/save-dir))
+  (savehist-mode +1))
+
+
+(use-package recentf
+  :straight t
+  :defer t
+  :config
+  (setq recentf-save-file
+        (expand-file-name "recentf" bg/save-dir)
+        recentf-max-saved-items 500
+        recentf-max-menu-items 15
+        recentf-auto-cleanup 'never)
+  (recentf-mode +1))
 
 ;; misc settings
 (setq ring-bell-function #'ignore)

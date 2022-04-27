@@ -6,3 +6,6 @@ eln-cache/
 straight/build-cache.el
 straight/build/
 straight/repos/
+/auto-save-list/
+/transient/
+/.cache/
