@@ -10,6 +10,10 @@
   (setq magit-log-arguments '("--graph" "--decorate" "--color"))
   (setq magit-diff-refine-hunk t))
 
+(use-package git-timemachine
+  :after magit
+  :straight t
+  :defer t)
 
 (use-package diff-hl
   :straight t
@@ -69,3 +73,19 @@
 
 (use-package json-mode :straight t :defer t)
 (use-package yaml-mode :straight t :defer t)
+
+(use-package projectile
+  :straight t
+  :blackout 1
+  :config
+  (progn
+    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+    (projectile-mode +1)
+    (setq projectile-completion-system 'default)
+    (setq projectile-enable-caching t)
+    (setq projectile-indexing-method 'alien)))
+
+
+(use-package treemacs-projectile
+  :straight t
+  :after (treemacs projectile))
