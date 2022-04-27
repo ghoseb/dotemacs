@@ -1,5 +1,6 @@
 *.elc
 *.eln
+.auto-save-list/
 var/
 eln-cache/
 straight/build-cache.el
