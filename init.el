@@ -29,14 +29,12 @@
       (load-file (expand-file-name file bg/conf-dir))))
 
 (bg/maybe-load "settings.el")
+(when (memq system-type '(darwin)) (bg/maybe-load "osx.el"))
 (bg/maybe-load "core.el")
 (bg/maybe-load "dev.el")
 (bg/maybe-load "clojure.el")
 (bg/maybe-load "utils.el")
 (bg/maybe-load "themes.el")
-
-(when (memq system-type '(darwin))
-  (bg/maybe-load "osx.el"))
 
 (defun bg/display-startup-time ()
   "Calculate Emacs startup time."
