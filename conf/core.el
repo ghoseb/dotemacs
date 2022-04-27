@@ -17,4 +17,18 @@
   :straight t
   :config (ctrlf-mode +1))
 
+(use-package blackout
+  :straight t
+  :demand t)
 
+(blackout 'auto-fill-mode)
+(blackout 'eldoc-mode)
+(blackout 'emacs-lisp-mode "EL")
+
+(use-package use-package-ensure-system-package
+  :straight t)
+
+
+;; misc settings
+(setq ring-bell-function #'ignore)
+(setq echo-keystrokes 1e-6)

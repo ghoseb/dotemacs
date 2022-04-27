@@ -11,3 +11,11 @@
   (setq magit-diff-refine-hunk t))
 
 
+(use-package rainbow-delimiters
+  :defer t
+  :straight t
+  :config
+  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+
+
