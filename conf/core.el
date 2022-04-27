@@ -38,6 +38,12 @@
   :straight t
   :demand t)
 
+(blackout 'auto-fill-mode)
+(blackout 'eldoc-mode)
+(blackout 'cider-mode)
+(blackout 'clojure-mode "CLJ")
+(blackout 'emacs-lisp-mode "EL")
+
 (use-package company
   :straight t
   :config (add-hook 'prog-mode-hook 'company-mode)
@@ -56,15 +62,14 @@
   (setq company-require-match #'company-explicit-action-p)
   (setq company-tooltip-align-annotations t))
 
+(use-package company-box
+  :straight t
+  :hook (company-mode . company-box-mode))
 
 (use-package company-prescient
   :straight t
   :after (company prescient)
   :init (company-prescient-mode +1))
-
-(blackout 'auto-fill-mode)
-(blackout 'eldoc-mode)
-(blackout 'emacs-lisp-mode "EL")
 
 (use-package use-package-ensure-system-package
   :straight t)

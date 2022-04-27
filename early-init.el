@@ -23,6 +23,7 @@
 
 ;; prevent unwanted runtime package builds
 (setq comp-deferred-compilation nil)
+(setq native-comp-async-report-warnings-errors nil)
 
 (add-hook #'after-init-hook
           #'(lambda ()

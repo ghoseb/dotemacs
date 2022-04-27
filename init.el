@@ -46,6 +46,6 @@
      (time-subtract after-init-time before-init-time)))
    gcs-done))
 
-(setq initial-scratch-message (concat ";; " (bg/display-startup-time)))
+(setq initial-scratch-message (concat ";; " (bg/display-startup-time) "\n;; "))
 
 ;;; init.el ends here
