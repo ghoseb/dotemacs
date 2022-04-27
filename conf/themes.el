@@ -4,10 +4,24 @@
                     :font bg/default-font
                     :height bg/default-font-size)
 
+(use-package all-the-icons
+  :straight t
+  :defer 10
+  :if (display-graphic-p))
+
+
+(use-package all-the-icons-completion
+  :straight t
+  :defer t
+  :after all-the-icons
+  :init
+  (all-the-icons-completion-mode))
+
+
 (use-package doom-modeline
   :straight t
   :hook (after-init . doom-modeline-mode)
-  :custom ((doom-modeline-height 15)))
+  :custom ((doom-modeline-height 10)))
 
 
 (use-package doom-themes
