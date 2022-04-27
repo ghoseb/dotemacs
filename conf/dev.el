@@ -11,6 +11,17 @@
   (setq magit-diff-refine-hunk t))
 
 
+(use-package diff-hl
+  :straight t
+  :hook
+  ((magit-pre-refresh . diff-hl-magit-pre-refresh)
+   (magit-post-refresh . diff-hl-magit-post-refresh))
+  :init
+  (setq diff-hl-draw-borders nil)
+  :config
+  (global-diff-hl-mode))
+
+
 (use-package rainbow-delimiters
   :defer t
   :straight t
@@ -43,3 +54,18 @@
   (setq lsp-ui-doc-position 'bottom)
   :custom
   (lsp-ui-sideline-enable nil))
+
+
+(use-package markdown-mode
+  :defer t
+  :straight t
+  :ensure-system-package multimarkdown
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+
+(use-package json-mode :straight t :defer t)
+(use-package yaml-mode :straight t :defer t)
