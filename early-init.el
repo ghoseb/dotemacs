@@ -24,4 +24,10 @@
 ;; prevent unwanted runtime package builds
 (setq comp-deferred-compilation nil)
 
+(add-hook #'after-init-hook
+          #'(lambda ()
+              ;; restore after startup
+              (setq gc-cons-threshold 16777216
+                    gc-cons-percentage 0.1)))
+
 ;;; early-init.el ends here

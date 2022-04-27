@@ -48,10 +48,4 @@
 
 (setq initial-scratch-message (concat ";; " (bg/display-startup-time)))
 
-(add-hook #'after-init-hook #'(lambda ()
-                              ;; restore after startup
-                              (setq gc-cons-threshold 16777216
-                                    gc-cons-percentage 0.1)))
-
-
 ;;; init.el ends here
