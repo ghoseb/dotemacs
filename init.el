@@ -39,13 +39,13 @@
 (defun bg/display-startup-time ()
   "Calculate Emacs startup time."
   (message
-   "GNU/Emacs: %s secs / %d GC"
+   "GNU/Emacs ready in %s secs (%d GCs)"
    (format
-    "%.3f seconds"
+    "%.3f"
     (float-time
      (time-subtract after-init-time before-init-time)))
    gcs-done))
 
-(setq initial-scratch-message (concat ";; " (bg/display-startup-time) "\n;; "))
+(setq initial-scratch-message (concat ";;; " (bg/display-startup-time) "\n"))
 
 ;;; init.el ends here
