@@ -28,6 +28,9 @@
 (setq inhibit-splash-screen t)
 (setq use-file-dialog nil)
 
+(setq ring-bell-function #'ignore)
+(setq echo-keystrokes 1e-6)
+
 ;; prevent unwanted runtime package builds
 (setq comp-deferred-compilation nil)
 (setq native-comp-async-report-warnings-errors nil)

@@ -260,8 +260,3 @@
         recentf-max-menu-items 15
         recentf-auto-cleanup 'never)
   (recentf-mode +1))
-
-
-;; misc settings
-(setq ring-bell-function #'ignore)
-(setq echo-keystrokes 1e-6)
