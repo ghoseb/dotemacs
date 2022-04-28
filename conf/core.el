@@ -92,14 +92,10 @@
   :straight t)
 
 (use-package which-key
-  :defer t
   :straight t
   :config
-  (setq which-key-popup-type 'minibuffer)
-  (setq which-key-show-early-on-C-h t)
-  (setq which-key-idle-delay 10000)
-  (setq which-key-idle-secondary-delay 0.05)
-  (which-key-mode +1))
+  (setq which-key-popup-type 'side-window)
+  (which-key-mode))
 
 (use-package treemacs
   :straight t
