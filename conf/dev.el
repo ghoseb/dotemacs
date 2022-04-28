@@ -67,9 +67,11 @@
 (use-package projectile
   :straight t
   :blackout 1
+  :bind
+  (:map projectile-mode-map
+   ("C-c p" . projectile-command-map))
   :config
   (progn
-    (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
     (projectile-mode +1)
     (setq projectile-completion-system 'default)
     (setq projectile-enable-caching t)
