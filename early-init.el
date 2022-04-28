@@ -14,6 +14,13 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 
+;; initial starting position
+(push '(height . 60) default-frame-alist)
+(push '(width . 120) default-frame-alist)
+(push '(left . 60) default-frame-alist)
+(push '(top . 100) default-frame-alist)
+
+
 ;; disable all GUI elements
 (menu-bar-mode -1)
 (tool-bar-mode -1)
