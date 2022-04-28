@@ -88,6 +88,7 @@
   :init (company-prescient-mode +1))
 
 (use-package use-package-ensure-system-package
+  :after use-package
   :straight t)
 
 (use-package which-key
@@ -192,7 +193,6 @@
   :after (treemacs)
   :hook (dired-mode . treemacs-icons-dired-enable-once)
   :ensure t)
-
 
 (use-package treemacs-magit
   :straight t

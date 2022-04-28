@@ -53,6 +53,7 @@
 (use-package markdown-mode
   :defer t
   :straight t
+  :blackout "μ "
   :ensure-system-package multimarkdown
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
@@ -88,3 +89,9 @@
   :ensure-system-package (rg . ripgrep)
   :config
   (rg-enable-default-bindings))
+
+(use-package python-mode
+  :straight t
+  :defer t
+  :config
+  (setq python-shell-interpreter "python3"))
