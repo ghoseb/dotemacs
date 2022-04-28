@@ -79,3 +79,10 @@
 (use-package treemacs-projectile
   :straight t
   :after (treemacs projectile))
+
+
+(use-package rg
+  :straight t
+  :ensure-system-package (rg . ripgrep)
+  :config
+  (rg-enable-default-bindings))
