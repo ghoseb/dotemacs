@@ -3,8 +3,10 @@
 (setq user-full-name "Baishampayan Ghose"
       user-mail-address "b.ghose@gmail.com")
 
-(setq bg/default-font "JetBrains Mono NL")
-(setq bg/default-font-size 160)
+(setq bg/default-font "Monaco")
+(setq bg/fixed-pitch-font "Monaco")
+(setq bg/variable-pitch-font "Gill Sans")
+(setq bg/default-font-size 140)
 
 (setq bg/save-place ".save")
 

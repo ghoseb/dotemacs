@@ -1,8 +1,14 @@
 ;;; themes.el
 
 (set-face-attribute 'default nil
-                    :font bg/default-font
+                    :family bg/default-font
                     :height bg/default-font-size)
+
+(set-face-attribute 'fixed-pitch nil
+                    :font bg/fixed-pitch-font)
+
+(set-face-attribute 'variable-pitch nil
+                    :font bg/variable-pitch-font)
 
 (use-package all-the-icons
   :straight t
