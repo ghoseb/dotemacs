@@ -56,8 +56,6 @@
 
 (blackout 'auto-fill-mode)
 (blackout 'eldoc-mode)
-(blackout 'cider-mode)
-(blackout 'clojure-mode "CLJ")
 (blackout 'emacs-lisp-mode "EL")
 
 (use-package company

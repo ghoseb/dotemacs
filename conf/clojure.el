@@ -50,6 +50,7 @@
 (use-package clojure-mode
   :defer t
   :straight t
+  :blackout "CLJ"
   :mode (("\\.clj\\'" . clojure-mode)
          ("\\.cljc\\'" . clojure-mode)
          ("\\.cljs\\'" . clojure-mode)

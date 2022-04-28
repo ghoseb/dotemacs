@@ -33,31 +33,21 @@
   (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
 
-
-(use-package lsp-mode
+;; use eglot-mode as lsp client because it's a lot less intrusive
+(use-package eglot
   :straight t
-  :defer t
   :ensure-system-package (clojure-lsp . "brew install clojure-lsp/brew/clojure-lsp-native")
-  :init (setq lsp-keymap-prefix "C-c l")
-  ;; :hook ((clojurescript-mode clojurec-mode clojure-mode) . lsp-deferred)
-  :custom
-  (lsp-lens-enable t)
-  (lsp-signature-auto-activate nil)
-  (lsp-eldoc-enable-hover nil)
-  (lsp-enable-indentation nil)
-  (lsp-enable-completion-at-point nil)
-  :commands (lsp lsp-deferred))
-
-
-(use-package lsp-ui
-  :straight t
   :defer t
-  :commands lsp-ui-mode
-  :config
-  (add-hook 'lsp-mode-hook 'lsp-ui-mode)
-  (setq lsp-ui-doc-position 'bottom)
+  :bind (:map eglot-mode-map
+              ("C-c r" . eglot-rename)
+              ("C-c s" . eglot-shutdown))
+  :hook
+  (clojure-mode . eglot-ensure)
   :custom
-  (lsp-ui-sideline-enable nil))
+  ;; don't need these features as they are provided from elsewhere
+  (eglot-ignored-server-capabilities '(:hoverProvider
+                                       :documentOnTypeFormattingProvider
+                                       :executeCommandProvider)))
 
 
 (use-package markdown-mode
