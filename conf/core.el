@@ -19,7 +19,10 @@
 
 (use-package selectrum
   :straight t
-  :init (selectrum-mode +1))
+  :init
+  (selectrum-mode +1)
+  :config
+  (global-set-key (kbd "C-x C-z") #'selectrum-repeat))
 
 (use-package prescient
   :straight t
@@ -28,7 +31,20 @@
 (use-package selectrum-prescient
   :straight t
   :after selectrum
-  :init (selectrum-prescient-mode +1))
+  :init
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
+
+(use-package marginalia
+  :after selectrum
+  :straight t
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+  :init
+  (marginalia-mode)
+  (setq marginalia-annotators '(marginalia-annotators-heavy
+                                marginalia-annotators-light
+                                nil)))
 
 (use-package ctrlf
   :straight t
