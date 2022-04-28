@@ -174,6 +174,8 @@
     (treemacs-hide-gitignored-files-mode nil))
   :bind
   (:map global-map
+        ("s-t"       . treemacs-display-current-project-exclusively)
+        ("s-T"       . treemacs-add-and-display-current-project)
         ("M-0"       . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
         ("C-x t t"   . treemacs)
@@ -195,6 +197,9 @@
   :after (treemacs magit)
   :ensure t)
 
+(use-package treemacs-all-the-icons
+  :straight t
+  :after treemacs)
 
 (use-package whitespace
   :straight t
