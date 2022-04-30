@@ -11,6 +11,9 @@
 
 (delete-selection-mode t)
 
+(column-number-mode t)
+(size-indication-mode t)
+
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
@@ -43,7 +46,7 @@
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1)
   :custom
-  (prescient-filter-method '(literal regexp initialism fuzzy)))
+  (prescient-filter-method '(literal regexp initialism)))
 
 
 (use-package marginalia
@@ -97,6 +100,7 @@
   (setq company-dabbrev-downcase nil)
   (setq company-tooltip-align-annotations t))
 
+
 (use-package company-box
   :straight t
   :hook (company-mode . company-box-mode))
@@ -115,10 +119,10 @@
 
 (use-package which-key
   :straight t
-  :defer t
+  :init
+  (which-key-mode +1)
   :config
-  (setq which-key-popup-type 'side-window)
-  (which-key-mode))
+  (setq which-key-popup-type 'side-window))
 
 
 (use-package treemacs
@@ -160,7 +164,6 @@
           treemacs-recenter-after-tag-follow       nil
           treemacs-recenter-after-project-jump     'always
           treemacs-recenter-after-project-expand   'on-distance
-          treemacs-litter-directories              '("/node_modules" "/.venv" "/.cask")
           treemacs-show-cursor                     nil
           treemacs-show-hidden-files               t
           treemacs-silent-filewatch                nil
@@ -181,7 +184,7 @@
 
     ;; The default width and height of the icons is 22 pixels. If you are
     ;; using a Hi-DPI display, uncomment this to double the icon size.
-    (treemacs-resize-icons 44)
+    (treemacs-resize-icons 20)
 
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
@@ -248,17 +251,18 @@
 
 
 (use-package super-save
-  :defer t
   :straight t
+  :init
+  (super-save-mode 1)
   :config
-  (super-save-mode +1)
   (setq super-save-auto-save-when-idle t)
   (setq auto-save-default nil))
 
 
 (use-package saveplace
   :straight t
-  :defer t
+  :init
+  (save-place-mode 1)
   :config
   (setq save-place-file
         (expand-file-name "saveplace" bg/save-dir))
@@ -267,23 +271,28 @@
 
 (use-package savehist
   :straight t
-  :defer t
+  :init
+  (savehist-mode 1)
   :config
   (setq savehist-additional-variables
         '(search-ring regexp-search-ring)
         savehist-autosave-interval 60
         savehist-file
-        (expand-file-name "savehist" bg/save-dir))
-  (savehist-mode +1))
+        (expand-file-name "savehist" bg/save-dir)))
 
 
 (use-package recentf
-  :straight t
-  :defer t
+  :straight nil
+  :init
+  (recentf-mode 1)
   :config
   (setq recentf-save-file
         (expand-file-name "recentf" bg/save-dir)
         recentf-max-saved-items 500
         recentf-max-menu-items 15
-        recentf-auto-cleanup 'never)
-  (recentf-mode +1))
+        recentf-auto-cleanup 'never))
+
+
+(use-package uniquify
+  :straight nil
+  :custom (uniquify-buffer-name-style 'forward))

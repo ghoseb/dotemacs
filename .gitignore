@@ -11,3 +11,4 @@ straight/repos/
 /.cache/
 /projectile-bookmarks.eld
 /projectile.cache
+/.local/

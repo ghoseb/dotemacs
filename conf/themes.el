@@ -10,6 +10,18 @@
 (set-face-attribute 'variable-pitch nil
                     :font bg/variable-pitch-font)
 
+(defun bg/switch-theme-to-default ()
+  "Switch to default dark theme."
+  (interactive)
+  (load-theme bg/default-theme t))
+
+
+(defun bg/switch-theme-to-alternative ()
+  "Switch to alternate light theme."
+  (interactive)
+  (load-theme bg/alternative-theme t))
+
+
 (use-package all-the-icons
   :straight t
   :defer 10
@@ -43,8 +55,15 @@
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
   (doom-themes-visual-bell-config)
-  (setq doom-themes-treemacs-theme "doom-atom")
+ (setq doom-themes-treemacs-theme "doom-colors")
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
   :init
   (load-theme bg/default-theme t))
+
+
+(use-package hl-todo
+  :straight t
+  :defer t
+  :init
+  (global-hl-todo-mode 1))
