@@ -17,7 +17,7 @@
 
 (use-package org
   :straight t
-  :mode "\\.org\\'"
+  :mode ("\\.org\\'" . org-mode)
   :config
   (setq org-startup-indented t
         org-pretty-entities t
