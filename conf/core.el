@@ -41,7 +41,9 @@
   :after (selectrum prescient)
   :init
   (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
+  (prescient-persist-mode +1)
+  :custom
+  (prescient-filter-method '(literal regexp initialism fuzzy)))
 
 
 (use-package marginalia
