@@ -11,4 +11,4 @@
 (setq bg/save-dir (expand-file-name ".local/save" user-emacs-directory))
 
 (setq bg/default-theme 'doom-dracula)
-(setq bg/alternative-theme 'doom-one-light)
+(setq bg/alternative-theme 'doom-nord-light)
