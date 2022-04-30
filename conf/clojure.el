@@ -24,27 +24,10 @@
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
   (cider-repl-toggle-pretty-printing)
   :init
-  (add-hook 'cider-repl-mode-hook #'smartparens-mode)
+  (add-hook 'cider-repl-mode-hook #'smartparens-strict-mode)
   (add-hook 'cider-repl-mode-hook #'company-mode)
   (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
   (add-hook 'cider-repl-hook #'cider-company-enable-fuzzy-completion))
-
-
-(use-package smartparens
-  :straight t
-  :blackout t
-  :bind
-  (:map smartparens-mode-map
-        ("M-(" . #'sp-wrap-round)
-        ("M-{" . #'sp-wrap-curly)
-        ("M-[" . #'sp-wrap-square))
-  :config
-  (progn
-    (setq sp-base-key-bindings 'paredit)
-    (setq sp-autoskip-closing-pair 'always)
-    (setq sp-hybrid-kill-entire-symbol nil)
-    (sp-use-paredit-bindings)
-    (show-smartparens-global-mode t)))
 
 
 (use-package clojure-mode
@@ -57,7 +40,7 @@
          ("\\.edn\\'" . clojure-mode))
   :init
   (add-hook 'clojure-mode-hook #'subword-mode)
-  (add-hook 'clojure-mode-hook #'smartparens-mode)
+  (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
   (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
   (add-hook 'clojure-mode-hook #'eldoc-mode)
   :config

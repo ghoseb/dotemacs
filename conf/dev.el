@@ -95,3 +95,25 @@
   :defer t
   :config
   (setq python-shell-interpreter "python3"))
+
+(use-package smartparens
+  :straight t
+  :blackout t
+  :bind
+  (:map smartparens-mode-map
+        ("M-(" . #'sp-wrap-round)
+        ("M-{" . #'sp-wrap-curly)
+        ("M-[" . #'sp-wrap-square))
+  :config
+  (progn
+    (setq sp-base-key-bindings 'paredit)
+    (setq sp-autoskip-closing-pair 'always)
+    (setq sp-hybrid-kill-entire-symbol nil)
+    (sp-use-paredit-bindings)))
+
+(add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
+
+(sp-pair "'" nil :unless '(sp-point-after-word-p))
+(sp-local-pair 'emacs-lisp-mode "`" "'")
+(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+(sp-local-pair 'clojure-mode "'" nil :actions nil)
