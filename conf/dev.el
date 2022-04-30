@@ -114,8 +114,7 @@
   :straight t
   :blackout t
   :defer t
-  :hook ((prog-mode . smartparens-mode)
-         (emacs-lisp-mode . smartparens-strict-mode))
+  :hook ((prog-mode . smartparens-mode))
   :bind
   (:map smartparens-mode-map
         ("M-(" . #'sp-wrap-round)
