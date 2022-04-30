@@ -130,3 +130,15 @@
     (sp-local-pair 'emacs-lisp-mode "`" "'")
     (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
     (sp-local-pair 'clojure-mode "'" nil :actions nil)))
+
+
+(use-package sql-indent
+  :straight t
+  :mode ("\\.sql\\'" . sqlind-minor-mode))
+
+
+(use-package csv-mode
+  :straight t
+  :blackout "CSV"
+  :mode ("\\.csv\\'" . csv-mode)
+  :custom (csv-align-max-width 80))
