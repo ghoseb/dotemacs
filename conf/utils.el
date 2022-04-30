@@ -9,13 +9,14 @@
 
 (use-package org
   :straight t
-  :defer t
+  :mode "\\.org\\'"
   :config
   (setq org-startup-indented t
         org-pretty-entities t
         org-hide-emphasis-markers t
         org-startup-with-inline-images t
         org-image-actual-width '(300)))
+
 
 (use-package org-superstar
   :straight t
@@ -25,17 +26,22 @@
   (setq inhibit-compacting-font-caches t) ; to prevent possible slowdown
   (setq org-superstar-special-todo-items t))
 
+
 (use-package org-appear
   :after org
   :straight t
   :hook (org-mode . org-appear-mode))
 
+
 (use-package mixed-pitch
   :straight t
+  :after org
   :hook (org-mode . mixed-pitch-mode))
+
 
 (use-package olivetti
   :straight t
+  :after org
   :blackout "OL"
   :init
   (setq olivetti-body-width .55)

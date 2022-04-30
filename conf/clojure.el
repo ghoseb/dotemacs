@@ -1,8 +1,24 @@
 ;;; clojure.el
 
+(use-package clojure-mode
+  :defer 10
+  :straight t
+  :blackout "CLJ"
+  :mode (("\\.clj\\'" . clojure-mode)
+         ("\\.cljc\\'" . clojure-mode)
+         ("\\.cljs\\'" . clojure-mode)
+         ("\\.edn\\'" . clojure-mode))
+  :hook ((clojure-mode . subword-mode)
+         (clojure-mode . smartparens-strict-mode)
+         (clojure-mode . rainbow-delimiters-mode)
+         (clojure-mode . eldoc-mode))
+  :config
+  (setq clojure-indent-style 'always-indent))
+
+
 (use-package cider
   :straight t
-  :defer t
+  :after clojure-mode
   :blackout t
   :bind
   (("C-c C-l" . cider-repl-clear-buffer))
@@ -23,32 +39,16 @@
         cider-repl-prompt-function #'cider-repl-prompt-abbreviated
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
   (cider-repl-toggle-pretty-printing)
-  :init
-  (add-hook 'cider-repl-mode-hook #'smartparens-strict-mode)
-  (add-hook 'cider-repl-mode-hook #'company-mode)
-  (add-hook 'cider-mode-hook #'cider-company-enable-fuzzy-completion)
-  (add-hook 'cider-repl-hook #'cider-company-enable-fuzzy-completion))
-
-
-(use-package clojure-mode
-  :defer t
-  :straight t
-  :blackout "CLJ"
-  :mode (("\\.clj\\'" . clojure-mode)
-         ("\\.cljc\\'" . clojure-mode)
-         ("\\.cljs\\'" . clojure-mode)
-         ("\\.edn\\'" . clojure-mode))
-  :init
-  (add-hook 'clojure-mode-hook #'subword-mode)
-  (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
-  (add-hook 'clojure-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'clojure-mode-hook #'eldoc-mode)
-  :config
-  (setq clojure-indent-style 'always-indent))
+  :hook
+  (cider-repl-mode . smartparens-strict-mode)
+  (cider-repl-mode . company-mode)
+  (cider-repl-mode . cider-company-enable-fuzzy-completion)
+  (cider-mode . cider-company-enable-fuzzy-completion))
 
 
 (use-package apheleia
   :straight t
+  :after prog-mode
   :ensure-system-package cljstyle
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)

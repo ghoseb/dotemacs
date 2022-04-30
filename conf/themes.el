@@ -24,6 +24,13 @@
   (all-the-icons-completion-mode))
 
 
+(use-package all-the-icons-dired
+  :straight t
+  :after all-the-icons
+  :hook
+  (dired-mode . all-the-icons-dired-mode))
+
+
 (use-package doom-modeline
   :straight t
   :hook (after-init . doom-modeline-mode)

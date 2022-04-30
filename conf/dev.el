@@ -10,13 +10,16 @@
   (setq magit-log-arguments '("--graph" "--decorate" "--color"))
   (setq magit-diff-refine-hunk t))
 
+
 (use-package git-timemachine
   :after magit
   :straight t
   :defer t)
 
+
 (use-package diff-hl
   :straight t
+  :after magit
   :hook
   ((magit-pre-refresh . diff-hl-magit-pre-refresh)
    (magit-post-refresh . diff-hl-magit-post-refresh))
@@ -29,15 +32,15 @@
 (use-package rainbow-delimiters
   :defer t
   :straight t
-  :config
-  (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-  (add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode))
+  :hook ((prog-mode . rainbow-delimiters-mode)
+         (emacs-lisp-mode . rainbow-delimiters-mode)))
+
 
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
   :straight t
-  :ensure-system-package (clojure-lsp . "brew install clojure-lsp/brew/clojure-lsp-native")
   :defer t
+  :ensure-system-package (clojure-lsp . "brew install clojure-lsp/brew/clojure-lsp-native")
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename)
               ("C-c s" . eglot-shutdown))
@@ -51,7 +54,6 @@
 
 
 (use-package markdown-mode
-  :defer t
   :straight t
   :blackout "μ "
   :ensure-system-package multimarkdown
@@ -65,8 +67,10 @@
 (use-package json-mode :straight t :defer t)
 (use-package yaml-mode :straight t :defer t)
 
+
 (use-package projectile
   :straight t
+  :defer t
   :blackout 1
   :bind
   (:map projectile-mode-map
@@ -80,25 +84,31 @@
 
 
 (use-package treemacs-projectile
+  :after (treemacs projectile)
   :straight t
   :after (treemacs projectile))
 
 
 (use-package rg
   :straight t
+  :defer t
   :ensure-system-package (rg . ripgrep)
   :config
   (rg-enable-default-bindings))
 
-(use-package python-mode
+
+(use-package python
   :straight t
-  :defer t
+  :mode ("\\.py\\'" . python-mode)
   :config
   (setq python-shell-interpreter "python3"))
+
 
 (use-package smartparens
   :straight t
   :blackout t
+  :defer t
+  :hook (emacs-lisp-mode . smartparens-strict-mode)
   :bind
   (:map smartparens-mode-map
         ("M-(" . #'sp-wrap-round)
@@ -109,11 +119,8 @@
     (setq sp-base-key-bindings 'paredit)
     (setq sp-autoskip-closing-pair 'always)
     (setq sp-hybrid-kill-entire-symbol nil)
-    (sp-use-paredit-bindings)))
-
-(add-hook 'emacs-lisp-mode-hook #'smartparens-mode)
-
-(sp-pair "'" nil :unless '(sp-point-after-word-p))
-(sp-local-pair 'emacs-lisp-mode "`" "'")
-(sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-(sp-local-pair 'clojure-mode "'" nil :actions nil)
+    (sp-use-paredit-bindings)
+    (sp-pair "'" nil :unless '(sp-point-after-word-p))
+    (sp-local-pair 'emacs-lisp-mode "`" "'")
+    (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+    (sp-local-pair 'clojure-mode "'" nil :actions nil)))

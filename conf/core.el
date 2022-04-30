@@ -21,21 +21,28 @@
 
 (use-package selectrum
   :straight t
+  :defer t
   :init
   (selectrum-mode +1)
   :config
   (global-set-key (kbd "C-x C-z") #'selectrum-repeat))
 
+
 (use-package prescient
   :straight t
-  :config (prescient-persist-mode +1))
+  :config
+  (prescient-persist-mode +1)
+  (setq prescient-history-length 1000))
+
 
 (use-package selectrum-prescient
   :straight t
-  :after selectrum
+  :demand t
+  :after (selectrum prescient)
   :init
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1))
+
 
 (use-package marginalia
   :after selectrum
@@ -48,21 +55,28 @@
                                 marginalia-annotators-light
                                 nil)))
 
+
 (use-package ctrlf
   :straight t
+  :bind (("C-s" . ctrlf-forward-default)
+         ("C-M-s" . ctrlf-forward-alternate)
+         ("C-r" . ctrlf-backward-default)
+         ("C-M-r" . ctrlf-backward-alternate))
   :config (ctrlf-mode +1))
+
 
 (use-package blackout
   :straight t
-  :demand t)
+  :demand t
+  :config
+  (blackout 'auto-fill-mode)
+  (blackout 'eldoc-mode)
+  (blackout 'emacs-lisp-mode "EL"))
 
-(blackout 'auto-fill-mode)
-(blackout 'eldoc-mode)
-(blackout 'emacs-lisp-mode "EL")
 
 (use-package company
   :straight t
-  :config (add-hook 'prog-mode-hook 'company-mode)
+  :hook (prog-mode . company-mode)
   :bind (:map company-active-map
               ("<tab>" . #'company-complete-selection)
               ("TAB" . #'company-complete-selection)
@@ -76,26 +90,34 @@
   (setq company-frontends '(company-pseudo-tooltip-frontend))
   (setq company-show-quick-access t)
   (setq company-require-match #'company-explicit-action-p)
+  (setq company-dabbrev-other-buffers nil)
+  (setq company-dabbrev-ignore-case nil)
+  (setq company-dabbrev-downcase nil)
   (setq company-tooltip-align-annotations t))
 
 (use-package company-box
   :straight t
   :hook (company-mode . company-box-mode))
 
+
 (use-package company-prescient
   :straight t
   :after (company prescient)
   :init (company-prescient-mode +1))
 
+
 (use-package use-package-ensure-system-package
   :after use-package
   :straight t)
 
+
 (use-package which-key
   :straight t
+  :defer t
   :config
   (setq which-key-popup-type 'side-window)
   (which-key-mode))
+
 
 (use-package treemacs
   :straight t
@@ -190,21 +212,24 @@
   :hook (dired-mode . treemacs-icons-dired-enable-once)
   :ensure t)
 
+
 (use-package treemacs-magit
   :straight t
   :after (treemacs magit)
   :ensure t)
 
+
 (use-package treemacs-all-the-icons
   :straight t
   :after treemacs)
 
+
 (use-package whitespace
   :straight t
-  :init
-  (dolist (hook '(prog-mode-hook text-mode-hook))
-    (add-hook hook #'whitespace-mode))
-  (add-hook 'before-save-hook #'whitespace-cleanup)
+  :commands (whitespace-mode)
+  :hook ((prog-mode . whitespace-mode)
+         (text-mode . whitespace-mode)
+         (before-save . whitespace-cleanup))
   :config
   (setq whitespace-line-column 115)
   (setq whitespace-style '(face tabs empty trailing lines-tail)))
