@@ -1,5 +1,12 @@
 ;;; utils.el
 
+(defun bg/kill-current-buffer ()
+  "Kill the current buffer, without confirmation."
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(global-set-key "\C-xk" 'bg/kill-current-buffer)
+
 (use-package org
   :straight t
   :defer t
