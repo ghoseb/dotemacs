@@ -62,4 +62,33 @@
   :bind
   (("C-s-o" . distraction-free)))
 
+
+(use-package shackle
+  :straight t
+  :blackout
+  :init
+  (shackle-mode)
+  :custom
+  (shackle-rules '(("\\*Apropos\\|Help\\|Occur\\|tide-references\\*"
+                    :regexp t
+                    :same t
+                    :select t
+                    :inhibit-window-quit t)
+                   ("\\*magit" :regexp t :same t :select t :size 0.4)
+                   ("\\*shell.*" :regexp t :same t :select t)
+                   ("*Messages*" :select nil :other t)
+                   ("*Proced*" :select t :same t)
+                   ("*Buffer List*" :select t :same t)
+                   ("*Messages*" :same nil :other t :select t :inhibit-window-quit t)
+                   ;; clojure
+                   ("*sesman CIDER browser*" :inhibit-window-quit t :select t :same t)
+                   ("\\*cider-repl" :regexp t :same nil :other t)))
+  (shackle-default-rule nil))
+
+
+;; `brew install libtool cmake' beforehand
+(use-package vterm
+  :straight t
+  :defer t)
+
 ;;; utils.el ends here
