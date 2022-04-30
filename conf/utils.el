@@ -7,6 +7,14 @@
 
 (global-set-key "\C-xk" 'bg/kill-current-buffer)
 
+
+(defun bg/set-global-font-size (font-size)
+  "Change FONT-SIZE utility function (globally, all windows)."
+  (interactive
+   (list (read-number "Font size: " (/ bg/default-font-size 10))))
+  (set-face-attribute 'default nil :height (* font-size 10)))
+
+
 (use-package org
   :straight t
   :mode "\\.org\\'"
