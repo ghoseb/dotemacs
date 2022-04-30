@@ -91,8 +91,10 @@
 
 (use-package rg
   :straight t
-  :defer t
+  :commands (rg-menu rg-dwim)
   :ensure-system-package (rg . ripgrep)
+  :bind (("C-c s" . rg-menu)
+         ("C-c d" . rg-dwim))
   :config
   (rg-enable-default-bindings))
 
@@ -100,15 +102,20 @@
 (use-package python
   :straight t
   :mode ("\\.py\\'" . python-mode)
+  :blackout "Π"
   :config
-  (setq python-shell-interpreter "python3"))
+  (setq python-shell-interpreter "python3")
+  (setq  python-indent-offset 4)
+  (setq python-indent-guess-indent-offset t)
+  (setq python-indent-guess-indent-offset-verbose nil))
 
 
 (use-package smartparens
   :straight t
   :blackout t
   :defer t
-  :hook (emacs-lisp-mode . smartparens-strict-mode)
+  :hook ((prog-mode . smartparens-mode)
+         (emacs-lisp-mode . smartparens-strict-mode))
   :bind
   (:map smartparens-mode-map
         ("M-(" . #'sp-wrap-round)
