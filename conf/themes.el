@@ -10,6 +10,9 @@
 (set-face-attribute 'variable-pitch nil
                     :font bg/variable-pitch-font)
 
+(set-fontset-font "fontset-default" 'unicode bg/emoji-font nil 'prepend)
+
+
 (defun bg/switch-theme-to-default ()
   "Switch to default dark theme."
   (interactive)
