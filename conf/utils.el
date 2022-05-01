@@ -102,11 +102,17 @@
 
 (use-package centaur-tabs
   :straight t
-  :commands (centaur-tabs-mode)
+  :commands (centaur-tabs-mode centaur-tabs-local-mode)
   :hook
-  (dired-mode . centaur-tabs-local-mode)
-  (cider-repl-mode . centaur-tabs-local-mode)
-  (vterm-mode . centaur-tabs-local-mode)
+  ((eshell-mode
+    help-mode
+    helpful-mode
+    dired-mode
+    occur-mode
+    cider-repl-mode
+    which-key-mode
+    shell-mode)
+   . centaur-tabs-local-mode)
   :config
   (setq centaur-tabs-style "bar")
   (setq centaur-tabs-set-bar 'left)
@@ -126,6 +132,8 @@
       (cond
        ((not (eq (file-remote-p (buffer-file-name)) nil))
         "Remote")
+       ((derived-mode-p 'eshell-mode 'term-mode 'shell-mode 'vterm-mode)
+        "Term")
        ((or (string-equal "*" (substring (buffer-name) 0 1))
             (memq major-mode '(magit-process-mode
                                magit-status-mode
@@ -175,6 +183,7 @@
        (string-prefix-p "*tramp" name)
        (string-prefix-p " *Mini" name)
        (string-prefix-p "*help" name)
+       (string-prefix-p "*which-key*" name)
        (string-prefix-p "*straight" name)
        (string-prefix-p " *temp" name)
        (string-prefix-p "*Help" name)
