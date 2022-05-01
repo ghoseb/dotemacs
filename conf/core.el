@@ -1,23 +1,27 @@
 ;;; core.el
 
-(setq-default indent-tabs-mode nil)
 (setq tab-width 4)
-
 (setq tab-always-indent 'complete)
+(setq-default indent-tabs-mode nil)
 
 (setq require-final-newline t)
-
-(setq-default fill-column 115)
+(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 (delete-selection-mode t)
+(setq-default fill-column 115)
 
 (column-number-mode t)
 (size-indication-mode t)
 
 (prefer-coding-system 'utf-8)
+(set-charset-priority 'unicode)
 (set-default-coding-systems 'utf-8)
 (set-terminal-coding-system 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+
+(setq custom-safe-themes t)
+(setq truncate-string-ellipsis "…")
+(setq sentence-end-double-space nil)
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq confirm-kill-emacs #'yes-or-no-p)
