@@ -106,6 +106,7 @@
   :hook
   (dired-mode . centaur-tabs-local-mode)
   (cider-repl-mode . centaur-tabs-local-mode)
+  (vterm-mode . centaur-tabs-local-mode)
   :config
   (setq centaur-tabs-style "bar")
   (setq centaur-tabs-set-bar 'left)
@@ -116,6 +117,8 @@
   (setq centaur-tabs-cycle-scope 'tabs)
   (setq centaur-tabs-enable-ido-completion nil)
   (setq centaur-tabs-show-new-tab-button nil)
+  (setq centaur-tabs-plain-icons t)
+  (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts bg/variable-pitch-font bg/default-font-size)
   (defun centaur-tabs-buffer-groups ()
