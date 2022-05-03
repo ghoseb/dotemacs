@@ -300,3 +300,20 @@
 (use-package uniquify
   :straight nil
   :custom (uniquify-buffer-name-style 'forward))
+
+
+(use-package helpful
+  :straight t
+  :bind
+  ([remap describe-function] . helpful-callable)
+  ([remap describe-command] . helpful-command)
+  ([remap describe-variable] . helpful-variable)
+  ([remap describe-key] . helpful-key))
+
+
+(use-package undo-fu
+  :straight t
+  :bind (("C-z" . undo-fu-only-undo)
+         ("C-M-z" . undo-fu-only-redo))
+  :init
+  (global-unset-key (kbd "C-z")))
