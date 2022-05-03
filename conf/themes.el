@@ -57,8 +57,8 @@
   :config
   (setq doom-themes-enable-bold t
         doom-themes-enable-italic t)
+  (setq doom-themes-treemacs-theme "doom-colors")
   (doom-themes-visual-bell-config)
- (setq doom-themes-treemacs-theme "doom-colors")
   (doom-themes-treemacs-config)
   (doom-themes-org-config)
   :init
