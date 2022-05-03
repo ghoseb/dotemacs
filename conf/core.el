@@ -317,3 +317,9 @@
          ("C-M-z" . undo-fu-only-redo))
   :init
   (global-unset-key (kbd "C-z")))
+
+
+(use-package ace-window
+  :straight t
+  :init
+  (global-set-key (kbd "M-o") 'ace-window))
