@@ -1,12 +1,13 @@
 ;;; clojure.el
 
 (use-package clojure-mode
-  :defer 10
   :straight t
-  :blackout "CLJ"
+  :blackout ((clojure-mode . "CLJ")
+             (clojurec-mode . "CLJC")
+             (clojurescript-mode . "CLJS"))
   :mode (("\\.clj\\'" . clojure-mode)
-         ("\\.cljc\\'" . clojure-mode)
-         ("\\.cljs\\'" . clojure-mode)
+         ("\\.cljc\\'" . clojurec-mode)
+         ("\\.cljs\\'" . clojurescript-mode)
          ("\\.edn\\'" . clojure-mode))
   :hook ((clojure-mode . subword-mode)
          (clojure-mode . smartparens-strict-mode)
