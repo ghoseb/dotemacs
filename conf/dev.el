@@ -29,6 +29,19 @@
   (global-diff-hl-mode))
 
 
+(use-package hl-todo
+  :straight t
+  :defer t
+  :init
+  (global-hl-todo-mode 1)
+  :custom
+  (hl-todo-keyword-faces '(("TODO"   . "#BF616A")
+                           ("FIXME"  . "#EBCB8B")
+                           ("DEBUG"  . "#B48EAD")
+                           ("GOTCHA" . "#D08770")
+                           ("XXX"   . "#81A1C1"))))
+
+
 (use-package rainbow-delimiters
   :defer t
   :straight t

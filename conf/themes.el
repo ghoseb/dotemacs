@@ -63,10 +63,3 @@
   (doom-themes-org-config)
   :init
   (load-theme bg/default-theme t))
-
-
-(use-package hl-todo
-  :straight t
-  :defer t
-  :init
-  (global-hl-todo-mode 1))
