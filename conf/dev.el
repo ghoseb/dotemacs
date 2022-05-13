@@ -55,8 +55,7 @@
   :defer t
   :ensure-system-package (clojure-lsp . "brew install clojure-lsp/brew/clojure-lsp-native")
   :bind (:map eglot-mode-map
-              ("C-c r" . eglot-rename)
-              ("C-c s" . eglot-shutdown))
+              ("C-c r" . eglot-rename))
   :hook
   (clojure-mode . eglot-ensure)
   :custom
