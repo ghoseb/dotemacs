@@ -41,10 +41,7 @@
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
   (cider-repl-toggle-pretty-printing)
   :hook
-  (cider-repl-mode . smartparens-strict-mode)
-  (cider-repl-mode . company-mode)
-  (cider-repl-mode . cider-company-enable-fuzzy-completion)
-  (cider-mode . cider-company-enable-fuzzy-completion))
+  (cider-repl-mode . smartparens-mode))
 
 
 (use-package apheleia

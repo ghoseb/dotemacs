@@ -83,37 +83,55 @@
   (blackout 'emacs-lisp-mode "EL"))
 
 
-(use-package company
+(use-package corfu
+  :straight (:type git
+                   :host github
+                   :repo "minad/corfu"
+                   :branch "main"
+                   :files (:defaults "extensions/*.el"))
+  :ensure t
+  :defer t
+  :hook ((prog-mode . corfu-mode)
+         (corfu-mode . corfu-history-mode))
+  :bind (:map corfu-map
+              ("C-q" . #'corfu-quick-insert)
+              ("C-g" . #'corfu-quit)
+              ("<return>" . #'corfu-insert))
+  :custom
+  (corfu-cycle nil)
+  (corfu-auto t)
+  (corfu-quit-at-boundary nil)
+  (corfu-quit-no-match t)
+  (corfu-scroll-margin 5))
+
+
+(use-package corfu-doc
   :straight t
-  :hook (prog-mode . company-mode)
-  :bind (:map company-active-map
-              ("<tab>" . #'company-complete-selection)
-              ("TAB" . #'company-complete-selection)
-              ("C-s" . nil)
-              ([remap scroll-down-command] . nil)
-              ([remap scroll-up-command] . nil))
+  :after corfu
+  :custom
+  (corfu-doc-auto nil)
+  (corfu-doc-max-width 85)
+  (corfu-doc-max-height 20)
+  :bind (:map corfu-map
+              ("M-d" . #'corfu-doc-toggle)
+              ("M-p" . #'corfu-doc-scroll-down)
+              ("M-n" . #'corfu-doc-scroll-up))
+  :hook (corfu-mode . corfu-doc-mode))
+
+
+(use-package kind-icon
+  :straight t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
   :config
-  (setq company-idle-delay 0.15)
-  (setq company-minimum-prefix-length 1)
-  (setq company-tooltip-minimum company-tooltip-limit)
-  (setq company-frontends '(company-pseudo-tooltip-frontend))
-  (setq company-show-quick-access t)
-  (setq company-require-match #'company-explicit-action-p)
-  (setq company-dabbrev-other-buffers nil)
-  (setq company-dabbrev-ignore-case nil)
-  (setq company-dabbrev-downcase nil)
-  (setq company-tooltip-align-annotations t))
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-(use-package company-box
-  :straight t
-  :hook (company-mode . company-box-mode))
-
-
-(use-package company-prescient
-  :straight t
-  :after (company prescient)
-  :init (company-prescient-mode +1))
+(use-package emacs
+  :init
+  (setq completion-cycle-threshold 3)
+  (setq tab-always-indent 'complete))
 
 
 (use-package use-package-ensure-system-package
