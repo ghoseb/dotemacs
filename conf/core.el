@@ -29,6 +29,17 @@
 (use-package selectrum
   :straight t
   :defer t
+  :bind
+  (("C-M-r" . selectrum-repeat)
+   :map selectrum-minibuffer-map
+   ("C-r" . selectrum-select-from-history)
+   :map minibuffer-local-map
+   ("M-h" . backward-kill-word))
+  :custom
+  (selectrum-fix-minibuffer-height t)
+  (selectrum-num-candidates-displayed 8)
+  :custom-face
+  (selectrum-current-candidate ((t (:background "#D8DEE9" :foreground "#3B4252"))))
   :init
   (selectrum-mode +1)
   :config
