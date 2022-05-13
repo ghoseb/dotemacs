@@ -12,7 +12,6 @@
 ;; we wanna go straight this time!
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
-(setq frame-inhibit-implied-resize t)
 
 ;; defer GC to much later to speed up the startup process
 (setq gc-cons-threshold most-positive-fixnum
@@ -41,14 +40,26 @@
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
-(setq inhibit-splash-screen t)
-(setq use-file-dialog nil)
 
-(setq ring-bell-function #'ignore)
-(setq echo-keystrokes 1e-6)
-
-;; prevent unwanted runtime package builds
-(setq comp-deferred-compilation nil)
-(setq native-comp-async-report-warnings-errors nil)
+;; sane defaults
+(setq inhibit-splash-screen t
+      use-file-dialog nil
+      ring-bell-function #'ignore
+      echo-keystrokes 1e-6
+      comp-deferred-compilation nil
+      native-comp-async-report-warnings-errors nil
+      frame-inhibit-implied-resize t
+      ;; better scrolling
+      scroll-step 1
+      scroll-conservatively 101
+      scroll-preserve-screen-position 1
+      mouse-wheel-scroll-amount '(1 ((shift) . 5))
+      mouse-wheel-follow-mouse t
+      ;; lines between the cursor and the edge of the screen
+      scroll-margin 3
+      ;; wrap lines that are too long.
+      truncate-lines nil
+      ;; don't resize frames a character at a time, but use pixels
+      frame-resize-pixelwise t)
 
 ;;; early-init.el ends here
