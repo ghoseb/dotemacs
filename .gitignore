@@ -13,3 +13,4 @@ straight/repos/
 /projectile.cache
 /.local/
 /multisession/
+/.mc-lists.el

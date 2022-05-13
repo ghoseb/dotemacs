@@ -22,6 +22,13 @@
 ;; install use-package
 (straight-use-package 'use-package)
 
+;; GC Hack
+(use-package gcmh
+  :straight t
+  :demand t
+  :config
+  (gcmh-mode 1))
+
 ;; load other settings files
 
 (defun bg/maybe-load (file)
@@ -46,6 +53,8 @@
      (time-subtract after-init-time before-init-time)))
    gcs-done))
 
-(setq initial-scratch-message (concat ";;; " (bg/display-startup-time) "\n"))
+(setq initial-scratch-message nil)
+
+(add-hook 'emacs-startup-hook #'bg/display-startup-time)
 
 ;;; init.el ends here
