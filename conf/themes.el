@@ -2,7 +2,8 @@
 
 (set-face-attribute 'default nil
                     :family bg/default-font
-                    :height bg/default-font-size)
+                    :height bg/default-font-size
+                    :weight 'regular)
 
 (set-face-attribute 'fixed-pitch nil
                     :font bg/fixed-pitch-font)
