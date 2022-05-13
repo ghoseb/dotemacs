@@ -145,6 +145,13 @@
   (setq tab-always-indent 'complete))
 
 
+(use-package orderless
+  :straight t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+
 (use-package use-package-ensure-system-package
   :after use-package
   :straight t)
