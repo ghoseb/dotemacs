@@ -36,6 +36,8 @@
   :straight t
   :defer t
   :after all-the-icons
+  :hook
+  (marginalia-mode . all-the-icons-completion-marginalia-setup)
   :init
   (all-the-icons-completion-mode))
 
