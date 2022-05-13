@@ -198,4 +198,15 @@
   ("C-M-<prior>" . centaur-tabs-backward-group)
   ("C-M-<next>" . centaur-tabs-forward-group))
 
+(use-package emacs
+  :bind
+  ("C-c C-w" . #'world-clock)
+  :custom
+  (world-clock-list
+   '(("Asia/Calcutta" "Pune")
+     ("America/Los_Angeles" "San Francisco")
+     ("America/New_York" "New York")
+     ("Etc/UTC" "UTC"))
+   (world-clock-time-format "%a, %d %b %I:%M %p %Z")))
+
 ;;; utils.el ends here
