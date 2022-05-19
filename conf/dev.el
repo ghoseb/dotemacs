@@ -58,6 +58,10 @@
               ("C-c r" . eglot-rename))
   :hook
   (clojure-mode . eglot-ensure)
+  (python-mode . eglot-ensure)
+  :config
+  ;; pip install -U jedi-language-server
+  (add-to-list 'eglot-server-programs '(python-mode . ("jedi-language-server")))
   :custom
   ;; don't need these features as they are provided from elsewhere
   (eglot-ignored-server-capabilities '(:hoverProvider
