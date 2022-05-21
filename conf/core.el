@@ -23,8 +23,32 @@
 (setq truncate-string-ellipsis "…")
 (setq sentence-end-double-space nil)
 
+;; backup
+(setq version-control t
+      kept-new-versions 10
+      kept-old-versions 0
+      delete-old-versions t
+      backup-by-copying t
+      vc-make-backup-files t)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq confirm-kill-emacs #'yes-or-no-p)
+
+;; Keep .emacs.d clean
+(use-package no-littering
+  :straight t
+  :demand t
+  :init
+  (setq no-littering-etc-directory (expand-file-name "config/"  bg/save-dir)
+        no-littering-var-directory (expand-file-name "data/" bg/save-dir))
+  :config
+  (eval-after-load "recentf"
+    '(progn
+       (add-to-list 'recentf-exclude no-littering-var-directory)
+       (add-to-list 'recentf-exclude no-littering-etc-directory)))
+  (setq auto-save-file-name-transforms
+        `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
+  (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 (use-package selectrum
   :straight t
@@ -326,9 +350,7 @@
   :init
   (recentf-mode 1)
   :config
-  (setq recentf-save-file
-        (expand-file-name "recentf" bg/save-dir)
-        recentf-max-saved-items 500
+  (setq recentf-max-saved-items 500
         recentf-max-menu-items 15
         recentf-auto-cleanup 'never))
 

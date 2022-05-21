@@ -1,5 +1,11 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t; no-byte-compile: t -*-
 
+;; redirect eln cache
+(when (fboundp 'startup-redirect-eln-cache)
+  (startup-redirect-eln-cache
+   (convert-standard-filename
+    (expand-file-name  ".local/var/eln-cache/" user-emacs-directory))))
+
 ;; let's unset this variable and reset after emacs has started
 (defvar bg/file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
