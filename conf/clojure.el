@@ -1,5 +1,9 @@
 ;;; clojure.el
 
+(use-package flycheck-clj-kondo
+  :straight t
+  :after flycheck-mode)
+
 (use-package clojure-mode
   :straight t
   :blackout ((clojure-mode . "CLJ")
@@ -14,7 +18,8 @@
          (clojure-mode . rainbow-delimiters-mode)
          (clojure-mode . eldoc-mode))
   :config
-  (setq clojure-indent-style 'always-indent))
+  (setq clojure-indent-style 'always-indent)
+  (require 'flycheck-clj-kondo))
 
 
 (use-package cider

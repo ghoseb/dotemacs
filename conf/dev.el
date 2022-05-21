@@ -84,6 +84,16 @@
 (use-package yaml-mode :straight t :defer t)
 
 
+(use-package flycheck
+  :straight t
+  :config
+  (setq-default flycheck-indication-mode 'left-fringe)
+  (setq-default flycheck-highlighting-mode 'columns)
+  :hook
+  ((prog-mode . flycheck-mode)
+   (flycheck-mode . flycheck-set-indication-mode)))
+
+
 (use-package projectile
   :straight t
   :defer t
