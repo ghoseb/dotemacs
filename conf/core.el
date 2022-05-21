@@ -137,7 +137,10 @@
   (corfu-auto t)
   (corfu-quit-at-boundary nil)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5))
+  (corfu-scroll-margin 5)
+  :custom-face
+  (corfu-current ((t (:background "wheat1" :foreground "blue4"))))
+  (corfu-border ((t (:background "wheat1")))))
 
 
 (use-package corfu-doc
