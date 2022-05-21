@@ -351,7 +351,7 @@
 (use-package recentf
   :straight nil
   :init
-  (recentf-mode 1)
+  (recentf-mode t)
   :config
   (setq recentf-max-saved-items 500
         recentf-max-menu-items 15
@@ -374,8 +374,8 @@
 
 (use-package undo-fu
   :straight t
-  :bind (("C-z" . undo-fu-only-undo)
-         ("C-M-z" . undo-fu-only-redo))
+  :bind (("M-z" . undo-fu-only-undo)
+         ("M-Z" . undo-fu-only-redo))
   :init
   (global-unset-key (kbd "C-z")))
 
