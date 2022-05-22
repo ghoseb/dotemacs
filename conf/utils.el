@@ -15,31 +15,6 @@
   (set-face-attribute 'default nil :height (* font-size 10)))
 
 
-(use-package org
-  :straight t
-  :mode ("\\.org\\'" . org-mode)
-  :config
-  (setq org-startup-indented t
-        org-pretty-entities t
-        org-hide-emphasis-markers t
-        org-startup-with-inline-images t
-        org-image-actual-width '(300)))
-
-
-(use-package org-superstar
-  :straight t
-  :after org
-  :hook (org-mode . org-superstar-mode)
-  :config
-  (setq inhibit-compacting-font-caches t) ; to prevent possible slowdown
-  (setq org-superstar-special-todo-items t))
-
-
-(use-package org-appear
-  :after org
-  :straight t
-  :hook (org-mode . org-appear-mode))
-
 ;; `brew install libtool cmake' beforehand
 (use-package vterm
   :straight t

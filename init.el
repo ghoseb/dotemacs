@@ -45,6 +45,7 @@
 (bg/maybe-load "clojure.el")
 (bg/maybe-load "utils.el")
 (bg/maybe-load "themes.el")
+(bg/maybe-load "org-config.el")
 
 (defun bg/display-startup-time ()
   "Calculate Emacs startup time."
