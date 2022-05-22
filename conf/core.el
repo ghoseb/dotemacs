@@ -1,38 +1,38 @@
 ;;; core.el
 
-(setq tab-width 4)
-(setq tab-always-indent 'complete)
-(setq-default indent-tabs-mode nil)
+(use-package emacs
+  :config
+  (setq tab-width 4
+        tab-always-indent 'complete
+        require-final-newline t
+        custom-safe-themes t
+        confirm-kill-emacs #'yes-or-no-p
+        dired-kill-when-opening-new-dired-buffer t
+        completion-cycle-threshold 3
+        tab-always-indent 'complete)
+  (setq version-control t
+        kept-new-versions 10
+        kept-old-versions 0
+        delete-old-versions t
+        backup-by-copying t
+        vc-make-backup-files t)
+  (setq-default indent-tabs-mode nil
+                fill-column 115
+                truncate-string-ellipsis "…"
+                sentence-end-double-space nil)
+  (delete-selection-mode t)
 
-(setq require-final-newline t)
-(add-hook 'before-save-hook #'delete-trailing-whitespace)
+  (column-number-mode t)
+  (size-indication-mode t)
 
-(delete-selection-mode t)
-(setq-default fill-column 115)
+  (defalias 'yes-or-no-p 'y-or-n-p)
+  (prefer-coding-system 'utf-8)
+  (set-charset-priority 'unicode)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (add-hook 'before-save-hook #'delete-trailing-whitespace))
 
-(column-number-mode t)
-(size-indication-mode t)
-
-(prefer-coding-system 'utf-8)
-(set-charset-priority 'unicode)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-
-(setq custom-safe-themes t)
-(setq truncate-string-ellipsis "…")
-(setq sentence-end-double-space nil)
-
-;; backup
-(setq version-control t
-      kept-new-versions 10
-      kept-old-versions 0
-      delete-old-versions t
-      backup-by-copying t
-      vc-make-backup-files t)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(setq confirm-kill-emacs #'yes-or-no-p)
 
 ;; Keep .emacs.d clean
 (use-package no-littering
@@ -54,7 +54,7 @@
   :straight t
   :defer t
   :bind
-  (("C-M-r" . selectrum-repeat)
+  (("C-x C-z" . selectrum-repeat)
    :map selectrum-minibuffer-map
    ("C-r" . selectrum-select-from-history)
    :map minibuffer-local-map
@@ -65,9 +65,7 @@
   :custom-face
   (selectrum-current-candidate ((t (:background "#D8DEE9" :foreground "#3B4252"))))
   :init
-  (selectrum-mode +1)
-  :config
-  (global-set-key (kbd "C-x C-z") #'selectrum-repeat))
+  (selectrum-mode +1))
 
 
 (use-package prescient
@@ -165,11 +163,6 @@
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
-
-(use-package emacs
-  :init
-  (setq completion-cycle-threshold 3)
-  (setq tab-always-indent 'complete))
 
 
 (use-package orderless
