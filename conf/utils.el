@@ -209,4 +209,28 @@
      ("Etc/UTC" "UTC"))
    (world-clock-time-format "%a, %d %b %I:%M %p %Z")))
 
+(use-package crux
+  :straight t
+  :defer t
+  :bind
+  ([remap kill-whole-line] . #'crux-kill-whole-line)
+  ("s-r" . #'crux-recentf-find-file)
+  ([(shift return)] . #'crux-smart-open-line)
+  ([remap move-beginning-of-line] . #'crux-move-beginning-of-line)
+  ("C-8" . #'crux-find-user-init-file))
+
+(use-package keycast
+  :straight t
+  :demand t
+  :config
+  (defun bg/toggle-keycast()
+    (interactive)
+    (if (member '("" keycast-mode-line " ") global-mode-string)
+        (progn (setq global-mode-string (delete '("" keycast-mode-line " ") global-mode-string))
+               (remove-hook 'pre-command-hook 'keycast--update)
+               (message "Keycast OFF"))
+      (add-to-list 'global-mode-string '("" keycast-mode-line " "))
+      (add-hook 'pre-command-hook 'keycast--update t)
+      (message "Keycast ON"))))
+
 ;;; utils.el ends here
