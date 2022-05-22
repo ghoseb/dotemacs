@@ -1,13 +1,16 @@
 ;;; init.el --- GNU/Emacs FTW!
 
+(setq bg/local-dir (expand-file-name ".local/" user-emacs-directory))
+(setq bg/save-dir (expand-file-name "save/" bg/local-dir))
+
 (setq bg/conf-dir (expand-file-name "conf" user-emacs-directory))
 
 ;; initialise straight.el
-(setf straight-base-dir user-emacs-directory)
+(setf straight-base-dir (expand-file-name "var/" bg/local-dir))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
       (bootstrap-version 5))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
@@ -31,6 +34,7 @@
 ;; load other settings files
 
 (defun bg/maybe-load (file)
+  "Try loading elisp FILE if it exists."
   (if (file-exists-p (expand-file-name file bg/conf-dir))
       (load-file (expand-file-name file bg/conf-dir))))
 
