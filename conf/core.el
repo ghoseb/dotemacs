@@ -70,9 +70,14 @@
 
 (use-package prescient
   :straight t
+  :custom
+  (prescient-filter-method '(literal regexp fuzzy))
+  (prescient-history-length 1000)
+  (prescient-save-file
+   (expand-file-name "prescient-save.el"
+                     no-littering-var-directory))
   :config
-  (prescient-persist-mode +1)
-  (setq prescient-history-length 1000))
+  (prescient-persist-mode +1))
 
 
 (use-package selectrum-prescient
@@ -216,7 +221,7 @@
           treemacs-no-png-images                   nil
           treemacs-no-delete-other-windows         t
           treemacs-project-follow-cleanup          nil
-          treemacs-persist-file                    (expand-file-name ".cache/treemacs-persist" user-emacs-directory)
+          treemacs-persist-file                    (expand-file-name "treemacs-persist" no-littering-var-directory)
           treemacs-position                        'left
           treemacs-read-string-input               'from-child-frame
           treemacs-recenter-distance               0.1
@@ -347,8 +352,10 @@
   (recentf-mode t)
   :config
   (setq recentf-max-saved-items 500
-        recentf-max-menu-items 15
-        recentf-auto-cleanup 'never))
+        recentf-max-menu-items 50
+        recentf-auto-cleanup 60)
+  (add-to-list 'recentf-exclude bg/local-dir)
+  (add-to-list 'recentf-exclude "/opt/homebrew/Cellar/"))
 
 
 (use-package uniquify
