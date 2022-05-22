@@ -36,10 +36,10 @@
 (push '(vertical-scroll-bars) default-frame-alist)
 
 ;; initial starting position
-(push '(height . 60) default-frame-alist)
-(push '(width . 120) default-frame-alist)
-(push '(left . 60) default-frame-alist)
-(push '(top . 100) default-frame-alist)
+(push '(height . 43) default-frame-alist)
+(push '(width . 140) default-frame-alist)
+(push '(left . 80) default-frame-alist)
+(push '(top . 30) default-frame-alist)
 
 
 ;; disable all GUI elements
@@ -54,7 +54,6 @@
       echo-keystrokes 1e-6
       comp-deferred-compilation nil
       native-comp-async-report-warnings-errors nil
-      frame-inhibit-implied-resize t
       ;; better scrolling
       scroll-step 1
       scroll-conservatively 101
