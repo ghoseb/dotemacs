@@ -1,7 +1,6 @@
 ;;; init.el --- GNU/Emacs FTW!
 
 (setq bg/conf-dir (expand-file-name "conf" user-emacs-directory))
-(setq bg/custom-file (expand-file-name "emacs-custom.el" bg/conf-dir))
 
 ;; initialise straight.el
 (setf straight-base-dir user-emacs-directory)
@@ -46,7 +45,8 @@
 (defun bg/display-startup-time ()
   "Calculate Emacs startup time."
   (message
-   "GNU/Emacs ready in %s secs (%d GCs)"
+   "GNU/Emacs (v%s) ready in %s secs (%d GCs)"
+   emacs-version
    (format
     "%.3f"
     (float-time
