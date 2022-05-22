@@ -24,16 +24,6 @@
 (use-package centaur-tabs
   :straight t
   :commands (centaur-tabs-mode centaur-tabs-local-mode)
-  :hook
-  ((eshell-mode
-    help-mode
-    helpful-mode
-    dired-mode
-    occur-mode
-    cider-repl-mode
-    which-key-mode
-    shell-mode)
-   . centaur-tabs-local-mode)
   :config
   (setq centaur-tabs-style "bar")
   (setq centaur-tabs-set-bar 'left)
