@@ -171,3 +171,21 @@
   :blackout "CSV"
   :mode ("\\.csv\\'" . csv-mode)
   :custom (csv-align-max-width 80))
+
+
+(use-package tempel
+  :straight t
+  :custom
+  (tempel-trigger-prefix "<")
+  (tempel-path (expand-file-name "tempel-templates.el" bg/conf-dir))
+  :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
+         ("M-*" . tempel-insert))
+  :init
+  ;; Setup completion at point
+  (defun tempel-setup-capf ()
+    (setq-local completion-at-point-functions
+                (cons #'tempel-expand
+                      completion-at-point-functions)))
+  :hook
+  (prog-mode . tempel-setup-capf)
+  (text-mode . tempel-setup-capf))
