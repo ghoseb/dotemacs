@@ -53,7 +53,6 @@
 (use-package eglot
   :straight t
   :defer t
-  :ensure-system-package (clojure-lsp . "brew install clojure-lsp/brew/clojure-lsp-native")
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
@@ -66,7 +65,8 @@
   ;; don't need these features as they are provided from elsewhere
   (eglot-ignored-server-capabilities '(:hoverProvider
                                        :documentOnTypeFormattingProvider
-                                       :executeCommandProvider)))
+                                       :executeCommandProvider))
+  (eglot-connect-timeout 120))
 
 
 (use-package markdown-mode
@@ -90,7 +90,8 @@
   (setq-default flycheck-indication-mode 'left-fringe)
   (setq-default flycheck-highlighting-mode 'columns)
   :hook
-  ((prog-mode . flycheck-mode)
+  ;; limiting its use because for other langs we have lsp
+  ((emacs-lisp-mode . flycheck-mode)
    (flycheck-mode . flycheck-set-indication-mode)))
 
 
