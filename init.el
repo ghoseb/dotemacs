@@ -24,6 +24,10 @@
 ;; install use-package
 (straight-use-package 'use-package)
 
+;; straight should always use use-package
+(setq straight-use-package-by-default t)
+
+
 ;; GC Hack
 (use-package gcmh
   :straight t
