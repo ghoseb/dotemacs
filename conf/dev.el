@@ -13,7 +13,11 @@
 
 (use-package git-timemachine
   :after magit
-  :straight t
+  :straight (git-timemachine :type git
+                             :host gitlab
+                             :repo "pidu/git-timemachine"
+                             :fork (:host github
+                                    :repo "emacsmirror/git-timemachine"))
   :defer t)
 
 
@@ -58,9 +62,9 @@
   :hook
   (clojure-mode . eglot-ensure)
   (python-mode . eglot-ensure)
-  :config
-  ;; pip install -U jedi-language-server
-  (add-to-list 'eglot-server-programs '(python-mode . ("jedi-language-server")))
+  ;; :config
+  ;; pip install -U jedi-language-server / pyright
+  ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
   :custom
   ;; don't need these features as they are provided from elsewhere
   (eglot-ignored-server-capabilities '(:hoverProvider
@@ -80,7 +84,6 @@
   :init (setq markdown-command "multimarkdown"))
 
 
-(use-package json-mode :straight t :defer t)
 (use-package yaml-mode :straight t :defer t)
 
 
@@ -95,25 +98,33 @@
    (flycheck-mode . flycheck-set-indication-mode)))
 
 
-(use-package projectile
-  :straight t
-  :defer t
-  :blackout 1
-  :bind
-  (:map projectile-mode-map
-   ("C-c p" . projectile-command-map))
+(defcustom bg/project-root-markers
+  '("project.clj" "shadow-cljs.edn" ".git"
+    "Cargo.toml" "compile_commands.json" "compile_flags.txt" "deps.edn")
+  "Files or directories that indicate the root of a project."
+  :type '(repeat string)
+  :group 'project)
+
+
+(defun bg/project-root-p (path)
+  "Check if the current PATH has any of the project root markers."
+  (catch 'found
+    (dolist (marker bg/project-root-markers)
+      (when (file-exists-p (concat path marker))
+        (throw 'found marker)))))
+
+
+(defun bg/project-find-root (path)
+  "Search up the PATH for `bg/project-root-markers'."
+  (when-let ((root (locate-dominating-file path #'bg/project-root-p)))
+    (cons 'transient (expand-file-name root))))
+
+
+(use-package project
+  :straight 'gnu-elpa-mirror
+  :commands (project-root project-current)
   :config
-  (progn
-    (projectile-mode +1)
-    (setq projectile-completion-system 'default)
-    (setq projectile-enable-caching t)
-    (setq projectile-indexing-method 'alien)))
-
-
-(use-package treemacs-projectile
-  :after (treemacs projectile)
-  :straight t
-  :after (treemacs projectile))
+  (setq project-find-functions (cons #'bg/project-find-root project-find-functions)))
 
 
 (use-package rg
@@ -189,3 +200,11 @@
   :hook
   (prog-mode . tempel-setup-capf)
   (text-mode . tempel-setup-capf))
+
+
+(use-package jsonian
+  :straight '(:type git
+                    :host github
+                    :repo "iwahbe/jsonian"
+                    :branch "main")
+  :mode ("\\.json\\'" . jsonian-mode))
