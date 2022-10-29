@@ -17,12 +17,14 @@
 (defun bg/switch-theme-to-default ()
   "Switch to default dark theme."
   (interactive)
+  (mapc #'disable-theme custom-enabled-themes)
   (load-theme bg/default-theme t))
 
 
 (defun bg/switch-theme-to-alternative ()
   "Switch to alternate light theme."
   (interactive)
+  (mapc #'disable-theme custom-enabled-themes)
   (load-theme bg/alternative-theme t))
 
 
@@ -77,6 +79,10 @@
   (kaolin-themes-distinct-fringe t)
   (kaolin-themes-git-gutter-solid t)
   (kaolin-themes-treemacs-hl-line t)
+  (kaolin-themes-comments-style 'contrast)
+  (kaolin-themes-distinct-parentheses t)
+  (kaolin-theme-linum-hl-line-style t)
+  (kaolin-themes-hl-line-colored t)
   :config
   (kaolin-treemacs-theme))
 

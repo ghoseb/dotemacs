@@ -25,6 +25,7 @@
   (column-number-mode t)
   (size-indication-mode t)
 
+  (global-hl-line-mode 1)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (prefer-coding-system 'utf-8)
   (set-charset-priority 'unicode)
@@ -492,15 +493,9 @@
   (setq pulsar-delay 0.05)
   (setq pulsar-iterations 13)
   (setq pulsar-face 'pulsar-green)
-  (setq pulsar-highlight-face 'pulsar-yellow)
+  (setq pulsar-highlight-face 'pulsar-green)
   :bind
-  ("C-x l" . #'pulsar-pulse-line-green)
+  ("C-x l" . #'pulsar-pulse-line-red)
   ("C-c h h" . #'pulsar-highlight-dwim)
   :hook
   ((next-error . #'pulsar-pulse-line)))
-
-
-(use-package lin
-  :straight t
-  :config
-  (customize-set-variable 'lin-face 'lin-yellow-override-fg))
