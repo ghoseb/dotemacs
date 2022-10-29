@@ -480,3 +480,27 @@
   :bind
   ("C-<tab>" . kc/hs-cycle)
   ("C-s-<tab>" . kc/hs-global-cycle))
+
+
+(use-package pulsar
+  :straight t
+  :defer 5
+  :init
+  (pulsar-global-mode 1)
+  :config
+  (setq pulsar-pulse t)
+  (setq pulsar-delay 0.05)
+  (setq pulsar-iterations 13)
+  (setq pulsar-face 'pulsar-green)
+  (setq pulsar-highlight-face 'pulsar-yellow)
+  :bind
+  ("C-x l" . #'pulsar-pulse-line-green)
+  ("C-c h h" . #'pulsar-highlight-dwim)
+  :hook
+  ((next-error . #'pulsar-pulse-line)))
+
+
+(use-package lin
+  :straight t
+  :config
+  (customize-set-variable 'lin-face 'lin-yellow-override-fg))
