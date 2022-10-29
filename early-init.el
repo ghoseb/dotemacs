@@ -31,12 +31,12 @@
             (setq gc-cons-threshold 16777216
                   gc-cons-percentage 0.1)))
 
-;; uncomment to get rid of titlebar
-;; (push '(undecorated . t) default-frame-alist)
 ;; prevent the glimpse of unstyled UI elements
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
+;; get rid of the title bar
+(push '(undecorated-round . t) default-frame-alist)
 
 ;; initial starting position
 (push '(height . 43) default-frame-alist)
