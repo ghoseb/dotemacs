@@ -144,4 +144,11 @@
       (add-hook 'pre-command-hook 'keycast--update t)
       (message "Keycast ON"))))
 
+
+(use-package benchmark-init
+  :straight t
+  :config
+  ;; To disable collection of benchmark data after init is done.
+  (add-hook 'emacs-startup-hook 'benchmark-init/deactivate))
+
 ;;; utils.el ends here
