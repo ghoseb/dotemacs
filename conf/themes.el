@@ -13,18 +13,23 @@
 
 (set-fontset-font "fontset-default" 'unicode bg/emoji-font nil 'prepend)
 
+(defun bg/disable-themes ()
+  "Disable all enabled custom themes."
+  (interactive)
+  (mapc #'disable-theme custom-enabled-themes))
+
 
 (defun bg/switch-theme-to-default ()
   "Switch to default dark theme."
   (interactive)
-  (mapc #'disable-theme custom-enabled-themes)
+  (bg/disable-themes)
   (load-theme bg/default-theme t))
 
 
 (defun bg/switch-theme-to-alternative ()
   "Switch to alternate light theme."
   (interactive)
-  (mapc #'disable-theme custom-enabled-themes)
+  (bg/disable-themes)
   (load-theme bg/alternative-theme t))
 
 
@@ -89,7 +94,7 @@
 
 (defun bg/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
-  (mapc #'disable-theme custom-enabled-themes)
+  (bg/disable-themes)
   (pcase appearance
     ('light (load-theme bg/light-theme t))
     ('dark (load-theme bg/dark-theme t))))
