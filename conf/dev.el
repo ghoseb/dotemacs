@@ -2,6 +2,11 @@
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
+(use-package xref
+  :config
+  (setq xref-search-program 'ripgrep))
+
+
 (use-package magit
   :straight t
   :defer t
@@ -123,8 +128,10 @@
 (use-package project
   :straight 'gnu-elpa-mirror
   :commands (project-root project-current)
-  :config
-  (setq project-find-functions (cons #'bg/project-find-root project-find-functions)))
+  :bind (:map project-prefix-map ("m" . magit-project-status))
+  :init
+  (setq project-find-functions (nconc project-find-functions (list #'bg/project-find-root)))
+  (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 
 
 (use-package rg
