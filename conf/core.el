@@ -58,12 +58,13 @@
    :map selectrum-minibuffer-map
    ("C-r" . selectrum-select-from-history)
    :map minibuffer-local-map
-   ("M-h" . backward-kill-word))
+   ("M-h" . backward-kill-word)
+   ("M-RET" . selectrum-submit-exact-input))
   :custom
   (selectrum-fix-minibuffer-height t)
   (selectrum-num-candidates-displayed 8)
-  :custom-face
-  (selectrum-current-candidate ((t (:background "#D8DEE9" :foreground "#3B4252"))))
+  ;; :custom-face
+  ;; (selectrum-current-candidate ((t (:background "#D8DEE9" :foreground "#3B4252"))))
   :init
   (selectrum-mode +1))
 
@@ -140,10 +141,7 @@
   (corfu-auto t)
   (corfu-quit-at-boundary nil)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5)
-  :custom-face
-  (corfu-current ((t (:background "wheat1" :foreground "blue4"))))
-  (corfu-border ((t (:background "wheat1")))))
+  (corfu-scroll-margin 5))
 
 
 (use-package corfu-doc
@@ -169,12 +167,14 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-
-(use-package orderless
-  :straight t
-  :custom
-  (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion)))))
+;; (use-package orderless
+;;   :straight t
+;;   :custom
+;;   (completion-styles '(orderless basic))
+;;   (completion-category-overrides '((file (styles basic partial-completion))))
+;;   :custom
+;;   (orderless-skip-highlighting (lambda () selectrum-is-active))
+;;   (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 
 
 (use-package use-package-ensure-system-package
@@ -384,3 +384,99 @@
   :straight t
   :init
   (global-set-key (kbd "M-o") 'ace-window))
+
+(use-package avy
+  :straight t
+  :bind
+  ("M-g M-c" . avy-goto-char-timer)
+  ("M-g M-g" . avy-goto-line)
+  :config
+  (defun avy-action-helpful (pt)
+    (save-excursion
+      (goto-char pt)
+      (helpful-at-point))
+    (select-window
+     (cdr (ring-ref avy-ring 0)))
+    t)
+  (setf (alist-get ?H avy-dispatch-alist) 'avy-action-helpful))
+
+
+;; (use-package mini-frame
+;;   :straight t
+;;   :custom
+;;   (nconc '(ctrlf-forward-default
+;;             ctrlf-forward-alternate
+;;             ctrlf-backward-default
+;;             ctrlf-backward-alternate)
+;;           mini-frame-ignore-commands)
+;;   :custom
+;;   (mini-frame-show-parameters
+;;    '((top . 90)
+;;      (width . 0.7)
+;;      (left . 0.5)))
+;;   :init
+;;   (mini-frame-mode 1))
+
+
+;; (use-package popper
+;;   :straight t
+;;   :bind (("C-`"   . popper-toggle-latest)
+;;          ("M-`"   . popper-cycle)
+;;          ("C-M-`" . popper-toggle-type))
+;;   :custom
+;;   (popper-mode-line nil)
+;;   (popper-group-function #'popper-group-by-projectile)
+;;   :init
+;;   (setq popper-reference-buffers
+;;         '("\\*Messages\\*"
+;;           ("Output\\*$" . hide)
+;;           (completion-list-mode . hide)
+;;           "\\*Async Shell Command\\*"
+;;           "\\*scratch\\*"
+;;           "^\\*vterm.*\\*$"  vterm-mode
+;;           help-mode
+;;           compilation-mode))
+;;   (popper-mode +1)
+;;   (popper-echo-mode +1))
+
+
+(use-package hideshow
+  :hook
+  (prog-mode . hs-minor-mode)
+  :config
+  (defun kc/hs-cycle (&optional level)
+    (interactive "p")
+    (let (message-log-max
+          (inhibit-message t))
+      (if (= level 1)
+          (pcase last-command
+            ('hs-cycle
+             (hs-hide-level 1)
+             (setq this-command 'hs-cycle-children))
+            ('hs-cycle-children
+             ;; TODO: Fix this case. `hs-show-block' needs to be
+             ;; called twice to open all folds of the parent
+             ;; block.
+             (save-excursion (hs-show-block))
+             (hs-show-block)
+             (setq this-command 'hs-cycle-subtree))
+            ('hs-cycle-subtree
+             (hs-hide-block))
+            (_
+             (if (not (hs-already-hidden-p))
+                 (hs-hide-block)
+               (hs-hide-level 1)
+               (setq this-command 'hs-cycle-children))))
+        (hs-hide-level level)
+        (setq this-command 'hs-hide-level))))
+
+  (defun kc/hs-global-cycle ()
+    (interactive)
+    (pcase last-command
+      ('hs-global-cycle
+       (save-excursion (hs-show-all))
+       (setq this-command 'hs-global-show))
+      (_ (hs-hide-all))))
+  :bind
+  ("C-<tab>" . kc/hs-cycle)
+  ("C-s-<tab>" . kc/hs-global-cycle))
