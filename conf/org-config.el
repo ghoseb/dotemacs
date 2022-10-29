@@ -16,9 +16,9 @@
                   (org-level-6 . 1.1)
                   (org-level-7 . 1.1)
                   (org-level-8 . 1.1)))
-    (set-face-attribute (car face) nil :font bg/variable-pitch-font :weight 'regular :height (cdr face)))
+    (set-face-attribute (car face) nil :font bg--variable-pitch-font :weight 'regular :height (cdr face)))
 
-  (set-face-attribute 'org-document-title nil :font bg/variable-pitch-font :weight 'bold :height 1.5)
+  (set-face-attribute 'org-document-title nil :font bg--variable-pitch-font :weight 'bold :height 1.5)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)

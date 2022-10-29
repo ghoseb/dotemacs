@@ -11,7 +11,7 @@
 (defun bg/set-global-font-size (font-size)
   "Change FONT-SIZE utility function (globally, all windows)."
   (interactive
-   (list (read-number "Font size: " (/ bg/default-font-size 10))))
+   (list (read-number "Font size: " (/ bg--default-font-size 10))))
   (set-face-attribute 'default nil :height (* font-size 10)))
 
 
@@ -37,7 +37,7 @@
   (setq centaur-tabs-plain-icons t)
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
-  (centaur-tabs-change-fonts bg/variable-pitch-font bg/default-font-size)
+  (centaur-tabs-change-fonts bg--variable-pitch-font bg--default-font-size)
   (defun centaur-tabs-buffer-groups ()
      (list
       (cond

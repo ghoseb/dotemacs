@@ -1,17 +1,17 @@
 ;;; themes.el
 
 (set-face-attribute 'default nil
-                    :family bg/default-font
-                    :height bg/default-font-size
+                    :family bg--default-font
+                    :height bg--default-font-size
                     :weight 'regular)
 
 (set-face-attribute 'fixed-pitch nil
-                    :font bg/fixed-pitch-font)
+                    :font bg--fixed-pitch-font)
 
 (set-face-attribute 'variable-pitch nil
-                    :font bg/variable-pitch-font)
+                    :font bg--variable-pitch-font)
 
-(set-fontset-font "fontset-default" 'unicode bg/emoji-font nil 'prepend)
+(set-fontset-font "fontset-default" 'unicode bg--emoji-font nil 'prepend)
 
 (defun bg/disable-themes ()
   "Disable all enabled custom themes."
@@ -23,14 +23,14 @@
   "Switch to default dark theme."
   (interactive)
   (bg/disable-themes)
-  (load-theme bg/default-theme t))
+  (load-theme bg--default-theme t))
 
 
 (defun bg/switch-theme-to-alternative ()
   "Switch to alternate light theme."
   (interactive)
   (bg/disable-themes)
-  (load-theme bg/alternative-theme t))
+  (load-theme bg--alternative-theme t))
 
 
 (use-package all-the-icons
@@ -96,11 +96,11 @@
   "Load theme, taking current system APPEARANCE into consideration."
   (bg/disable-themes)
   (pcase appearance
-    ('light (load-theme bg/light-theme t))
-    ('dark (load-theme bg/dark-theme t))))
+    ('light (load-theme bg--light-theme t))
+    ('dark (load-theme bg--dark-theme t))))
 
 ;; (add-hook 'ns-system-appearance-change-functions #'bg/apply-theme)
-(load-theme bg/default-theme t)
+(load-theme bg--default-theme t)
 
 (use-package ligature
   :straight (ligature :type git :host github :repo "mickeynp/ligature.el")

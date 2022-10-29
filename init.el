@@ -1,12 +1,12 @@
 ;;; init.el --- GNU/Emacs FTW!
 
-(setq bg/local-dir (expand-file-name ".local/" user-emacs-directory))
-(setq bg/save-dir (expand-file-name "save/" bg/local-dir))
+(defvar bg--local-dir (expand-file-name ".local/" user-emacs-directory) "The directory for package repo, etc.")
+(defvar bg--save-dir (expand-file-name "save/" bg--local-dir) "The directory for savefiles.")
 
-(setq bg/conf-dir (expand-file-name "conf" user-emacs-directory))
+(defvar bg--conf-dir (expand-file-name "conf" user-emacs-directory) "The directory for config files.")
 
 ;; initialise straight.el
-(setf straight-base-dir (expand-file-name "var/" bg/local-dir))
+(setf straight-base-dir (expand-file-name "var/" bg--local-dir))
 (setf straight-repository-branch "develop")
 
 (defvar bootstrap-version)
@@ -40,8 +40,8 @@
 
 (defun bg/maybe-load (file)
   "Try loading elisp FILE if it exists."
-  (if (file-exists-p (expand-file-name file bg/conf-dir))
-      (load-file (expand-file-name file bg/conf-dir))))
+  (if (file-exists-p (expand-file-name file bg--conf-dir))
+      (load-file (expand-file-name file bg--conf-dir))))
 
 (bg/maybe-load "settings.el")
 (when (memq system-type '(darwin)) (bg/maybe-load "osx.el"))

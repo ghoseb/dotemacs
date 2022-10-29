@@ -103,7 +103,7 @@
    (flycheck-mode . flycheck-set-indication-mode)))
 
 
-(defcustom bg/project-root-markers
+(defcustom bg--project-root-markers
   '("project.clj" "shadow-cljs.edn" ".git"
     "Cargo.toml" "compile_commands.json" "compile_flags.txt" "deps.edn")
   "Files or directories that indicate the root of a project."
@@ -114,13 +114,13 @@
 (defun bg/project-root-p (path)
   "Check if the current PATH has any of the project root markers."
   (catch 'found
-    (dolist (marker bg/project-root-markers)
+    (dolist (marker bg--project-root-markers)
       (when (file-exists-p (concat path marker))
         (throw 'found marker)))))
 
 
 (defun bg/project-find-root (path)
-  "Search up the PATH for `bg/project-root-markers'."
+  "Search up the PATH for `bg--project-root-markers'."
   (when-let ((root (locate-dominating-file path #'bg/project-root-p)))
     (cons 'transient (expand-file-name root))))
 
@@ -195,7 +195,7 @@
   :straight t
   :custom
   (tempel-trigger-prefix "<")
-  (tempel-path (expand-file-name "tempel-templates.el" bg/conf-dir))
+  (tempel-path (expand-file-name "tempel-templates.el" bg--conf-dir))
   :bind (("M-+" . tempel-complete) ;; Alternative tempel-expand
          ("M-*" . tempel-insert))
   :init

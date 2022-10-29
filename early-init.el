@@ -7,12 +7,13 @@
     (expand-file-name  ".local/var/eln-cache/" user-emacs-directory))))
 
 ;; let's unset this variable and reset after emacs has started
-(defvar bg/file-name-handler-alist file-name-handler-alist)
+(defvar bg--file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
 (add-hook 'emacs-startup-hook
   (lambda ()
-    (setq file-name-handler-alist bg/file-name-handler-alist)))
+    (setq file-name-handler-alist bg--file-name-handler-alist)
+    (makunbound 'bg--file-name-handler-alist)))
 
 
 ;; we wanna go straight this time!

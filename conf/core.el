@@ -40,8 +40,8 @@
   :straight t
   :demand t
   :init
-  (setq no-littering-etc-directory (expand-file-name "config/"  bg/save-dir)
-        no-littering-var-directory (expand-file-name "data/" bg/save-dir))
+  (setq no-littering-etc-directory (expand-file-name "config/"  bg--save-dir)
+        no-littering-var-directory (expand-file-name "data/" bg--save-dir))
   :config
   (eval-after-load "recentf"
     '(progn
@@ -331,7 +331,7 @@
   (save-place-mode 1)
   :config
   (setq save-place-file
-        (expand-file-name "saveplace" bg/save-dir))
+        (expand-file-name "saveplace" bg--save-dir))
   (setq-default save-place t))
 
 
@@ -344,7 +344,7 @@
         '(search-ring regexp-search-ring)
         savehist-autosave-interval 60
         savehist-file
-        (expand-file-name "savehist" bg/save-dir)))
+        (expand-file-name "savehist" bg--save-dir)))
 
 
 (use-package recentf
@@ -355,7 +355,7 @@
   (setq recentf-max-saved-items 500
         recentf-max-menu-items 50
         recentf-auto-cleanup 60)
-  (add-to-list 'recentf-exclude bg/local-dir)
+  (add-to-list 'recentf-exclude bg--local-dir)
   (add-to-list 'recentf-exclude "/opt/homebrew/Cellar/"))
 
 
