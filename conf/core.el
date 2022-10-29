@@ -159,6 +159,15 @@
   :hook (corfu-mode . corfu-doc-mode))
 
 
+(use-package cape
+  :demand t
+  :init
+  (add-to-list 'completion-at-point-functions
+               (cape-super-capf #'cape-dabbrev
+                                #'cape-symbol
+                                #'cape-keyword)))
+
+
 (use-package kind-icon
   :straight t
   :after corfu
