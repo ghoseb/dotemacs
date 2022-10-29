@@ -16,4 +16,9 @@ Optimized for MacOS with native compilation and GC hacks. Startup time is < 1s.
 
 ## Screenshots
 
-![Screenshot](/screenshots/pic1.png)
+<p>
+    <figure>
+        <img src="/screenshots/pic1.png" alt="Screenshot of my GNU/Emacs setup." title="GNU/Emacs" />
+        <figcaption>Theme: <a href="https://github.com/ogdenwebb/emacs-kaolin-themes">kaolin-dark</a></figcaption>
+    </figure>
+</p>
