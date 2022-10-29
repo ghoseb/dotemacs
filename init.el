@@ -9,6 +9,13 @@
 (setf straight-base-dir (expand-file-name "var/" bg--local-dir))
 (setf straight-repository-branch "develop")
 
+;; some settings to make straight.el even better
+(setq straight-use-package-by-default t
+      use-package-always-defer t
+      straight-cache-autoloads t
+      straight-vc-git-default-clone-depth 1
+      vc-follow-symlinks t)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
@@ -24,10 +31,6 @@
 
 ;; install use-package
 (straight-use-package 'use-package)
-
-;; straight should always use use-package
-(setq straight-use-package-by-default t)
-
 
 ;; GC Hack
 (use-package gcmh
@@ -52,19 +55,31 @@
 (bg/maybe-load "themes.el")
 (bg/maybe-load "org-config.el")
 
-(defun bg/display-startup-time ()
-  "Calculate Emacs startup time."
-  (message
-   "GNU/Emacs (v%s) ready in %s secs (%d GCs)"
-   emacs-version
-   (format
+
+(defun bg/num-packages-loaded ()
+  "Calculate the number of packages loaded."
+  (- (length load-path) (length bg--init-load-path)))
+
+
+(defun bg/startup-time-str ()
+  "Return the startup time as a formatted string."
+  (format
     "%.3f"
     (float-time
-     (time-subtract after-init-time before-init-time)))
+     (time-subtract after-init-time before-init-time))))
+
+
+(defun bg/display-startup-msg ()
+  "Display the startup message."
+  (message
+   "GNU/Emacs (v%s) ready with %d packages in %s secs (%d GCs)."
+   emacs-version
+   (bg/num-packages-loaded)
+   (bg/startup-time-str)
    gcs-done))
 
 (setq initial-scratch-message nil)
 
-(add-hook 'emacs-startup-hook #'bg/display-startup-time)
+(add-hook 'emacs-startup-hook #'bg/display-startup-msg)
 
 ;;; init.el ends here

@@ -1,5 +1,7 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t; no-byte-compile: t -*-
 
+(defvar bg--init-load-path load-path)
+
 ;; redirect eln cache
 (when (fboundp 'startup-redirect-eln-cache)
   (startup-redirect-eln-cache
@@ -69,6 +71,7 @@
       truncate-lines nil
       ;; don't resize frames a character at a time, but use pixels
       frame-resize-pixelwise t
-      cursor-in-non-selected-windows nil)
+      cursor-in-non-selected-windows nil
+      site-run-file nil)
 
 ;;; early-init.el ends here

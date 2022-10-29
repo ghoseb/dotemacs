@@ -15,10 +15,11 @@
   (set-face-attribute 'default nil :height (* font-size 10)))
 
 
-;; `brew install libtool cmake' beforehand
 (use-package vterm
   :straight t
-  :defer t)
+  :ensure-system-package
+  ((libtool . "brew install libtool")
+   (cmake . "brew install cmake")))
 
 
 (use-package centaur-tabs
@@ -122,7 +123,6 @@
 
 (use-package crux
   :straight t
-  :defer t
   :bind
   ([remap kill-whole-line] . #'crux-kill-whole-line)
   ("s-r" . #'crux-recentf-find-file)

@@ -22,9 +22,10 @@
                              :host gitlab
                              :repo "pidu/git-timemachine"
                              :fork (:host github
-                                    :repo "emacsmirror/git-timemachine"))
-  :defer t)
+                                    :repo "emacsmirror/git-timemachine")))
 
+(use-package git-modes
+  :straight t)
 
 (use-package diff-hl
   :straight t
@@ -40,7 +41,6 @@
 
 (use-package hl-todo
   :straight t
-  :defer t
   :init
   (global-hl-todo-mode 1)
   :custom
@@ -52,7 +52,6 @@
 
 
 (use-package rainbow-delimiters
-  :defer t
   :straight t
   :hook ((prog-mode . rainbow-delimiters-mode)
          (emacs-lisp-mode . rainbow-delimiters-mode)))
@@ -61,7 +60,6 @@
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
   :straight t
-  :defer t
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
@@ -89,7 +87,7 @@
   :init (setq markdown-command "multimarkdown"))
 
 
-(use-package yaml-mode :straight t :defer t)
+(use-package yaml-mode :straight t)
 
 
 (use-package flycheck
@@ -127,9 +125,10 @@
 
 (use-package project
   :straight 'gnu-elpa-mirror
+  :demand t
   :commands (project-root project-current)
   :bind (:map project-prefix-map ("m" . magit-project-status))
-  :init
+  :config
   (setq project-find-functions (nconc project-find-functions (list #'bg/project-find-root)))
   (add-to-list 'project-switch-commands '(magit-project-status "Magit") t))
 
@@ -158,7 +157,6 @@
 (use-package smartparens
   :straight t
   :blackout t
-  :defer t
   :hook ((prog-mode . smartparens-mode))
   :bind
   (:map smartparens-mode-map

@@ -53,7 +53,7 @@
 
 (use-package selectrum
   :straight t
-  :defer t
+  :demand t
   :bind
   (("C-x C-z" . selectrum-repeat)
    :map selectrum-minibuffer-map
@@ -72,6 +72,7 @@
 
 (use-package prescient
   :straight t
+  :demand t
   :custom
   (prescient-filter-method '(literal regexp fuzzy))
   (prescient-history-length 1000)
@@ -130,7 +131,6 @@
                    :branch "main"
                    :files (:defaults "extensions/*.el"))
   :ensure t
-  :defer t
   :hook ((prog-mode . corfu-mode)
          (corfu-mode . corfu-history-mode))
   :bind (:map corfu-map
@@ -193,7 +193,6 @@
 
 (use-package treemacs
   :straight t
-  :defer t
   :init
   (with-eval-after-load 'winum
     (define-key winum-keymap (kbd "M-0") #'treemacs-select-window))
@@ -307,7 +306,6 @@
 
 
 (use-package multiple-cursors
-  :defer t
   :straight t
   :bind
   (("C-M-s-. C-M-s-." . mc/edit-lines)
