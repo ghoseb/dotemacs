@@ -499,3 +499,9 @@
   ("C-c h h" . #'pulsar-highlight-dwim)
   :hook
   ((next-error . #'pulsar-pulse-line)))
+
+
+(use-package expand-region
+  :straight t
+  :bind
+  ("C-=" . #'er/expand-region))
