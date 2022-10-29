@@ -12,7 +12,14 @@ A next-generation [GNU/Emacs](https://www.gnu.org/software/emacs/) setup for hac
 * [project.el](https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/project.el) for project management.
 * [joaotavora/eglot](https://github.com/joaotavora/eglot) for LSP.
 
-Optimized for MacOS with native compilation and GC hacks. Startup time is < 1s.
+Optimized for [Emacs 29](https://github.com/d12frosted/emacs-plus) on MacOS with native compilation and GC hacks.
+
+*Startup time is ~800ms.*
+
+```bash
+brew tap d12frosted/emacs-plus
+brew install emacs-plus@29 --with-native-comp --with-modern-papirus-icon
+```
 
 ## Screenshots
 
