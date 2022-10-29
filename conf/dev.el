@@ -9,7 +9,7 @@
 
 (use-package magit
   :straight t
-  :defer t
+  :defer 5
   :init
   (setq git-commit-fill-column 72)
   (setq magit-log-arguments '("--graph" "--decorate" "--color"))
