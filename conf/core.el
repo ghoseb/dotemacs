@@ -130,19 +130,27 @@
                    :repo "minad/corfu"
                    :branch "main"
                    :files (:defaults "extensions/*.el"))
-  :ensure t
-  :hook ((prog-mode . corfu-mode)
+  :hook (
+         ;; (prog-mode . corfu-mode)
          (corfu-mode . corfu-history-mode))
+  :init
+  (global-corfu-mode)
   :bind (:map corfu-map
-              ("C-q" . #'corfu-quick-insert)
-              ("C-g" . #'corfu-quit)
-              ("<return>" . #'corfu-insert))
+              ("C-n" . corfu-next)
+              ("C-p" . corfu-previous)
+              ("RET" . corfu-insert)
+              ("C-g" . corfu-quit)
+              ("C-q" . corfu-quick-insert)
+              ("S-SPC" . corfu-insert-separator))
   :custom
   (corfu-cycle nil)
   (corfu-auto t)
-  (corfu-quit-at-boundary nil)
+  (corfu-quit-at-boundary 'separator)
+  (corfu-auto-delay 0.0)
+  (corfu-auto-prefix 2)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5))
+  (corfu-scroll-margin 5)
+  (corfu-preselect-first nil))
 
 
 (use-package corfu-doc
