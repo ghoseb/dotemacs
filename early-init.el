@@ -30,6 +30,8 @@
             (setq gc-cons-threshold 16777216
                   gc-cons-percentage 0.1)))
 
+;; uncomment to get rid of titlebar
+;; (push '(undecorated . t) default-frame-alist)
 ;; prevent the glimpse of unstyled UI elements
 (push '(menu-bar-lines . 0) default-frame-alist)
 (push '(tool-bar-lines . 0) default-frame-alist)
@@ -65,6 +67,7 @@
       ;; wrap lines that are too long.
       truncate-lines nil
       ;; don't resize frames a character at a time, but use pixels
-      frame-resize-pixelwise t)
+      frame-resize-pixelwise t
+      cursor-in-non-selected-windows nil)
 
 ;;; early-init.el ends here
