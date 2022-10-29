@@ -40,6 +40,7 @@
         cider-repl-prompt-function #'cider-repl-prompt-abbreviated
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
   (cider-repl-toggle-pretty-printing)
+  (defun cider--xref-backend () nil)
   :hook
   (cider-repl-mode . smartparens-mode))
 
