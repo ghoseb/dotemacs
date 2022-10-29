@@ -13,3 +13,7 @@ A next-generation [GNU/Emacs](https://www.gnu.org/software/emacs/) setup for hac
 * [joaotavora/eglot](https://github.com/joaotavora/eglot) for LSP.
 
 Optimized for MacOS with native compilation and GC hacks. Startup time is < 1s.
+
+## Screenshots
+
+![Screenshot](/screenshots/pic1.png)
