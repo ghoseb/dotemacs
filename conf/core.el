@@ -1,6 +1,8 @@
 ;;; core.el
 
 (use-package emacs
+  :hook
+  ('before-save . #'delete-trailing-whitespace)
   :config
   (setq tab-width 4
         tab-always-indent 'complete
@@ -32,7 +34,9 @@
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
-  (add-hook 'before-save-hook #'delete-trailing-whitespace))
+  (setq blink-cursor-mode nil)
+  (setq-default cursor-type '(hbar .  2))
+  (setq-default cursor-in-non-selected-windows nil))
 
 
 ;; Keep .emacs.d clean
@@ -401,12 +405,14 @@
   :init
   (global-set-key (kbd "M-o") 'ace-window))
 
+
 (use-package avy
   :straight t
   :bind
   ("M-g M-c" . avy-goto-char-timer)
   ("M-g M-g" . avy-goto-line)
   :config
+  (setq avy-background t)
   (defun avy-action-helpful (pt)
     (save-excursion
       (goto-char pt)
