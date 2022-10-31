@@ -9,10 +9,10 @@
 (defvar bg--default-font-size 160 "The default font size.")
 
 ;; Let us enable a nice font for Emojis
-(defvar bg--emoji-font "Noto Emoji" "The for for emojis.")
+(defvar bg--emoji-font "Noto Emoji" "The font for for emojis.")
 
-(defvar bg--dark-theme 'kaolin-dark "The dark theme.")
-(defvar bg--light-theme 'kaolin-light "The light theme.")
+(defvar bg--dark-theme 'kaolin-valley-dark "The dark theme.")
+(defvar bg--light-theme 'kaolin-valley-light "The light theme.")
 
 (defvar bg--default-theme bg--dark-theme "The default theme.")
 (defvar bg--alternative-theme bg--light-theme "The alternative theme.")
