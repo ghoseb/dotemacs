@@ -147,6 +147,7 @@
 
 (use-package benchmark-init
   :straight t
+  :demand t
   :config
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'emacs-startup-hook 'benchmark-init/deactivate))

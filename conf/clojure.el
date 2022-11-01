@@ -19,7 +19,7 @@
 
 (use-package cider
   :straight t
-  :after clojure-mode
+  :hook clojure-mode
   :blackout t
   :bind
   (("C-c C-l" . cider-repl-clear-buffer))
@@ -47,7 +47,7 @@
 
 (use-package apheleia
   :straight t
-  :after prog-mode
+  :hook prog-mode
   :ensure-system-package cljstyle
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)

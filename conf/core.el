@@ -134,9 +134,6 @@
                    :repo "minad/corfu"
                    :branch "main"
                    :files (:defaults "extensions/*.el"))
-  :hook (
-         ;; (prog-mode . corfu-mode)
-         (corfu-mode . corfu-history-mode))
   :init
   (global-corfu-mode)
   :bind (:map corfu-map
@@ -159,7 +156,6 @@
 
 (use-package corfu-doc
   :straight t
-  :after corfu
   :custom
   (corfu-doc-auto nil)
   (corfu-doc-max-width 85)
@@ -174,14 +170,12 @@
 (use-package cape
   :demand t
   :init
-  (add-to-list 'completion-at-point-functions
-               (cape-super-capf #'cape-dabbrev
-                                #'cape-symbol
-                                #'cape-keyword)))
+  (add-to-list 'completion-at-point-functions #'cape-file))
 
 
 (use-package kind-icon
   :straight t
+  :demand t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default)
@@ -189,14 +183,15 @@
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-;; (use-package orderless
-;;   :straight t
-;;   :custom
-;;   (completion-styles '(orderless basic))
-;;   (completion-category-overrides '((file (styles basic partial-completion))))
-;;   :custom
-;;   (orderless-skip-highlighting (lambda () selectrum-is-active))
-;;   (selectrum-highlight-candidates-function #'orderless-highlight-matches))
+(use-package orderless
+  :straight t
+  :demand t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion))))
+  :custom
+  (orderless-skip-highlighting (lambda () selectrum-is-active))
+  (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 
 
 (use-package use-package-ensure-system-package
@@ -206,6 +201,7 @@
 
 (use-package which-key
   :straight t
+  :hook emacs-startup
   :init
   (which-key-mode +1)
   :config
@@ -299,13 +295,13 @@
 
 (use-package treemacs-icons-dired
   :straight t
-  :after (treemacs)
   :hook (dired-mode . treemacs-icons-dired-enable-once)
   :ensure t)
 
 
 (use-package treemacs-magit
   :straight t
+  :hook treemacs
   :after (treemacs magit)
   :ensure t)
 
@@ -328,6 +324,7 @@
 
 (use-package multiple-cursors
   :straight t
+  :hook prog-mode
   :bind
   (("C-M-s-. C-M-s-." . mc/edit-lines)
    ("C->" . mc/mark-next-like-this)
@@ -402,8 +399,8 @@
 
 (use-package ace-window
   :straight t
-  :init
-  (global-set-key (kbd "M-o") 'ace-window))
+  :bind
+  ("M-o" . ace-window))
 
 
 (use-package avy
@@ -463,6 +460,7 @@
 
 
 (use-package hideshow
+  :disabled t
   :hook
   (prog-mode . hs-minor-mode)
   :config
