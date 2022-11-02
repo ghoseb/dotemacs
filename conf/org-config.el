@@ -1,7 +1,6 @@
 (defun bg/org-setup ()
   "Customize org by setting a bunch of variables."
   (interactive)
-  (visual-line-mode +1)
   (auto-fill-mode -1)
   (whitespace-mode -1))
 
@@ -22,18 +21,20 @@
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground nil :inherit 'fixed-pitch)
-  (set-face-attribute 'org-code nil   :inherit '(shadow fixed-pitch))
-  (set-face-attribute 'org-table nil   :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-code nil :inherit '(shadow fixed-pitch))
+  (set-face-attribute 'org-table nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-verbatim nil :inherit '(shadow fixed-pitch))
   (set-face-attribute 'org-special-keyword nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-meta-line nil :inherit '(font-lock-comment-face fixed-pitch))
   (set-face-attribute 'org-checkbox nil :inherit 'fixed-pitch))
+
 
 (use-package org
   :straight t
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . bg/org-setup)
   :custom
+  (org-startup-folded t)
   (org-startup-indented t)
   (org-pretty-entities t)
   (org-hide-emphasis-markers t)
@@ -47,37 +48,21 @@
   (bg/org-font-setup))
 
 
-(use-package org-superstar
-  :straight t
-  :after org
-  :hook (org-mode . org-superstar-mode)
-  :custom
-  (org-superstar-special-todo-items t)
-  ;; '("◉" "○" "●" "○" "●" "○" "●")
-  ;; '("⚫" "◆" "◉" "▶" "◇")
-  (org-superstar-headline-bullets-list '("⬤" "▶" "◆" "◉" "○" "◇" "✸" "⁖" "✿"))
-  (org-hide-leading-stars nil)
-  (org-superstar-leading-bullet ?\s)
-  :config
-  ; to prevent possible slowdown
-  (setq inhibit-compacting-font-caches t))
-
-
 (use-package org-appear
   :after org
   :straight t
   :hook (org-mode . org-appear-mode))
 
 
-(use-package visual-fill-column
-  :straight t
-  :custom
-  (visual-fill-column-width 115)
-  (visual-fill-column-center-text t)
-  :hook
-  (visual-line-mode . turn-on-visual-fill-column-mode)
+(use-package org-bars
+  :straight (org-bars :type git
+                      :host github
+                      :repo "tonyaldon/org-bars")
   :config
-  (advice-add 'text-scale-adjust :after #'visual-fill-column-adjust))
+  (setq org-bars-color-options '(:only-one-color t
+                                 :bar-color "#8c8c8c"))
+  :hook (org-mode . org-bars-mode))
+
 
 (provide 'org-config)
 ;;; org-config.el ends here
