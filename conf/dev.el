@@ -186,7 +186,7 @@
   :straight t
   :blackout "CSV"
   :mode ("\\.csv\\'" . csv-mode)
-  :custom (csv-align-max-width 80))
+  :custom (csv-align-max-width 115))
 
 
 (use-package tempel
@@ -208,8 +208,18 @@
 
 
 (use-package jsonian
-  :straight '(:type git
-                    :host github
-                    :repo "iwahbe/jsonian"
-                    :branch "main")
+  :straight (jsonian :type git
+                     :host github
+                     :repo "iwahbe/jsonian"
+                     :branch "main")
   :mode ("\\.json\\'" . jsonian-mode))
+
+
+(use-package zig-mode)
+
+
+(use-package deadgrep
+  :straight (deadgrep :type git
+                      :host github
+                      :repo "Wilfred/deadgrep")
+  :bind ("<f5>" . deadgrep))
