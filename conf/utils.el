@@ -28,8 +28,10 @@
   :config
   (setq centaur-tabs-style "bar")
   (setq centaur-tabs-set-bar 'left)
+  (setq x-underline-at-descent-line t)
+  (setq centaur-tabs-set-close-button nil)
   (setq centaur-tabs-close-button "×")
-  (setq centaur-tabs-height 32)
+  (setq centaur-tabs-height 28)
   (setq centaur-tabs-set-icons t)
   (setq centaur-tabs-gray-out-icons 'buffer)
   (setq centaur-tabs-cycle-scope 'tabs)
