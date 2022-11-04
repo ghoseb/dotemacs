@@ -3,8 +3,8 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 (use-package xref
-  :config
-  (setq xref-search-program 'ripgrep))
+  :custom
+  (xref-search-program . 'ripgrep))
 
 
 (use-package magit
@@ -223,3 +223,14 @@
                       :host github
                       :repo "Wilfred/deadgrep")
   :bind ("<f5>" . deadgrep))
+
+
+(use-package spell-fu
+  :straight (spell-fu :type git
+                      :host codeberg
+                      :repo "ideasman42/emacs-spell-fu")
+  :init
+  (global-spell-fu-mode)
+  :custom
+  (spell-fu-faces-include . '(font-lock-doc-face
+                              font-lock-comment-face)))
