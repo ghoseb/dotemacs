@@ -1,5 +1,7 @@
 ;;; init.el --- GNU/Emacs FTW!
 
+(load-file (expand-file-name "utils.el" user-emacs-directory))
+
 (defvar bg--local-dir (expand-file-name ".local/" user-emacs-directory) "The directory for package repo, etc.")
 (defvar bg--save-dir (expand-file-name "save/" bg--local-dir) "The directory for savefiles.")
 
@@ -41,11 +43,6 @@
 
 ;; load other settings files
 
-(defun bg/maybe-load (file)
-  "Try loading elisp FILE if it exists."
-  (if (file-exists-p (expand-file-name file bg--conf-dir))
-      (load-file (expand-file-name file bg--conf-dir))))
-
 (bg/maybe-load "settings.el")
 (when (memq system-type '(darwin)) (bg/maybe-load "osx.el"))
 (bg/maybe-load "core.el")
@@ -55,31 +52,10 @@
 (bg/maybe-load "themes.el")
 (bg/maybe-load "org-config.el")
 
-
-(defun bg/num-packages-loaded ()
-  "Calculate the number of packages loaded."
-  (- (length load-path) (length bg--init-load-path)))
-
-
-(defun bg/startup-time-str ()
-  "Return the startup time as a formatted string."
-  (format
-    "%.3f"
-    (float-time
-     (time-subtract after-init-time before-init-time))))
-
-
-(defun bg/display-startup-msg ()
-  "Display the startup message."
-  (message
-   "GNU/Emacs (v%s) ready with %d packages in %s secs (%d GCs)."
-   emacs-version
-   (bg/num-packages-loaded)
-   (bg/startup-time-str)
-   gcs-done))
-
-(setq initial-scratch-message nil)
-
 (add-hook 'emacs-startup-hook #'bg/display-startup-msg)
+
+(add-hook 'emacs-startup-hook (lambda ()
+                                (when (display-graphic-p)
+                                  (ar/show-welcome-buffer))))
 
 ;;; init.el ends here

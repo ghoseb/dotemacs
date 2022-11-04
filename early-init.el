@@ -54,6 +54,7 @@
 
 ;; sane defaults
 (setq inhibit-splash-screen t
+      initial-scratch-message nil
       use-file-dialog nil
       ring-bell-function #'ignore
       echo-keystrokes 1e-6
