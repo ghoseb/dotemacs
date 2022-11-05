@@ -17,9 +17,35 @@
 
 (use-package vterm
   :straight t
+  :when (bound-and-true-p module-file-suffix)
   :ensure-system-package
   ((libtool . "brew install libtool")
-   (cmake . "brew install cmake")))
+   (cmake . "brew install cmake"))
+  :bind ( :map vterm-mode-map
+          ("<insert>" . ignore)
+          ("<f2>" . ignore)
+          :map project-prefix-map
+          ("t" . vterm-project-dir))
+  :custom
+  (vterm-always-compile-module t)
+  (vterm-environment '("VTERM=1" "LC_ALL=en_US.UTF-8"))
+  :preface
+  (unless (fboundp 'project-prefixed-buffer-name)
+    (autoload #'project-prefixed-buffer-name "project"))
+  (defun vterm-project-dir (&optional _)
+    "Launch vterm in current project.
+Opens an existing vterm buffer for a project if present, unless
+the prefix argument is supplied."
+    (interactive "P")
+    (let* ((default-directory (project-root (project-current t)))
+           (name (project-prefixed-buffer-name "vterm")))
+      (if (and (not current-prefix-arg) (get-buffer name))
+          (switch-to-buffer name)
+        (funcall-interactively #'vterm name))))
+  :init
+  (require 'project)
+  (add-to-list 'project-switch-commands
+               '(vterm-project-dir "vterm") t))
 
 
 (use-package centaur-tabs
