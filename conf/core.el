@@ -213,7 +213,8 @@
   (completion-category-overrides '((file (styles partial-completion basic))))
   (orderless-skip-highlighting (lambda () selectrum-is-active))
   (selectrum-prescient-enable-filtering nil)
-  (selectrum-highlight-candidates-function #'orderless-highlight-matches))
+  (selectrum-highlight-candidates-function #'orderless-highlight-matches)
+  (orderless-component-separator 'orderless-escapable-split-on-space))
 
 
 (use-package use-package-ensure-system-package
