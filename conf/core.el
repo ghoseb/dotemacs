@@ -102,7 +102,10 @@
   :after selectrum
   :straight t
   :bind (:map minibuffer-local-map
-         ("M-A" . marginalia-cycle))
+              ("M-A" . marginalia-cycle))
+  :config
+  (advice-add #'marginalia-cycle :after
+              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
   :init
   (marginalia-mode)
   (setq marginalia-annotators '(marginalia-annotators-heavy
@@ -134,30 +137,47 @@
                    :repo "minad/corfu"
                    :branch "main"
                    :files (:defaults "extensions/*.el"))
+  :config
+  (defun corfu-complete-and-quit ()
+    (interactive)
+    (corfu-complete)
+    (corfu-quit))
   :init
   (global-corfu-mode)
   :bind (:map corfu-map
               ("C-n" . corfu-next)
+              ("TAB" . corfu-next)
+              ([tab] . corfu-next)
               ("C-p" . corfu-previous)
-              ("RET" . corfu-insert)
+              ("S-TAB" . corfu-previous)
+              ([backtab] . corfu-previous)
+              ("RET" . corfu-complete-and-quit)
+              ("<return>" . corfu-complete-and-quit)
               ("C-g" . corfu-quit)
               ("C-q" . corfu-quick-insert)
-              ("S-SPC" . corfu-insert-separator))
+              ("S-SPC" . corfu-insert-separator)
+              ([remap completion-at-point] . corfu-complete))
   :custom
   (corfu-cycle nil)
   (corfu-auto t)
+  (corfu-count 9)
+  (corfu-preselect-first t)
   (corfu-quit-at-boundary 'separator)
   (corfu-auto-delay 0.0)
   (corfu-auto-prefix 2)
   (corfu-quit-no-match t)
   (corfu-scroll-margin 5)
-  (corfu-preselect-first nil))
+  (corfu-max-width 100)
+  (corfu-min-width 42))
 
 
 (use-package corfu-doc
-  :straight t
+  :straight (corfu-doc :host github
+                       :repo "galeo/corfu-doc"
+                       :branch "main")
+  :when (display-graphic-p)
   :custom
-  (corfu-doc-auto nil)
+  (corfu-doc-delay 2)
   (corfu-doc-max-width 85)
   (corfu-doc-max-height 20)
   :bind (:map corfu-map
