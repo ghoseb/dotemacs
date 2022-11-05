@@ -3,8 +3,9 @@
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
 (use-package xref
+  :straight (:type built-in)
   :custom
-  (xref-search-program . 'ripgrep))
+  (xref-search-program 'ripgrep))
 
 
 (use-package magit
