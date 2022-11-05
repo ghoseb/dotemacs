@@ -16,7 +16,8 @@
       use-package-always-defer t
       straight-cache-autoloads t
       straight-vc-git-default-clone-depth 1
-      vc-follow-symlinks t)
+      vc-follow-symlinks t
+      straight-check-for-modifications '(check-on-save find-when-checking))
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
