@@ -21,11 +21,11 @@
   :ensure-system-package
   ((libtool . "brew install libtool")
    (cmake . "brew install cmake"))
-  :bind ( :map vterm-mode-map
-          ("<insert>" . ignore)
-          ("<f2>" . ignore)
-          :map project-prefix-map
-          ("t" . vterm-project-dir))
+  :bind (:map vterm-mode-map
+              ("<insert>" . ignore)
+              ("<f2>" . ignore)
+         :map project-prefix-map
+              ("t" . vterm-project-dir))
   :custom
   (vterm-always-compile-module t)
   (vterm-environment '("VTERM=1" "LC_ALL=en_US.UTF-8"))
@@ -51,19 +51,20 @@ the prefix argument is supplied."
 (use-package centaur-tabs
   :straight t
   :commands (centaur-tabs-mode centaur-tabs-local-mode)
+  :custom
+  (centaur-tabs-style "bar")
+  (centaur-tabs-set-bar 'left)
+  (x-underline-at-descent-line t)
+  (centaur-tabs-set-close-button nil)
+  (centaur-tabs-close-button "×")
+  (centaur-tabs-height 28)
+  (centaur-tabs-set-icons t)
+  (centaur-tabs-gray-out-icons 'buffer)
+  (centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-enable-ido-completion nil)
+  (centaur-tabs-show-new-tab-button nil)
+  (centaur-tabs-plain-icons t)
   :config
-  (setq centaur-tabs-style "bar")
-  (setq centaur-tabs-set-bar 'left)
-  (setq x-underline-at-descent-line t)
-  (setq centaur-tabs-set-close-button nil)
-  (setq centaur-tabs-close-button "×")
-  (setq centaur-tabs-height 28)
-  (setq centaur-tabs-set-icons t)
-  (setq centaur-tabs-gray-out-icons 'buffer)
-  (setq centaur-tabs-cycle-scope 'tabs)
-  (setq centaur-tabs-enable-ido-completion nil)
-  (setq centaur-tabs-show-new-tab-button nil)
-  (setq centaur-tabs-plain-icons t)
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts bg--variable-pitch-font bg--default-font-size)
@@ -113,12 +114,9 @@ the prefix argument is supplied."
 
        ;; Buffer name not match below blacklist.
        (string-prefix-p "*epc" name)
-       (string-prefix-p "*helm" name)
-       (string-prefix-p "*Helm" name)
        (string-prefix-p "*Compile-Log*" name)
        (string-prefix-p "*Async-native*" name)
        (string-prefix-p "*lsp" name)
-       (string-prefix-p "*company" name)
        (string-prefix-p "*Flycheck" name)
        (string-prefix-p "*tramp" name)
        (string-prefix-p " *Mini" name)
