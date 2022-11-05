@@ -205,12 +205,14 @@
 
 (use-package orderless
   :straight t
+  :after (selectrum prescient)
   :demand t
   :custom
   (completion-styles '(orderless basic))
-  (completion-category-overrides '((file (styles basic partial-completion))))
-  :custom
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion basic))))
   (orderless-skip-highlighting (lambda () selectrum-is-active))
+  (selectrum-prescient-enable-filtering nil)
   (selectrum-highlight-candidates-function #'orderless-highlight-matches))
 
 
