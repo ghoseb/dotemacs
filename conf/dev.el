@@ -231,6 +231,7 @@
                       :host codeberg
                       :repo "ideasman42/emacs-spell-fu")
   :init
+  (setq ispell-personal-dictionary (expand-file-name "ispell/.pws" bg--save-dir))
   (global-spell-fu-mode)
   :custom
   (spell-fu-faces-include . '(font-lock-doc-face
