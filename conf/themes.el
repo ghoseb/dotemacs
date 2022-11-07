@@ -36,7 +36,9 @@
 (use-package all-the-icons
   :straight t
   :defer 10
-  :if (display-graphic-p))
+  :if (display-graphic-p)
+  :custom
+  (all-the-icons-scale-factor 1.0))
 
 
 (use-package all-the-icons-completion
@@ -58,7 +60,13 @@
 (use-package doom-modeline
   :straight t
   :hook (after-init . doom-modeline-mode)
-  :custom ((doom-modeline-height 10)))
+  :custom
+  (doom-modeline-hud t)
+  (doom-modeline-height 10)
+  (doom-modeline-buffer-encoding t)
+  :custom-face
+  (mode-line ((t (:family bg--mode-line-font :height 0.95))))
+  (mode-line-inactive ((t (:family bg--mode-line-font :height 0.95)))))
 
 
 (use-package doom-themes
