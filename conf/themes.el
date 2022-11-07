@@ -65,8 +65,9 @@
   (doom-modeline-height 10)
   (doom-modeline-buffer-encoding t)
   :custom-face
-  (mode-line ((t (:family bg--mode-line-font :height 0.95))))
-  (mode-line-inactive ((t (:family bg--mode-line-font :height 0.95)))))
+  (mode-line ((t (:height 0.95))))
+  (mode-line-active ((t (:height 0.95))))
+  (mode-line-inactive ((t (:height 0.95)))))
 
 
 (use-package doom-themes
@@ -117,7 +118,7 @@
   (ligature-set-ligatures 't '("www"))
   ;; Enable traditional ligature support in eww-mode, if the
   ;; `variable-pitch' face supports it
-  (ligature-set-ligatures 'eww-mode '("ff" "fi" "ffi"))
+  (ligature-set-ligatures 'org-mode '("ff" "fi" "ffi"))
   ;; Enable all Cascadia Code ligatures in programming modes
   (ligature-set-ligatures 'prog-mode
                           '("|||>" "<|||" "<==>" "<!--" "####" "~~>" "***" "||=" "||>"
