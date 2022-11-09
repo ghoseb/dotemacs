@@ -34,9 +34,12 @@
   (set-default-coding-systems 'utf-8)
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
+  (set-language-environment   'utf-8)
   (setq blink-cursor-mode nil)
   (setq-default cursor-type '(hbar .  2))
-  (setq-default cursor-in-non-selected-windows nil))
+  (setq-default cursor-in-non-selected-windows nil)
+  :bind
+  ("C-c q" . #'bury-buffer))
 
 
 ;; Keep .emacs.d clean
