@@ -73,6 +73,7 @@
       ;; don't resize frames a character at a time, but use pixels
       frame-resize-pixelwise t
       cursor-in-non-selected-windows nil
-      site-run-file nil)
+      site-run-file nil
+      system-time-locale "en_US.utf8")
 
 ;;; early-init.el ends here
