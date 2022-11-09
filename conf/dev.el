@@ -11,10 +11,25 @@
 (use-package magit
   :straight t
   :defer 5
-  :init
-  (setq git-commit-fill-column 72)
-  (setq magit-log-arguments '("--graph" "--decorate" "--color"))
-  (setq magit-diff-refine-hunk t))
+  :custom
+  (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
+  (magit-diff-refine-hunk t)
+  (git-commit-fill-column 72)
+  (magit-diff-refine-hunk t)
+  (magit-section-highlight-hook nil)
+  (magit-define-global-key-bindings nil)
+  (magit-log-arguments '("--graph" "--decorate" "--color"))
+
+  :config
+  (let ((sans-serif-family (face-attribute 'variable-pitch :family)))
+    (set-face-attribute 'magit-diff-file-heading nil :family sans-serif-family :weight 'normal :bold nil)
+    (set-face-attribute 'magit-diff-file-heading-highlight nil :family sans-serif-family :weight 'normal :bold nil)
+    (set-face-attribute 'magit-section-child-count nil :family sans-serif-family :weight 'normal :bold nil)
+    (set-face-attribute 'magit-section-heading nil :family sans-serif-family :bold t)
+    (set-face-attribute 'magit-section-highlight nil :family sans-serif-family :bold t))
+
+  :bind
+  ("C-x g" . magit-status))
 
 
 (use-package git-timemachine
@@ -23,10 +38,17 @@
                              :host gitlab
                              :repo "pidu/git-timemachine"
                              :fork (:host github
-                                    :repo "emacsmirror/git-timemachine")))
+                                          :repo "emacsmirror/git-timemachine"))
+  :bind (:map prog-mode-map
+              ("C-c g t" . git-timemachine)))
+
 
 (use-package git-modes
-  :straight t)
+  :straight t
+  :mode (("\\.gitattributes\\'" . gitattributes-mode)
+         ("\\.gitconfig\\'" . gitconfig-mode)
+         ("\\.gitignore\\'" . gitignore-mode)))
+
 
 (use-package diff-hl
   :straight t
@@ -70,6 +92,9 @@
   ;; pip install -U jedi-language-server / pyright
   ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
   :custom
+  (eglot-autoshutdown t)
+  (eglot-extend-to-xref nil)
+  (eglot-confirm-server-initiated-edits nil)
   ;; don't need these features as they are provided from elsewhere
   (eglot-ignored-server-capabilities '(:hoverProvider
                                        :documentOnTypeFormattingProvider
@@ -236,3 +261,7 @@
   :custom
   (spell-fu-faces-include . '(font-lock-doc-face
                               font-lock-comment-face)))
+
+(use-package elisp-slime-nav
+  :straight t
+  :hook (emacs-lisp-mode . turn-on-elisp-slime-nav-mode))
