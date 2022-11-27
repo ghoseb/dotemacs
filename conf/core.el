@@ -4,30 +4,36 @@
   :hook
   ('before-save . #'delete-trailing-whitespace)
   :config
-  (setq tab-width 4
-        tab-always-indent 'complete
-        require-final-newline t
-        custom-safe-themes t
-        confirm-kill-emacs #'yes-or-no-p
-        dired-kill-when-opening-new-dired-buffer t
-        completion-cycle-threshold 3
-        tab-always-indent 'complete)
-  (setq version-control t
-        kept-new-versions 10
-        kept-old-versions 0
-        delete-old-versions t
-        backup-by-copying t
-        vc-make-backup-files t)
-  (setq-default indent-tabs-mode nil
-                fill-column 115
-                truncate-string-ellipsis "…"
-                sentence-end-double-space nil)
+  (setq-default
+   indent-tabs-mode nil
+   fill-column 115
+   truncate-string-ellipsis "…"
+   sentence-end-double-space nil
+   cursor-type '(hbar .  2)
+   cursor-in-non-selected-windows nil)
+  (setq
+   tab-width 4
+   tab-always-indent 'complete
+   require-final-newline t
+   custom-safe-themes t
+   confirm-kill-emacs #'yes-or-no-p
+   dired-kill-when-opening-new-dired-buffer t
+   completion-cycle-threshold 3
+   tab-always-indent 'complete
+   version-control t
+   kept-new-versions 10
+   kept-old-versions 0
+   delete-old-versions t
+   backup-by-copying t
+   vc-make-backup-files t
+   use-dialog-box nil
+   global-auto-revert-non-file-buffers t
+   blink-cursor-mode nil)
   (delete-selection-mode t)
-
   (column-number-mode t)
   (size-indication-mode t)
-
   (global-hl-line-mode 1)
+  (global-auto-revert-mode 1)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (prefer-coding-system 'utf-8)
   (set-charset-priority 'unicode)
@@ -35,9 +41,6 @@
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (set-language-environment   'utf-8)
-  (setq blink-cursor-mode nil)
-  (setq-default cursor-type '(hbar .  2))
-  (setq-default cursor-in-non-selected-windows nil)
   :bind
   ("C-c q" . #'bury-buffer))
 
