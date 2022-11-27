@@ -19,7 +19,6 @@
   (magit-section-highlight-hook nil)
   (magit-define-global-key-bindings nil)
   (magit-log-arguments '("--graph" "--decorate" "--color"))
-
   :config
   (let ((sans-serif-family (face-attribute 'variable-pitch :family)))
     (set-face-attribute 'magit-diff-file-heading nil :family sans-serif-family :weight 'normal :bold nil)
@@ -27,7 +26,6 @@
     (set-face-attribute 'magit-section-child-count nil :family sans-serif-family :weight 'normal :bold nil)
     (set-face-attribute 'magit-section-heading nil :family sans-serif-family :bold t)
     (set-face-attribute 'magit-section-highlight nil :family sans-serif-family :bold t))
-
   :bind
   ("C-x g" . magit-status))
 

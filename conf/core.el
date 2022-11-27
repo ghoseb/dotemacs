@@ -354,7 +354,7 @@
   :hook prog-mode
   :bind
   (("C-M-s-. C-M-s-." . mc/edit-lines)
-   ("C->" . mc/mark-next-like-this)
+   ("C->" . mc/mark-next-like-this)     ;FIXME: conflicts with paredit
    ("C-<" . mc/mark-previous-like-this)
    ("C-c C-<" . mc/mark-all-like-this)))
 
