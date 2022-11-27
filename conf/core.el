@@ -58,9 +58,11 @@
         `((".*" ,(no-littering-expand-var-file-name "auto-save/") t)))
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
+
 (use-package selectrum
   :straight t
   :demand t
+  :after savehist
   :bind
   (("C-x C-z" . selectrum-repeat)
    :map selectrum-minibuffer-map
@@ -164,6 +166,7 @@
   (corfu-cycle nil)
   (corfu-auto t)
   (corfu-count 9)
+  (corfu-on-exact-match 'quit)
   (corfu-preselect-first t)
   (corfu-quit-at-boundary 'separator)
   (corfu-auto-delay 0.0)
@@ -379,6 +382,7 @@
 
 (use-package savehist
   :straight t
+  :demand t
   :init
   (savehist-mode 1)
   :config
@@ -391,6 +395,7 @@
 
 (use-package recentf
   :straight nil
+  :demand t
   :init
   (recentf-mode t)
   :config
