@@ -371,30 +371,26 @@
 
 
 (use-package saveplace
-  :straight t
+  :straight (:type built-in)
   :init
   (save-place-mode 1)
   :config
-  (setq save-place-file
-        (expand-file-name "saveplace" bg--save-dir))
   (setq-default save-place t))
 
 
 (use-package savehist
-  :straight t
+  :straight (:type built-in)
   :demand t
   :init
   (savehist-mode 1)
   :config
   (setq savehist-additional-variables
         '(search-ring regexp-search-ring)
-        savehist-autosave-interval 60
-        savehist-file
-        (expand-file-name "savehist" bg--save-dir)))
+        savehist-autosave-interval 60))
 
 
 (use-package recentf
-  :straight nil
+  :straight (:type built-in)
   :demand t
   :init
   (recentf-mode t)
@@ -407,7 +403,7 @@
 
 
 (use-package uniquify
-  :straight nil
+  :straight (:type built-in)
   :custom (uniquify-buffer-name-style 'forward))
 
 
