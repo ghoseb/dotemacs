@@ -101,8 +101,8 @@
   :after (selectrum prescient)
   :init
   (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1)
   :custom
+  (selectrum-prescient-enable-filtering t)
   (prescient-filter-method '(literal regexp initialism)))
 
 
@@ -140,11 +140,7 @@
 
 
 (use-package corfu
-  :straight (:type git
-                   :host github
-                   :repo "minad/corfu"
-                   :branch "main"
-                   :files (:defaults "extensions/*.el"))
+  :straight (corfu :repo "minad/corfu" :branch "main" :files (:defaults "extensions/*.el"))
   :config
   (defun corfu-complete-and-quit ()
     (interactive)
@@ -152,6 +148,7 @@
     (corfu-quit))
   :init
   (global-corfu-mode)
+  (corfu-popupinfo-mode +1)
   :bind (:map corfu-map
               ("C-n" . corfu-next)
               ("TAB" . corfu-next)
@@ -164,7 +161,10 @@
               ("C-g" . corfu-quit)
               ("C-q" . corfu-quick-insert)
               ("S-SPC" . corfu-insert-separator)
-              ([remap completion-at-point] . corfu-complete))
+              ([remap completion-at-point] . corfu-complete)
+              ("M-d" . corfu-popupinfo-toggle)
+              ("M-p" . corfu-popupinfo-scroll-down)
+              ("M-n" . corfu-popupinfo-scroll-up))
   :custom
   (corfu-cycle nil)
   (corfu-auto t)
@@ -177,23 +177,17 @@
   (corfu-quit-no-match t)
   (corfu-scroll-margin 5)
   (corfu-max-width 100)
-  (corfu-min-width 42))
+  (corfu-min-width 42)
+  (corfu-popupinfo-max-height 20)
+  (corfu-popupinfo-max-width 85))
 
 
-(use-package corfu-doc
-  :straight (corfu-doc :host github
-                       :repo "galeo/corfu-doc"
-                       :branch "main")
-  :when (display-graphic-p)
-  :custom
-  (corfu-doc-delay 2)
-  (corfu-doc-max-width 85)
-  (corfu-doc-max-height 20)
-  :bind (:map corfu-map
-              ("M-d" . #'corfu-doc-toggle)
-              ("M-p" . #'corfu-doc-scroll-down)
-              ("M-n" . #'corfu-doc-scroll-up))
-  :hook (corfu-mode . corfu-doc-mode))
+(use-package corfu-prescient
+  :straight t
+  :after (prescient corfu)
+  :demand t
+  :init
+  (corfu-prescient-mode +1))
 
 
 (use-package cape
