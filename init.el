@@ -17,7 +17,8 @@
       straight-cache-autoloads t
       straight-vc-git-default-clone-depth 1
       vc-follow-symlinks t
-      straight-check-for-modifications '(check-on-save find-when-checking))
+      straight-check-for-modifications '(check-on-save find-when-checking)
+      straight-recipes-emacsmirror-use-mirror nil)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -52,10 +53,11 @@
 (bg/maybe-load "settings.el")
 (when (memq system-type '(darwin)) (bg/maybe-load "osx.el"))
 (bg/maybe-load "core.el")
+(bg/maybe-load "themes.el")
 (bg/maybe-load "dev.el")
 (bg/maybe-load "clojure.el")
 (bg/maybe-load "utils.el")
-(bg/maybe-load "themes.el")
+
 (bg/maybe-load "org-config.el")
 
 (add-hook 'emacs-startup-hook #'bg/display-startup-msg)
