@@ -80,17 +80,21 @@
          (emacs-lisp-mode . rainbow-delimiters-mode)))
 
 
+(use-package jarchive
+  :demand t
+  :straight (jarchive :type git :host sourcehut :repo "dannyfreeman/jarchive"))
+
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
-  :straight t
+  :straight (eglot :fork (:repo "ghoseb/eglot"))
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
   (clojure-mode . eglot-ensure)
   (python-mode . eglot-ensure)
-  ;; :config
-  ;; pip install -U jedi-language-server / pyright
-  ;; (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  :config
+  (jarchive-setup)
+  (jarchive-patch-eglot)
   :custom
   (eglot-autoshutdown t)
   (eglot-extend-to-xref nil)
