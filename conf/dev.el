@@ -180,27 +180,28 @@
   (setq python-indent-guess-indent-offset-verbose nil))
 
 
-(use-package smartparens
+(use-package paredit
   :straight t
   :blackout t
-  :hook ((prog-mode . smartparens-mode))
   :bind
-  (:map smartparens-mode-map
-        ("M-(" . #'sp-wrap-round)
-        ("M-{" . #'sp-wrap-curly)
-        ("M-[" . #'sp-wrap-square))
+  (:map paredit-mode-map
+        ("M-(" . paredit-wrap-round)
+        ("M-{" . paredit-wrap-curly)
+        ("{" . paredit-open-curly)
+        ("M-[" . paredit-wrap-square)
+        ("M-]" . paredit-close-square-and-newline)
+        ("C->" . paredit-forward-slurp-sexp)
+        ("C-<" . paredit-forward-barf-sexp)
+        ("C-M-<" . paredit-backward-slurp-sexp)
+        ("C-M->" . paredit-backward-barf-sexp)
+        ("RET" . nil)
+        ("M-j" . paredit-newline))
+  :hook ((prog-mode . enable-paredit-mode)
+         (cider-repl-mode . enable-paredit-mode)
+         (eval-expression-minibuffer-setup . enable-paredit-mode)
+         (lisp-interaction-mode . enable-paredit-mode))
   :config
-  (progn
-    (setq sp-base-key-bindings 'paredit)
-    (setq sp-autoskip-closing-pair 'always)
-    (setq sp-hybrid-kill-entire-symbol nil)
-    (sp-use-paredit-bindings)
-    (sp-pair "'" nil :unless '(sp-point-after-word-p))
-    (sp-local-pair 'emacs-lisp-mode "`" "'")
-    (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-    (sp-local-pair 'clojure-mode "'" nil :actions nil)
-    (sp-local-pair 'cider-mode "'" nil :actions nil)
-    (sp-local-pair 'cider-repl-mode "'" nil :actions nil)))
+  (show-paren-mode t))
 
 
 (use-package sql-indent

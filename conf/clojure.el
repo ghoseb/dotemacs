@@ -10,7 +10,6 @@
          ("\\.cljs\\'" . clojurescript-mode)
          ("\\.edn\\'" . clojure-mode))
   :hook ((clojure-mode . subword-mode)
-         (clojure-mode . smartparens-strict-mode)
          (clojure-mode . rainbow-delimiters-mode)
          (clojure-mode . eldoc-mode))
   :config
@@ -39,10 +38,8 @@
         cider-repl-display-help-banner nil
         cider-repl-prompt-function #'cider-repl-prompt-abbreviated
         cider-format-code-options '(("indents" ((".*" (("inner" 0)))))))
-  (cider-repl-toggle-pretty-printing)
   ;; (defun cider--xref-backend () nil)
-  :hook
-  (cider-repl-mode . smartparens-mode))
+  (cider-repl-toggle-pretty-printing))
 
 
 (use-package apheleia
