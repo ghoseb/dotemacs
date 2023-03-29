@@ -60,6 +60,7 @@
       echo-keystrokes 1e-6
       comp-deferred-compilation nil
       native-comp-async-report-warnings-errors nil
+      debug-on-error t
       ;; better scrolling
       scroll-step 1
       scroll-conservatively 101
