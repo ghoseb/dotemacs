@@ -36,7 +36,7 @@
                              :host gitlab
                              :repo "pidu/git-timemachine"
                              :fork (:host github
-                                          :repo "emacsmirror/git-timemachine"))
+                                    :repo "emacsmirror/git-timemachine"))
   :bind (:map prog-mode-map
               ("C-c g t" . git-timemachine)))
 
