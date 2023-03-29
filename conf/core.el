@@ -29,7 +29,9 @@
    use-dialog-box nil
    global-auto-revert-non-file-buffers t
    blink-cursor-mode nil
-   history-delete-duplicates t)
+   history-delete-duplicates t
+   default-directory "~/"
+   confirm-kill-processes nil)
   (delete-selection-mode t)
   (column-number-mode t)
   (size-indication-mode t)
