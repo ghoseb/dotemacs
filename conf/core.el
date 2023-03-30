@@ -424,6 +424,10 @@
   (global-unset-key (kbd "C-z")))
 
 
+(use-package vundo
+  :straight t)
+
+
 (use-package ace-window
   :straight t
   :bind
