@@ -198,8 +198,11 @@
         ("C-M->" . paredit-backward-barf-sexp)
         ("RET" . nil)
         ("M-j" . paredit-newline))
-  :hook ((prog-mode . enable-paredit-mode)
+  :hook ((clojure-mode . enable-paredit-mode)
+         (clojurescript-mode . enable-paredit-mode)
+         (clojurec-mode . enable-paredit-mode)
          (cider-repl-mode . enable-paredit-mode)
+         (emacs-lisp-mode . enable-paredit-mode)
          (eval-expression-minibuffer-setup . enable-paredit-mode)
          (lisp-interaction-mode . enable-paredit-mode))
   :config
