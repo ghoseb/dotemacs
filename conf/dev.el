@@ -247,7 +247,11 @@
   :mode ("\\.json\\'" . jsonian-mode))
 
 
-(use-package zig-mode)
+(use-package zig-mode
+  :mode ("\\.zig\\'" . zig-mode))
+
+(use-package js2-mode
+  :mode ("\\.js\\'" . js2-mode))
 
 
 (use-package deadgrep
@@ -271,3 +275,13 @@
 (use-package elisp-slime-nav
   :straight t
   :hook (emacs-lisp-mode . turn-on-elisp-slime-nav-mode))
+
+(use-package tree-sitter
+  :straight t
+  :ensure-system-package (tree-sitter)
+  :hook
+  (zig-mode . tree-sitter-hl-mode)
+  (js2-mode . tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :straight t)
