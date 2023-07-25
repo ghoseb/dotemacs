@@ -49,7 +49,7 @@
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)
         '("cljstyle" "pipe"))
-  (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
+  (add-to-list 'apheleia-mode-alist '(clojure-ts-mode . cljstyle))
   (apheleia-global-mode t))
 
 (use-package clojure-ts-mode
