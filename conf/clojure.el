@@ -51,3 +51,12 @@
         '("cljstyle" "pipe"))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
   (apheleia-global-mode t))
+
+(use-package clojure-ts-mode
+  :straight (clojure-ts-mode :type git
+                             :host github
+                             :repo "clojure-emacs/clojure-ts-mode")
+  :mode (("\\.clj\\'" . clojure-ts-mode)
+         ("\\.cljc\\'" . clojurec-ts-mode)
+         ("\\.cljs\\'" . clojure-ts-mode)
+         ("\\.edn\\'" . clojure-ts-mode)))
