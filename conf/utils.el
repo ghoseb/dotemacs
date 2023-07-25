@@ -178,4 +178,15 @@ the prefix argument is supplied."
   ;; To disable collection of benchmark data after init is done.
   (add-hook 'emacs-startup-hook 'benchmark-init/deactivate))
 
+(use-package csv-mode
+  :straight t
+  :mode "\\.csv\\'"
+  :hook
+  (csv-mode . csv-align-mode)
+  :bind
+  ("C-c C-h" . csv-header-line))
+
+(use-package zone-select
+  :straight (zone-select :type git :host github :repo "kawabata/zone-select"))
+
 ;;; utils.el ends here
