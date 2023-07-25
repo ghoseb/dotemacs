@@ -84,7 +84,7 @@
 
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
-  :straight (eglot :fork (:repo "ghoseb/eglot"))
+  :straight (eglot :fork (:repo "joaotavora/eglot"))
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
