@@ -107,7 +107,7 @@
 (use-package markdown-mode
   :straight t
   :blackout "μ "
-  :ensure-system-package multimarkdown
+  :ensure-system-package (multimarkdown)
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
