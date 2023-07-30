@@ -276,6 +276,12 @@
   :straight t
   :hook (emacs-lisp-mode . turn-on-elisp-slime-nav-mode))
 
+
+(use-package devdocs-browser
+  :straight t
+  :commands (devdocs-browser-install-doc devdocs-browser-open-in))
+
+
 (use-package tree-sitter
   :straight t
   :ensure-system-package (tree-sitter)
