@@ -18,6 +18,7 @@
 (use-package vterm
   :straight t
   :when (bound-and-true-p module-file-suffix)
+  :hook (vterm-mode . (lambda () (spell-fu-mode -1)))
   :ensure-system-package
   ((libtool . "brew install libtool")
    (cmake . "brew install cmake"))
