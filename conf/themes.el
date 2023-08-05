@@ -43,11 +43,11 @@
 
 (use-package all-the-icons-completion
   :straight t
-  :after all-the-icons
+  :after (marginalia all-the-icons)
   :hook
   (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :config
-  (all-the-icons-completion-mode 1))
+  :init
+  (all-the-icons-completion-mode))
 
 
 (use-package all-the-icons-dired

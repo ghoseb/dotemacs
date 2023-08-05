@@ -44,6 +44,22 @@
   (set-terminal-coding-system 'utf-8)
   (set-keyboard-coding-system 'utf-8)
   (set-language-environment   'utf-8)
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
+  (defun crm-indicator (args)
+    (cons (format "[CRM%s] %s"
+                  (replace-regexp-in-string
+                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
+                   crm-separator)
+                  (car args))
+          (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
   :bind
   ("C-c q" . #'bury-buffer))
 
@@ -65,32 +81,16 @@
   (setq custom-file (no-littering-expand-etc-file-name "custom.el")))
 
 
-(use-package selectrum
-  :straight t
-  :demand t
-  :after savehist
-  :bind
-  (("C-x C-z" . selectrum-repeat)
-   :map selectrum-minibuffer-map
-   ("C-r" . selectrum-select-from-history)
-   :map minibuffer-local-map
-   ("M-h" . backward-kill-word)
-   ("M-RET" . selectrum-submit-exact-input))
-  :custom
-  (selectrum-fix-minibuffer-height t)
-  (selectrum-num-candidates-displayed 8)
-  ;; :custom-face
-  ;; (selectrum-current-candidate ((t (:background "#D8DEE9" :foreground "#3B4252"))))
-  :init
-  (selectrum-mode +1))
-
-
 (use-package prescient
   :straight t
   :demand t
   :custom
-  (prescient-filter-method '(literal regexp fuzzy))
+  (prescient-filter-method '(literal initialism prefix regexp fuzzy))
   (prescient-history-length 1000)
+  (prescient-use-char-folding t)
+  (prescient-use-case-folding 'smart)
+  (prescient-sort-full-matches-first t)
+  (prescient-sort-length-enable t)
   (prescient-save-file
    (expand-file-name "prescient-save.el"
                      no-littering-var-directory))
@@ -98,25 +98,51 @@
   (prescient-persist-mode +1))
 
 
-(use-package selectrum-prescient
-  :straight t
-  :demand t
-  :after (selectrum prescient)
-  :init
-  (selectrum-prescient-mode +1)
+(use-package vertico
+  :straight '(vertico :files (:defaults "extensions/*")
+                      :includes (vertico-buffer
+                                 vertico-directory
+                                 vertico-flat
+                                 vertico-grid
+                                 vertico-indexed
+                                 vertico-mouse
+                                 vertico-quick
+                                 vertico-repeat
+                                 vertico-reverse))
+  :bind (:map vertico-map
+              ("M-." . vertico-repeat)
+              ("C-n" . vertico-next)
+              ("C-p" . vertico-previous)
+              ("C-f" . vertico-exit)
+              ("C-M-n" . vertico-next-group)
+              ("C-M-p" . vertico-previous-group))
+  :hook
+  (minibuffer-setup . vertico-repeat-save)
   :custom
-  (selectrum-prescient-enable-filtering t)
-  (prescient-filter-method '(literal regexp initialism)))
+  (vertico-cycle t)
+  (vertico-count 10)
+  (vertico-resize t)
+  (vertico-preselect 'first)
+  (read-file-name-completion-ignore-case t)
+  (read-buffer-completion-ignore-case t)
+  (completion-ignore-case t)
+  :init
+  (vertico-mode)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
+
+
+(use-package vertico-prescient
+  :straight t
+  :after vertico
+  :config
+  (vertico-prescient-mode 1))
 
 
 (use-package marginalia
-  :after selectrum
+  :after vertico
   :straight t
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
-  :config
-  (advice-add #'marginalia-cycle :after
-              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
   :init
   (marginalia-mode)
   (setq marginalia-annotators '(marginalia-annotators-heavy
@@ -211,15 +237,12 @@
 
 (use-package orderless
   :straight t
-  :after (selectrum prescient)
+  :after (vertico prescient)
   :demand t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
   (completion-category-overrides '((file (styles partial-completion basic))))
-  (orderless-skip-highlighting (lambda () selectrum-is-active))
-  (selectrum-prescient-enable-filtering nil)
-  (selectrum-highlight-candidates-function #'orderless-highlight-matches)
   (orderless-component-separator 'orderless-escapable-split-on-space))
 
 
