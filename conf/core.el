@@ -578,3 +578,11 @@
   :straight t
   :bind
   ("C-=" . #'er/expand-region))
+
+
+(use-package bufferlo
+  :straight (bufferlo :repo "florommel/bufferlo" :host github)
+  :bind
+  ("C-x B" . bufferlo-switch-to-buffer)
+  :config
+  (bufferlo-mode 1))
