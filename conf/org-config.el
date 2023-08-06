@@ -31,6 +31,7 @@
 
 (use-package org
   :straight t
+  :defer 10
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . bg/org-setup)
   :custom
@@ -49,12 +50,13 @@
 
 
 (use-package org-appear
-  :after org
+  :after (org)
   :straight t
   :hook (org-mode . org-appear-mode))
 
 
 (use-package org-bars
+  :after (org)
   :straight (org-bars :type git
                       :host github
                       :repo "tonyaldon/org-bars")
