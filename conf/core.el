@@ -121,7 +121,7 @@
   :custom
   (vertico-cycle t)
   (vertico-count 10)
-  (vertico-resize t)
+  (vertico-resize nil)
   (vertico-preselect 'first)
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
