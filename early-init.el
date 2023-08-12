@@ -38,12 +38,12 @@
 (push '(tool-bar-lines . 0) default-frame-alist)
 (push '(vertical-scroll-bars) default-frame-alist)
 ;; get rid of the title bar
-;; (push '(undecorated-round . t) default-frame-alist)
+(push '(undecorated-round . t) default-frame-alist)
 
 ;; initial starting position
 (push '(height . 43) default-frame-alist)
-(push '(width . 140) default-frame-alist)
-(push '(left . 80) default-frame-alist)
+(push '(width . 130) default-frame-alist)
+(push '(left . 70) default-frame-alist)
 (push '(top . 30) default-frame-alist)
 
 

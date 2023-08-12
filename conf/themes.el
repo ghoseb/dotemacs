@@ -1,22 +1,31 @@
 ;;; themes.el
 
-(set-face-attribute 'default nil
-                    :family bg--default-font
-                    :height bg--default-font-size
-                    :weight 'regular)
-
-(set-face-attribute 'fixed-pitch nil
-                    :font bg--fixed-pitch-font)
-
-(set-face-attribute 'variable-pitch nil
-                    :font bg--variable-pitch-font)
-
 (set-fontset-font "fontset-default" 'unicode bg--emoji-font nil 'prepend)
 
 (defun bg/disable-themes ()
   "Disable all enabled custom themes."
   (interactive)
   (mapc #'disable-theme custom-enabled-themes))
+
+
+(use-package fontaine
+  :demand t
+  :init
+  (setq fontaine-presets
+        `((regular
+           :default-height ,bg--default-font-size)
+          (large
+           :default-weight semilight
+           :default-height 210
+           :bold-weight extrabold)
+          (t
+           :default-family ,bg--default-font
+           :default-weight normal
+           :variable-pitch-family ,bg--variable-pitch-font
+           :variable-pitch-height 1.05)))
+  :config
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
+  (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset))
 
 
 (use-package all-the-icons
@@ -84,8 +93,9 @@
               ("FIXME" . ,red-warmer)
               ("XXX" . ,red-warmer)
               ("DEPRECATED" . ,yellow)))))
+  :hook
+  ((ef-themes-post-load . #'bg/ef-themes-hl-todo-faces))
   :config
-  (add-hook 'ef-themes-post-load-hook #'bg/ef-themes-hl-todo-faces)
   (ef-themes-select 'ef-elea-dark))
 
 
