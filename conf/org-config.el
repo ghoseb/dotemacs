@@ -1,8 +1,7 @@
 (defun bg/org-setup ()
   "Customize org by setting a bunch of variables."
   (interactive)
-  (auto-fill-mode -1)
-  (whitespace-mode -1))
+  (auto-fill-mode -1))
 
 (defun bg/org-font-setup ()
   "Set faces for heading levels."

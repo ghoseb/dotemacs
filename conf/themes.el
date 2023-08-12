@@ -19,26 +19,12 @@
   (mapc #'disable-theme custom-enabled-themes))
 
 
-(defun bg/switch-theme-to-default ()
-  "Switch to default dark theme."
-  (interactive)
-  (bg/disable-themes)
-  (load-theme bg--default-theme t))
-
-
-(defun bg/switch-theme-to-alternative ()
-  "Switch to alternate light theme."
-  (interactive)
-  (bg/disable-themes)
-  (load-theme bg--alternative-theme t))
-
-
 (use-package all-the-icons
   :straight t
   :defer 10
   :if (display-graphic-p)
   :custom
-  (all-the-icons-scale-factor 1.0))
+  (all-the-icons-scale-factor 1.1))
 
 
 (use-package all-the-icons-completion
@@ -62,53 +48,68 @@
   :hook (after-init . doom-modeline-mode)
   :custom
   (doom-modeline-hud t)
-  (doom-modeline-height 10)
-  (doom-modeline-buffer-encoding t)
+  (doom-modeline-height 25)
+  (doom-modeline-buffer-encoding nil)
+  (doom-modeline-window-width-limit 115)
+  (doom-modeline-project-detection 'project)
+  (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
   :custom-face
   (mode-line ((t (:height 0.95))))
   (mode-line-active ((t (:height 0.95))))
   (mode-line-inactive ((t (:height 0.95)))))
 
 
-(use-package doom-themes
-  :straight t
-  :disabled t
-  :config
-  (setq doom-themes-enable-bold t
-        doom-themes-enable-italic t)
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (doom-themes-visual-bell-config)
-  (doom-themes-treemacs-config)
-  (doom-themes-org-config))
-
-(use-package kaolin-themes
+(use-package ef-themes
   :straight t
   :demand t
   :custom
-  (kaolin-themes-bold t)
-  (kaolin-themes-italic t)
-  (kaolin-themes-underline nil)
-  (kaolin-themes-italic-comments t)
-  (kaolin-themes-distinct-fringe t)
-  (kaolin-themes-git-gutter-solid t)
-  (kaolin-themes-treemacs-hl-line t)
-  (kaolin-themes-comments-style 'contrast)
-  (kaolin-themes-distinct-parentheses t)
-  (kaolin-theme-linum-hl-line-style t)
-  (kaolin-themes-hl-line-colored t)
+  (ef-themes-region '(intense no-extend neutral))
+  (ef-themes-variable-pitch-ui nil)
+  (ef-themes-disable-other-themes t)
+  :init
+  (defun bg/ef-themes-hl-todo-faces ()
+    "Configure `hl-todo-keyword-faces' with Ef themes colors."
+    (ef-themes-with-colors
+      (setq hl-todo-keyword-faces
+            `(("HOLD" . ,yellow)
+              ("TODO" . ,red)
+              ("NEXT" . ,blue)
+              ("OKAY" . ,green-warmer)
+              ("DONT" . ,yellow-warmer)
+              ("FAIL" . ,red-warmer)
+              ("BUG" . ,red-warmer)
+              ("DONE" . ,green)
+              ("NOTE" . ,blue-warmer)
+              ("HACK" . ,cyan)
+              ("FIXME" . ,red-warmer)
+              ("XXX" . ,red-warmer)
+              ("DEPRECATED" . ,yellow)))))
   :config
-  (kaolin-treemacs-theme))
+  (add-hook 'ef-themes-post-load-hook #'bg/ef-themes-hl-todo-faces)
+  (ef-themes-select 'ef-elea-dark))
+
+
+(use-package highlight-indent-guides
+  :straight t
+  :hook (prog-mode)
+  :custom
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-responsive 'top)
+  (highlight-indent-guides-auto-enabled nil)
+  (highlight-indent-guides-character #x258f)
+  :config
+  (set-face-foreground 'highlight-indent-guides-character-face (ef-themes-get-color-value 'bg-active))
+  (set-face-foreground 'highlight-indent-guides-top-character-face (ef-themes-get-color-value 'fg-dim)))
 
 
 (defun bg/apply-theme (appearance)
   "Load theme, taking current system APPEARANCE into consideration."
   (bg/disable-themes)
   (pcase appearance
-    ('light (load-theme bg--light-theme t))
-    ('dark (load-theme bg--dark-theme t))))
+    ('light (ef-themes-select 'ef-elea-light))
+    ('dark (ef-themes-select 'ef-elea-dark))))
 
 ;; (add-hook 'ns-system-appearance-change-functions #'bg/apply-theme)
-(load-theme bg--default-theme t)
 
 (use-package ligature
   :straight (ligature :type git :host github :repo "mickeynp/ligature.el")

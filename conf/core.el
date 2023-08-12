@@ -364,6 +364,7 @@
 
 
 (use-package whitespace
+  :disabled t
   :straight t
   :commands (whitespace-mode)
   :hook ((prog-mode . whitespace-mode)
