@@ -90,6 +90,7 @@
   :hook
   (clojure-mode . eglot-ensure)
   (python-mode . eglot-ensure)
+  (go-mode . eglot-ensure)
   :config
   (jarchive-setup)
   (jarchive-patch-eglot)
@@ -197,6 +198,7 @@
         ("C-M-<" . paredit-backward-slurp-sexp)
         ("C-M->" . paredit-backward-barf-sexp)
         ("RET" . nil)
+        ("M-;" . nil)
         ("M-j" . paredit-newline))
   :hook ((clojure-mode . enable-paredit-mode)
          (clojurescript-mode . enable-paredit-mode)
@@ -291,3 +293,11 @@
 
 (use-package tree-sitter-langs
   :straight t)
+
+(use-package go-mode
+  :after (eglot)
+  :ensure-system-package (gopls)
+  :mode "\\.go\\'"
+  :config
+  (setq-default eglot-workspace-configuration
+                '((:gopls . ((gofumpt . t))))))
