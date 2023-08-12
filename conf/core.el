@@ -332,10 +332,10 @@
        (treemacs-git-mode 'simple)))
 
     (treemacs-hide-gitignored-files-mode nil))
+  (treemacs-project-follow-mode 1)
   :bind
   (:map global-map
-        ("s-t"       . treemacs-display-current-project-exclusively)
-        ("s-T"       . treemacs-add-and-display-current-project)
+        ("s-t"       . treemacs-add-and-display-current-project)
         ("M-0"       . treemacs-select-window)
         ("C-x t 1"   . treemacs-delete-other-windows)
         ("C-x t t"   . treemacs)
