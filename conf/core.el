@@ -61,7 +61,8 @@
         '(read-only t cursor-intangible t face minibuffer-prompt))
   (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
   :bind
-  ("C-c q" . #'bury-buffer))
+  ("C-c q" . #'bury-buffer)
+  ("<escape>" . #'keyboard-escape-quit))
 
 
 ;; Keep .emacs.d clean
@@ -115,7 +116,8 @@
               ("C-p" . vertico-previous)
               ("C-f" . vertico-exit)
               ("C-M-n" . vertico-next-group)
-              ("C-M-p" . vertico-previous-group))
+              ("C-M-p" . vertico-previous-group)
+              ("C-<backspace>" . vertico-directory-delete-word))
   :hook
   (minibuffer-setup . vertico-repeat-save)
   :custom
@@ -584,6 +586,7 @@
 (use-package consult
   :bind ;; C-c bindings in `mode-specific-map'
   ("C-c M-x" . consult-mode-command)
+  ("C-x M-f" . consult-recent-file)
   ("C-c k" . consult-kmacro)
   ("C-c m" . consult-man)
   ("C-c i" . consult-info)
@@ -607,7 +610,7 @@
   ;; Minibuffer history
   (:map minibuffer-local-map
         ;; orig. next-matching-history-element
-        ("M-s" . consult-history)
+        ("C-r" . consult-history)
         ;; orig. previous-matching-history-element
         ("M-r" . consult-history))
 
