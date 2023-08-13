@@ -581,9 +581,66 @@
   ("C-=" . #'er/expand-region))
 
 
-(use-package bufferlo
-  :straight (bufferlo :repo "florommel/bufferlo" :host github)
-  :bind
-  ("C-x B" . bufferlo-switch-to-buffer)
+(use-package consult
+  :bind ;; C-c bindings in `mode-specific-map'
+  ("C-c M-x" . consult-mode-command)
+  ("C-c k" . consult-kmacro)
+  ("C-c m" . consult-man)
+  ("C-c i" . consult-info)
+  ([remap Info-search] . consult-info)
+  ;; C-x bindings in `ctl-x-map'
+  ("C-x M-:" . consult-complex-command)     ;; orig. repeat-complex-command
+  ("C-x b" . consult-buffer)                ;; orig. switch-to-buffer
+  ("C-x 4 b" . consult-buffer-other-window) ;; orig. switch-to-buffer-other-window
+  ("C-x 5 b" . consult-buffer-other-frame)  ;; orig. switch-to-buffer-other-frame
+  ("C-x r b" . consult-bookmark)            ;; orig. bookmark-jump
+  ("C-x p b" . consult-project-buffer)      ;; orig. project-switch-to-buffer
+  ;; Custom M-# bindings for fast register access
+  ("M-#" . consult-register-load)
+  ("M-'" . consult-register-store) ;; orig. abbrev-prefix-mark (unrelated)
+  ("C-M-#" . consult-register)
+  ;; Other custom bindings
+  ("M-y" . consult-yank-pop)    ;; orig. yank-pop
+  ;; M-g bindings in `goto-map'
+  ("M-g g" . consult-goto-line) ;; orig. goto-line
+
+  ;; Minibuffer history
+  (:map minibuffer-local-map
+        ;; orig. next-matching-history-element
+        ("M-s" . consult-history)
+        ;; orig. previous-matching-history-element
+        ("M-r" . consult-history))
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+  :init
+
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0.5
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
   :config
-  (bufferlo-mode 1))
+  (consult-customize
+   consult-theme :preview-key '(:debounce 0.2 any)
+   consult-line
+   consult-ripgrep
+   :initial (when (use-region-p)
+              (buffer-substring-no-properties
+               (region-beginning) (region-end)))
+   consult-ripgrep consult-git-grep consult-grep
+
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-bookmark consult--source-file-register
+   consult--source-recent-file consult--source-project-recent-file
+   :preview-key '(:debounce 0.4 any)))

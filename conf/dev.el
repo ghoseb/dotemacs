@@ -294,6 +294,12 @@
 (use-package tree-sitter-langs
   :straight t)
 
+
+(use-package consult-eglot
+  :after (eglot)
+  :commands (consult-eglot-symbols))
+
+
 (use-package go-mode
   :after (eglot)
   :ensure-system-package (gopls)
