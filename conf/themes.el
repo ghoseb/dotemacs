@@ -58,14 +58,14 @@
   :custom
   (doom-modeline-hud t)
   (doom-modeline-height 25)
+  (doom-modeline-bar-width 6)
   (doom-modeline-buffer-encoding nil)
   (doom-modeline-window-width-limit 115)
   (doom-modeline-project-detection 'project)
   (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
   :custom-face
-  (mode-line ((t (:height 0.95))))
-  (mode-line-active ((t (:height 0.95))))
-  (mode-line-inactive ((t (:height 0.95)))))
+  (mode-line ((t (:height 0.90))))
+  (mode-line-inactive ((t (:height 0.90)))))
 
 
 (use-package ef-themes
