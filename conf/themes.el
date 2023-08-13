@@ -75,6 +75,7 @@
   (ef-themes-region '(intense no-extend neutral))
   (ef-themes-variable-pitch-ui nil)
   (ef-themes-disable-other-themes t)
+  (ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
   :init
   (defun bg/ef-themes-hl-todo-faces ()
     "Configure `hl-todo-keyword-faces' with Ef themes colors."
@@ -93,8 +94,7 @@
               ("FIXME" . ,red-warmer)
               ("XXX" . ,red-warmer)
               ("DEPRECATED" . ,yellow)))))
-  :hook
-  ((ef-themes-post-load . #'bg/ef-themes-hl-todo-faces))
+  (bg/disable-themes)
   :config
   (ef-themes-select 'ef-elea-dark))
 
