@@ -267,6 +267,7 @@
   :straight (spell-fu :type git
                       :host codeberg
                       :repo "ideasman42/emacs-spell-fu")
+  :hook (prog-mode . (lambda () (spell-fu-mode -1)))
   :init
   (setq ispell-personal-dictionary (expand-file-name "ispell/.pws" bg--save-dir))
   (global-spell-fu-mode)
