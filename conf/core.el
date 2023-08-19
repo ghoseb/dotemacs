@@ -633,6 +633,9 @@
   (setq xref-show-xrefs-function #'consult-xref
         xref-show-definitions-function #'consult-xref)
 
+  :custom
+  (consult-narrow-key "C-,")
+  (consult-widen-key "C-.")
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
