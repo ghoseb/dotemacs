@@ -324,6 +324,7 @@
 
     (treemacs-follow-mode t)
     (treemacs-filewatch-mode t)
+    (treemacs-git-commit-diff-mode t)
     (treemacs-fringe-indicator-mode 'always)
 
     (pcase (cons (not (null (executable-find "git")))
@@ -332,8 +333,7 @@
        (treemacs-git-mode 'deferred))
       (`(t . _)
        (treemacs-git-mode 'simple)))
-
-    (treemacs-hide-gitignored-files-mode nil))
+    (treemacs-hide-gitignored-files-mode t))
   (treemacs-project-follow-mode 1)
   :bind
   (:map global-map
