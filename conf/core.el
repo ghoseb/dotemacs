@@ -451,7 +451,9 @@
 
 
 (use-package vundo
-  :straight t)
+  :straight t
+  :custom
+  (vundo-glyph-alist vundo-unicode-symbols))
 
 
 (use-package ace-window
