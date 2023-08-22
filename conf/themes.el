@@ -101,7 +101,7 @@
 
 (use-package highlight-indent-guides
   :straight t
-  :hook (prog-mode)
+  :hook (prog-mode . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'top)

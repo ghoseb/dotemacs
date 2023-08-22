@@ -270,6 +270,7 @@
   :hook (prog-mode . (lambda () (spell-fu-mode -1)))
   :init
   (setq ispell-personal-dictionary (expand-file-name "ispell/.pws" bg--save-dir))
+  :config
   (global-spell-fu-mode)
   :custom
   (spell-fu-faces-include . '(font-lock-doc-face

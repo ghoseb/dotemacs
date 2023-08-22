@@ -44,7 +44,7 @@
 
 (use-package apheleia
   :straight t
-  :hook prog-mode
+  :hook (prog-mode . apheleia-mode)
   :ensure-system-package cljstyle
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)
@@ -53,6 +53,7 @@
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . cljstyle))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . cljstyle))
   (apheleia-global-mode t))
+
 
 (use-package clojure-ts-mode
   :disabled t
