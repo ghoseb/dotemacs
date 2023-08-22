@@ -285,17 +285,6 @@
   :commands (devdocs-browser-install-doc devdocs-browser-open-in))
 
 
-(use-package tree-sitter
-  :straight t
-  :ensure-system-package (tree-sitter)
-  :hook
-  (zig-mode . tree-sitter-hl-mode)
-  (js2-mode . tree-sitter-hl-mode))
-
-(use-package tree-sitter-langs
-  :straight t)
-
-
 (use-package consult-eglot
   :after (eglot)
   :commands (consult-eglot-symbols))
