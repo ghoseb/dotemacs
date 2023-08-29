@@ -24,8 +24,8 @@
    kept-new-versions 10
    kept-old-versions 0
    delete-old-versions t
-   backup-by-copying t
    vc-make-backup-files t
+   make-backup-files nil
    use-dialog-box nil
    global-auto-revert-non-file-buffers t
    blink-cursor-mode nil
