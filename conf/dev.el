@@ -203,12 +203,21 @@
   :hook ((clojure-mode . enable-paredit-mode)
          (clojurescript-mode . enable-paredit-mode)
          (clojurec-mode . enable-paredit-mode)
-         (cider-repl-mode . enable-paredit-mode)
-         (emacs-lisp-mode . enable-paredit-mode)
-         (eval-expression-minibuffer-setup . enable-paredit-mode)
-         (lisp-interaction-mode . enable-paredit-mode))
+         (cider-repl-mode . enable-paredit-mode))
+         ;; (emacs-lisp-mode . enable-paredit-mode)
+         ;; (eval-expression-minibuffer-setup . enable-paredit-mode)
+         ;; (lisp-interaction-mode . enable-paredit-mode)
   :config
   (show-paren-mode t))
+
+
+(use-package parinfer-rust-mode
+  :defer 1
+  :hook ((emacs-lisp-mode . parinfer-rust-mode)
+         (lisp-interaction-mode . parinfer-rust-mode)
+         (eval-expression-minibuffer-setup . parinfer-rust-mode))
+  :custom
+  (parinfer-rust-library "~/.emacs.d/.local/var/parinfer-rust/libparinfer_rust.dylib"))
 
 
 (use-package sql-indent
