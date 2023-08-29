@@ -639,13 +639,14 @@
   :config
   (consult-customize
    consult-theme :preview-key '(:debounce 0.2 any)
+
    consult-line
    consult-ripgrep
    :initial (when (use-region-p)
               (buffer-substring-no-properties
                (region-beginning) (region-end)))
-   consult-ripgrep consult-git-grep consult-grep
 
+   consult-ripgrep consult-git-grep consult-grep
    consult-bookmark consult-recent-file consult-xref
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
