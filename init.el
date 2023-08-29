@@ -33,6 +33,8 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+(setq vc-follow-symlinks 'ask) ; restore default
+
 ;; install use-package
 (straight-use-package 'use-package)
 (straight-use-package 'use-package-ensure-system-package)
