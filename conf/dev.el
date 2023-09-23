@@ -98,6 +98,7 @@
   (eglot-autoshutdown t)
   (eglot-extend-to-xref nil)
   (eglot-confirm-server-initiated-edits nil)
+  (eglot-sync-connect nil)
   ;; don't need these features as they are provided from elsewhere
   (eglot-ignored-server-capabilities '(:hoverProvider
                                        :documentOnTypeFormattingProvider
