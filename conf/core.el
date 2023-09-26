@@ -651,3 +651,10 @@
    consult--source-bookmark consult--source-file-register
    consult--source-recent-file consult--source-project-recent-file
    :preview-key '(:debounce 0.4 any)))
+
+
+(use-package scrollkeeper
+  :straight t
+  :bind
+  ([remap scroll-up-command] . scrollkeeper-contents-up)
+  ([remap scroll-down-command] . scrollkeeper-contents-down))
