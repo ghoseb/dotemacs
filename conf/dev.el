@@ -36,7 +36,7 @@
                              :host gitlab
                              :repo "pidu/git-timemachine"
                              :fork (:host github
-                                    :repo "emacsmirror/git-timemachine"))
+                                          :repo "emacsmirror/git-timemachine"))
   :bind (:map prog-mode-map
               ("C-c g t" . git-timemachine)))
 
@@ -82,6 +82,7 @@
   :demand t
   :straight (jarchive :type git :host sourcehut :repo "dannyfreeman/jarchive"))
 
+
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
   :straight (eglot :fork (:repo "joaotavora/eglot"))
@@ -93,7 +94,6 @@
   (go-mode . eglot-ensure)
   :config
   (jarchive-setup)
-  (jarchive-patch-eglot)
   :custom
   (eglot-autoshutdown t)
   (eglot-extend-to-xref nil)
@@ -205,9 +205,9 @@
          (clojurescript-mode . enable-paredit-mode)
          (clojurec-mode . enable-paredit-mode)
          (cider-repl-mode . enable-paredit-mode))
-         ;; (emacs-lisp-mode . enable-paredit-mode)
-         ;; (eval-expression-minibuffer-setup . enable-paredit-mode)
-         ;; (lisp-interaction-mode . enable-paredit-mode)
+  ;; (emacs-lisp-mode . enable-paredit-mode)
+  ;; (eval-expression-minibuffer-setup . enable-paredit-mode)
+  ;; (lisp-interaction-mode . enable-paredit-mode)
   :config
   (show-paren-mode t))
 
