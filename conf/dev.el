@@ -194,10 +194,10 @@
         ("{" . paredit-open-curly)
         ("M-[" . paredit-wrap-square)
         ("M-]" . paredit-close-square-and-newline)
-        ("C->" . paredit-forward-slurp-sexp)
-        ("C-<" . paredit-forward-barf-sexp)
-        ("C-M-<" . paredit-backward-slurp-sexp)
-        ("C-M->" . paredit-backward-barf-sexp)
+        ("C-(" . paredit-forward-slurp-sexp)
+        ("C-{" . paredit-forward-barf-sexp)
+        ("C-)" . paredit-backward-slurp-sexp)
+        ("C-}" . paredit-backward-barf-sexp)
         ("RET" . nil)
         ("M-;" . nil)
         ("M-j" . paredit-newline))
@@ -210,6 +210,7 @@
   ;; (lisp-interaction-mode . enable-paredit-mode)
   :config
   (show-paren-mode t))
+
 
 
 (use-package parinfer-rust-mode
@@ -308,3 +309,7 @@
   :config
   (setq-default eglot-workspace-configuration
                 '((:gopls . ((gofumpt . t))))))
+
+
+(use-package rust-ts-mode
+  :mode "\\.rs\\'")
