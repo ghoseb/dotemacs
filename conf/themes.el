@@ -30,7 +30,7 @@
 
 (use-package all-the-icons
   :straight t
-  :defer 10
+  :demand t
   :if (display-graphic-p)
   :custom
   (all-the-icons-scale-factor 1.1))
