@@ -212,7 +212,6 @@
   (show-paren-mode t))
 
 
-
 (use-package parinfer-rust-mode
   :defer 1
   :hook ((emacs-lisp-mode . parinfer-rust-mode)
@@ -292,9 +291,9 @@
   :hook (emacs-lisp-mode . turn-on-elisp-slime-nav-mode))
 
 
-(use-package devdocs-browser
+(use-package devdocs
   :straight t
-  :commands (devdocs-browser-install-doc devdocs-browser-open-in))
+  :commands (devdocs-install devdocs-peruse devdocs-lookup))
 
 
 (use-package consult-eglot
