@@ -312,3 +312,8 @@
 
 (use-package rust-ts-mode
   :mode "\\.rs\\'")
+
+
+(use-package transpose-frame
+  :straight t
+  :commands (transpose-frame flip-frame flop-frame rotate-frame rotate-frame-clockwise rotate-frame-anti-clockwise))
