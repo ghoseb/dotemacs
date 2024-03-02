@@ -159,3 +159,9 @@
   :demand t
   :hook (after-init . spacious-padding-mode))
 
+
+(use-package golden-ratio
+  :straight t
+  :hook (after-init . golden-ratio-mode)
+  :config
+  (add-to-list 'golden-ratio-extra-commands 'ace-window))
