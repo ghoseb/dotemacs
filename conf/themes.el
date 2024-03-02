@@ -152,3 +152,10 @@
   ;; Enables ligature checks globally in all buffers. You can also do it
   ;; per mode with `ligature-mode'.
   (global-ligature-mode t))
+
+
+(use-package spacious-padding
+  :straight (spacious-padding :type git :host github :repo "protesilaos/spacious-padding")
+  :demand t
+  :hook (after-init . spacious-padding-mode))
+
