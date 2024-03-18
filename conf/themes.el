@@ -10,6 +10,7 @@
 
 (use-package fontaine
   :demand t
+  :if window-system
   :init
   (setq fontaine-presets
         `((regular
