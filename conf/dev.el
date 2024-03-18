@@ -60,16 +60,28 @@
   (global-diff-hl-mode))
 
 
+;; NOTE: Load this after `ef-themes` because we depend on their colors
 (use-package hl-todo
   :straight t
+  :after (ef-themes)
   :init
   (global-hl-todo-mode 1)
-  :custom
-  (hl-todo-keyword-faces '(("TODO"   . "#BF616A")
-                           ("FIXME"  . "#EBCB8B")
-                           ("DEBUG"  . "#B48EAD")
-                           ("GOTCHA" . "#D08770")
-                           ("XXX"   . "#81A1C1"))))
+  :config
+  (ef-themes-with-colors
+    (setq hl-todo-keyword-faces
+          `(("DONE" . ,green)
+            ("TODO" . ,red)
+            ("HOLD" . ,yellow)
+            ("OKAY" . ,green-warmer)
+            ("NEXT" . ,blue)
+            ("NOTE" . ,blue-warmer)
+            ("DONT" . ,yellow-warmer)
+            ("FAIL" . ,red-warmer)
+            ("BUG" . ,red-warmer)
+            ("FIXME" . ,red-warmer)
+            ("XXX" . ,red-warmer)
+            ("DEPRECATED" . ,yellow)
+            ("HACK" . ,cyan)))))
 
 
 (use-package rainbow-delimiters

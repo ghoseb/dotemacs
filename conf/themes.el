@@ -78,6 +78,7 @@
   (ef-themes-disable-other-themes t)
   (ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
   :init
+  ;; NOTE: Keeping this only for documentation purposes, actual setup happens with `hl-todo`
   (defun bg/ef-themes-hl-todo-faces ()
     "Configure `hl-todo-keyword-faces' with Ef themes colors."
     (ef-themes-with-colors
