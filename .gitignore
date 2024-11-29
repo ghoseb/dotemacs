@@ -14,3 +14,5 @@ straight/repos/
 /.local/
 /multisession/
 /.mc-lists.el
+/elpa/
+/tree-sitter/
