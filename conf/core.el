@@ -248,11 +248,6 @@
   (orderless-component-separator 'orderless-escapable-split-on-space))
 
 
-(use-package use-package-ensure-system-package
-  :after use-package
-  :straight t)
-
-
 (use-package which-key
   :straight t
   :hook (emacs-startup . which-key-mode)

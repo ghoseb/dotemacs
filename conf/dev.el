@@ -134,6 +134,7 @@
 
 (use-package flycheck
   :straight t
+  :after (parinfer-rust-mode)
   :config
   (setq-default flycheck-indication-mode 'left-fringe)
   (setq-default flycheck-highlighting-mode 'columns)

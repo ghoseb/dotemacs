@@ -37,7 +37,6 @@
 
 ;; install use-package
 (straight-use-package 'use-package)
-(straight-use-package 'use-package-ensure-system-package)
 
 (require 'use-package)
 (setq use-package-verbose t)
