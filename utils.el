@@ -20,9 +20,9 @@
 (defun bg/startup-time-str ()
   "Return the startup time as a formatted string."
   (format
-    "%.3f"
-    (float-time
-     (time-subtract after-init-time before-init-time))))
+   "%.3f"
+   (float-time
+    (time-subtract after-init-time before-init-time))))
 
 
 (defun bg/display-startup-msg ()
@@ -60,7 +60,7 @@
     (setq cursor-type nil)
     (read-only-mode +1)
     (switch-to-buffer (current-buffer))
-    (local-set-key (kbd "q") 'kill-this-buffer)))
+    (local-set-key (kbd "q") 'kill-current-buffer)))
 
 
 (provide 'utils)
