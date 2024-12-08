@@ -7,6 +7,19 @@
   :custom
   (xref-search-program 'ripgrep))
 
+(use-package apheleia
+  :straight t
+  :hook (prog-mode . apheleia-mode)
+  ;; FIXME: Clj specific stuff should be moved out of here
+  :ensure-system-package cljstyle
+  :config
+  (setf (alist-get 'cljstyle apheleia-formatters)
+        '("cljstyle" "pipe"))
+  (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
+  (add-to-list 'apheleia-mode-alist '(clojurec-mode . cljstyle))
+  (add-to-list 'apheleia-mode-alist '(clojurescript-mode . cljstyle))
+  (apheleia-global-mode t))
+
 
 (use-package magit
   :straight t

@@ -54,18 +54,6 @@ For the REPL type use the function `cider-repl-type'."
   (cider-repl-toggle-pretty-printing))
 
 
-(use-package apheleia
-  :straight t
-  :hook (prog-mode . apheleia-mode)
-  :ensure-system-package cljstyle
-  :config
-  (setf (alist-get 'cljstyle apheleia-formatters)
-        '("cljstyle" "pipe"))
-  (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
-  (add-to-list 'apheleia-mode-alist '(clojurec-mode . cljstyle))
-  (add-to-list 'apheleia-mode-alist '(clojurescript-mode . cljstyle))
-  (apheleia-global-mode t))
-
 (use-package clojure-ts-mode
   :disabled
   :blackout ((clojure-ts-mode . "CLJ[τ]")
