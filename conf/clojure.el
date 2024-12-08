@@ -12,7 +12,8 @@
          (clojure-mode . rainbow-delimiters-mode)
          (clojure-mode . eldoc-mode))
   :config
-  (setq clojure-indent-style 'always-indent))
+  (setq clojure-indent-style 'always-indent)
+  (setq clojure-use-metadata-for-privacy t))
 
 
 (use-package cider
