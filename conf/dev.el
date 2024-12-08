@@ -206,7 +206,14 @@
 
 (use-package pet
   :config
-  (add-hook 'python-base-mode-hook 'pet-mode -10))
+  (add-hook 'python-base-mode-hook 'pet-mode -10)
+  (add-hook 'python-mode-hook
+            (lambda ()
+              (setq-local python-shell-interpreter (pet-executable-find "python")
+                          python-shell-virtualenv-root (pet-virtualenv-root))
+
+              (pet-eglot-setup)
+              (pet-flycheck-setup))))
 
 
 (use-package paredit
