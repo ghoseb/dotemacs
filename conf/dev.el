@@ -199,14 +199,14 @@
 
 
 (use-package python
-  :straight t
+  :straight (:type built-in)
   :mode ("\\.py\\'" . python-mode)
-  :blackout "Π"
+  :blackout "Π")
+
+
+(use-package pet
   :config
-  (setq python-shell-interpreter "python3")
-  (setq  python-indent-offset 4)
-  (setq python-indent-guess-indent-offset t)
-  (setq python-indent-guess-indent-offset-verbose nil))
+  (add-hook 'python-base-mode-hook 'pet-mode -10))
 
 
 (use-package paredit
