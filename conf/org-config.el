@@ -60,8 +60,8 @@
                       :host github
                       :repo "tonyaldon/org-bars")
   :config
-  (setq org-bars-color-options '(:only-one-color t
-                                 :bar-color "#8c8c8c"))
+  (setq org-bars-color-options
+        '(:desaturate-level-faces 30 :darken-level-faces 15 :desaturate-level-faces 30 :darken-level-faces 15))
   :hook (org-mode . org-bars-mode))
 
 
