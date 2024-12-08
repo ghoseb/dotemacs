@@ -15,6 +15,7 @@
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)
         '("cljstyle" "pipe"))
+  (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . cljstyle))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . cljstyle))
