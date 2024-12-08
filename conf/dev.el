@@ -114,8 +114,6 @@
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
-  (clojure-mode . eglot-ensure)
-  (python-mode . eglot-ensure)
   (go-mode . eglot-ensure)
   :config
   (jarchive-setup)
