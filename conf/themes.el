@@ -162,8 +162,9 @@
   :hook (after-init . spacious-padding-mode))
 
 
-(use-package golden-ratio
+;; Replacement for `golden-ratio`
+(use-package zoom
   :straight t
-  :hook (after-init . golden-ratio-mode)
-  :config
-  (add-to-list 'golden-ratio-extra-commands 'ace-window))
+  :hook (after-init . zoom-mode)
+  :custom
+  (zoom-size '(0.618 . 0.618)))
