@@ -76,7 +76,7 @@
   (ef-themes-region '(intense no-extend neutral))
   (ef-themes-variable-pitch-ui nil)
   (ef-themes-disable-other-themes t)
-  (ef-themes-to-toggle '(ef-elea-dark ef-elea-light))
+  (ef-themes-to-toggle '(ef-owl ef-eagle))
   :init
   ;; NOTE: Keeping this only for documentation purposes, actual setup happens with `hl-todo`
   (defun bg/ef-themes-hl-todo-faces ()
@@ -98,7 +98,7 @@
               ("DEPRECATED" . ,yellow)))))
   (bg/disable-themes)
   :config
-  (ef-themes-select 'ef-elea-dark))
+  (ef-themes-select 'ef-owl))
 
 
 (use-package highlight-indent-guides
