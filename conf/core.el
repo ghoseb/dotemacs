@@ -371,13 +371,13 @@
 
 
 (use-package multiple-cursors
- :straight t
- :hook (prog-mode . multiple-cursors-mode)
- :bind
- (("C-M-s-. C-M-s-." . mc/edit-lines)
-  ("C->" . mc/mark-next-like-this)     ;FIXME: conflicts with paredit
-  ("C-<" . mc/mark-previous-like-this)
-  ("C-c C-<" . mc/mark-all-like-this)))
+  :straight t
+  :hook (prog-mode . multiple-cursors-mode)
+  :bind
+  (("C-M-s-. C-M-s-." . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)     ;FIXME: conflicts with paredit
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)))
 
 
 (use-package super-save
