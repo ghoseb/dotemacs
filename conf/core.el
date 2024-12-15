@@ -714,3 +714,10 @@ The DWIM behaviour of this command is as follows:
   (setq trashed-use-header-line t)
   (setq trashed-sort-key '("Date deleted" . t))
   (setq trashed-date-format "%Y-%m-%d %H:%M:%S"))
+
+
+(use-package disproject
+  :straight t
+  :after (project)
+  :bind (:map ctl-x-map
+              ("p" . disproject-dispatch)))
