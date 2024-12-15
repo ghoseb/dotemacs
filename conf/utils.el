@@ -25,7 +25,7 @@
   :bind (:map vterm-mode-map
               ("<insert>" . ignore)
               ("<f2>" . ignore)
-         :map project-prefix-map
+              :map project-prefix-map
               ("t" . vterm-project-dir))
   :custom
   (vterm-always-compile-module t)
@@ -70,41 +70,41 @@ the prefix argument is supplied."
   (centaur-tabs-group-by-projectile-project)
   (centaur-tabs-change-fonts bg--variable-pitch-font bg--default-font-size)
   (defun centaur-tabs-buffer-groups ()
-     (list
-      (cond
-       ((not (eq (file-remote-p (buffer-file-name)) nil))
-        "Remote")
-       ((derived-mode-p 'eshell-mode 'term-mode 'shell-mode 'vterm-mode)
-        "Term")
-       ((or (string-equal "*" (substring (buffer-name) 0 1))
-            (memq major-mode '(magit-process-mode
-                               magit-status-mode
-                               magit-diff-mode
-                               magit-log-mode
-                               magit-file-mode
-                               magit-blob-mode
-                               magit-blame-mode)))
-        "Emacs")
-       ((derived-mode-p 'prog-mode)
-        "Editing")
-       ((derived-mode-p 'dired-mode)
-        "Dired")
-       ((memq major-mode '(helpful-mode
-                           help-mode))
-        "Help")
-       ((memq major-mode '(org-mode
-                           org-agenda-clockreport-mode
-                           org-src-mode
-                           org-agenda-mode
-                           org-beamer-mode
-                           org-indent-mode
-                           org-bullets-mode
-                           org-cdlatex-mode
-                           org-agenda-log-mode
-                           diary-mode))
-        "OrgMode")
-       (t
-        (centaur-tabs-get-group-name (current-buffer))))))
+    (list
+     (cond
+      ((not (eq (file-remote-p (buffer-file-name)) nil))
+       "Remote")
+      ((derived-mode-p 'eshell-mode 'term-mode 'shell-mode 'vterm-mode)
+       "Term")
+      ((or (string-equal "*" (substring (buffer-name) 0 1))
+           (memq major-mode '(magit-process-mode
+                              magit-status-mode
+                              magit-diff-mode
+                              magit-log-mode
+                              magit-file-mode
+                              magit-blob-mode
+                              magit-blame-mode)))
+       "Emacs")
+      ((derived-mode-p 'prog-mode)
+       "Editing")
+      ((derived-mode-p 'dired-mode)
+       "Dired")
+      ((memq major-mode '(helpful-mode
+                          help-mode))
+       "Help")
+      ((memq major-mode '(org-mode
+                          org-agenda-clockreport-mode
+                          org-src-mode
+                          org-agenda-mode
+                          org-beamer-mode
+                          org-indent-mode
+                          org-bullets-mode
+                          org-cdlatex-mode
+                          org-agenda-log-mode
+                          diary-mode))
+       "OrgMode")
+      (t
+       (centaur-tabs-get-group-name (current-buffer))))))
 
   (defun centaur-tabs-hide-tab (x)
     "Do no to show buffer X in tabs."
