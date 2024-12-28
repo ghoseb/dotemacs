@@ -215,7 +215,8 @@
 
 
 (use-package pet
-  :config
+  :commands (pet-mode)
+  :init
   (add-hook 'python-base-mode-hook 'pet-mode -10)
   (add-hook 'python-mode-hook
             (lambda ()
