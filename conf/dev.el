@@ -11,7 +11,7 @@
   :straight t
   :hook (prog-mode . apheleia-mode)
   ;; FIXME: Clj specific stuff should be moved out of here
-  :ensure-system-package cljstyle
+  ;; :ensure-system-package cljstyle
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)
         '("cljstyle" "pipe"))
@@ -203,6 +203,13 @@
   :mode ("\\.py\\'" . python-mode)
   :blackout "Π")
 
+(use-package python-isort
+  :straight t)
+
+
+(use-package ruff-format
+  :straight t)
+
 
 (use-package pet
   :config
@@ -211,7 +218,13 @@
             (lambda ()
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
-
+              (when-let ((ruff-executable (pet-executable-find "ruff")))
+                (setq-local ruff-format-command ruff-executable)
+                (apheleia-mode -1)
+                (ruff-format-on-save-mode))
+              (when-let ((isort-executable (pet-executable-find "isort")))
+                (setq-local python-isort-command isort-executable)
+                (python-isort-on-save-mode))
               (pet-eglot-setup)
               (pet-flycheck-setup))))
 
