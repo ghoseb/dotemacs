@@ -118,6 +118,9 @@
   (go-mode . eglot-ensure)
   :config
   (jarchive-setup)
+  (add-to-list 'eglot-server-programs
+               '((python-mode python-ts-mode)
+                 "basedpyright-langserver" "--stdio"))
   :custom
   (eglot-autoshutdown t)
   (eglot-extend-to-xref nil)
