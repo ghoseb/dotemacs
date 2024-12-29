@@ -1,5 +1,6 @@
 ;;; themes.el
 
+(set-fontset-font "fontset-default" 'unicode bg--nerd-font nil 'prepend)
 (set-fontset-font "fontset-default" 'unicode bg--emoji-font nil 'prepend)
 
 (defun bg/disable-themes ()
