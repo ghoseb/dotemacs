@@ -264,7 +264,9 @@ The DWIM behaviour of this command is as follows:
   :demand t
   :after corfu
   :custom
+  (kind-icon-use-icons t)
   (kind-icon-default-face 'corfu-default)
+  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.75 :scale 0.85 :background nil))
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
