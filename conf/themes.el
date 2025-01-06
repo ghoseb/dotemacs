@@ -167,5 +167,10 @@
 (use-package zoom
   :straight t
   :hook (after-init . zoom-mode)
+  :init
+  (defun size-callback ()
+    (cond ((> (frame-pixel-width) 1280) '(100 . 0.75))
+          (t                            '(0.618 . 0.618))))
   :custom
-  (zoom-size '(0.618 . 0.618)))
+  (zoom-ignored-major-modes '(dired-mode markdown-mode magit-mode))
+  (zoom-size #'size-callback))
