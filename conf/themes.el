@@ -16,14 +16,16 @@
   (setq fontaine-presets
         `((regular
            :default-height ,bg--default-font-size)
-          (large
+          (monitor
            :default-weight semilight
-           :default-height 210
-           :bold-weight extrabold)
+           :default-height 250
+           :bold-weight bold)
           (t
            :default-family ,bg--default-font
            :default-weight normal
            :variable-pitch-family ,bg--variable-pitch-font
+           :italic-family ,bg--default-font
+           :italic-slant oblique        ;specfic to Berkeley Mono
            :variable-pitch-height 1.05)))
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
