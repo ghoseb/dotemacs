@@ -730,3 +730,16 @@ The DWIM behaviour of this command is as follows:
   :after (project)
   :bind (:map ctl-x-map
               ("p" . disproject-dispatch)))
+
+
+(use-package ultra-scroll
+  :straight (ultra-scroll
+             :type git
+             :host github
+             :repo "jdtsmith/ultra-scroll"
+             :branch "main")
+  :init
+  (setq scroll-conservatively 101       ; important!
+        scroll-margin 0)
+  :config
+  (ultra-scroll-mode 1))
