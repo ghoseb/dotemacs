@@ -603,7 +603,8 @@ The DWIM behaviour of this command is as follows:
   ("C-x l" . #'pulsar-pulse-line-red)
   ("C-c h h" . #'pulsar-highlight-dwim)
   :hook
-  ((next-error . #'pulsar-pulse-line)))
+  ((next-error . #'pulsar-pulse-line)
+   (minibuffer-setup . #'pulsar-pulse-line)))
 
 
 (use-package expand-region
