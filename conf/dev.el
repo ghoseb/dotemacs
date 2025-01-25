@@ -133,6 +133,17 @@
   (eglot-connect-timeout 120))
 
 
+;; NOTE: This is for making LSP faster.
+;; `cargo install emacs-lsp-booster`
+(use-package eglot-booster
+  :straight (eglot-booster :type git
+                           :host github
+                           :repo "jdtsmith/eglot-booster"
+                           :branch "main")
+  :after eglot
+  :config (eglot-booster-mode))
+
+
 (use-package markdown-mode
   :straight t
   :blackout "μ "
@@ -395,6 +406,7 @@
   :straight t
   :hook
   (tuareg-mode . flycheck-ocaml-setup))
+
 
 (use-package utop
   :straight t
