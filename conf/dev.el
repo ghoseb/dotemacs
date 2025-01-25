@@ -409,3 +409,10 @@
     (shell-command-to-string "opam var prefix"))))
 
 
+(use-package gptel
+  :straight t
+  :config
+  (gptel-make-ollama "Ollama"
+    :host "localhost:11434"
+    :stream t
+    :models '(deepseek-coder-v2 codellama)))
