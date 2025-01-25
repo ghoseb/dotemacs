@@ -366,3 +366,46 @@
 (use-package transpose-frame
   :straight t
   :commands (transpose-frame flip-frame flop-frame rotate-frame rotate-frame-clockwise rotate-frame-anti-clockwise))
+
+
+;; Major mode for OCaml programming
+(use-package tuareg
+  :straight t
+  :mode (("\\.ocamlinit\\'" . tuareg-mode)
+         ("\\.ml\\'" . tuareg-mode)))
+
+;; Major mode for editing Dune project files
+(use-package dune
+  :straight t)
+
+;; Merlin provides advanced IDE features
+(use-package merlin
+  :straight t
+  :hook
+  (tuareg-mode . merlin-mode)
+  :config
+  (setq merlin-error-after-save nil))
+
+(use-package merlin-eldoc
+  :straight t
+  :hook (tuareg-mode . merlin-eldoc-setup))
+
+;; This uses Merlin internally
+(use-package flycheck-ocaml
+  :straight t
+  :hook
+  (tuareg-mode . flycheck-ocaml-setup))
+
+(use-package utop
+  :straight t
+  :hook (tuareg-mode . utop-minor-mode)
+  :config
+  (setq utop-command "opam exec -- dune utop . -- -emacs")
+  :init
+  (add-to-list
+   'load-path
+   (replace-regexp-in-string
+    "\n" "/share/emacs/site-lisp"
+    (shell-command-to-string "opam var prefix"))))
+
+
