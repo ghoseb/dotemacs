@@ -588,6 +588,24 @@ The DWIM behaviour of this command is as follows:
   ("C-s-<tab>" . kc/hs-global-cycle))
 
 
+(use-package outline-indent
+  :straight t
+  :commands (outline-indent-minor-mode)
+  :hook ((prog-mode . outline-indent-minor-mode))
+  :bind-keymap ("C-c f" . bg--outline-indent-keymap)
+  :init
+  (defvar-keymap bg--outline-indent-keymap
+    :doc "Prefix map for Outline Indent Mode"
+    "c" `("Close fold" . ,#'outline-indent-close-fold)
+    "o" `("Open fold". ,#'outline-indent-open-fold)
+    "O" `("Open fold recursive" . ,#'outline-indent-open-fold-rec)
+    "M-c" `("Close all folds" . ,#'outline-indent-close-folds)
+    "M-o" `("Open all folds" . ,#'outline-indent-open-folds))
+  :custom
+  (outline-blank-line t)
+  (outline-indent-ellipsis " ↘ "))
+
+
 (use-package pulsar
   :straight t
   :defer 5
