@@ -438,7 +438,7 @@ The DWIM behaviour of this command is as follows:
   (savehist-mode 1)
   :config
   (setq savehist-additional-variables
-        '(search-ring regexp-search-ring)
+        '(search-ring regexp-search-ring kill-ring mark-ring)
         savehist-autosave-interval 60))
 
 
