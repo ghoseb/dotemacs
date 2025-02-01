@@ -106,7 +106,7 @@
 
 (use-package highlight-indent-guides
   :straight t
-  :hook (prog-mode . highlight-indent-guides-mode)
+  :commands (highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-responsive 'top)
@@ -115,6 +115,19 @@
   :config
   (set-face-foreground 'highlight-indent-guides-character-face (ef-themes-get-color-value 'bg-active))
   (set-face-foreground 'highlight-indent-guides-top-character-face (ef-themes-get-color-value 'fg-dim)))
+
+
+(use-package indent-bars
+  :straight t
+  :commands (indent-bars-mode)
+  :custom
+  (indent-bars-no-descend-lists t)
+  (indent-bars-treesit-support t)
+  (indent-bars-treesit-ignore-blank-lines-types '("module"))
+  (indent-bars-prefer-character t)
+  (indent-bars-color '(highlight :face-bg t :blend 0.25))
+  (indent-bars-highlight-current-depth '(:face default :blend 0.4))
+  (indent-bars-color-by-depth nil))
 
 
 (defun bg/apply-theme (appearance)
