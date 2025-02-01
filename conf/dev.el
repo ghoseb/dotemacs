@@ -452,3 +452,9 @@
                    :stream t
                    :models '(meta-llama/Llama-3.3-70B-Instruct-Turbo
                              deepseek-ai/DeepSeek-V3))))
+
+(use-package flycheck-overlay
+  :straight (flycheck-overlay
+             :type git
+             :host github
+             :repo "konrad1977/flycheck-overlay"))
