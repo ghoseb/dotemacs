@@ -79,7 +79,7 @@
   (ef-themes-region '(intense no-extend neutral))
   (ef-themes-variable-pitch-ui nil)
   (ef-themes-disable-other-themes t)
-  (ef-themes-to-toggle '(ef-owl ef-eagle))
+  (ef-themes-to-toggle '(ef-dream ef-light))
   :init
   ;; NOTE: Keeping this only for documentation purposes, actual setup happens with `hl-todo`
   (defun bg/ef-themes-hl-todo-faces ()
@@ -101,7 +101,7 @@
               ("DEPRECATED" . ,yellow)))))
   (bg/disable-themes)
   :config
-  (ef-themes-select 'ef-owl))
+  (ef-themes-select 'ef-dream))
 
 
 (use-package highlight-indent-guides
