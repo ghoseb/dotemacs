@@ -1,4 +1,4 @@
-;;; dev.el
+;; -*- lexical-binding: t -*-
 
 (add-hook 'prog-mode-hook #'display-line-numbers-mode)
 
@@ -430,8 +430,25 @@
 
 (use-package gptel
   :straight t
+  :init
+  ;; Instruct `auth-source` to look into ~/.emacs.d/ for secrets
+  (add-to-list 'auth-sources (expand-file-name "var/.authinfo" bg--local-dir))
+  (defun bg/get-api-key (hostname)
+    "Return a function that retrieves the API key for the given HOSTNAME."
+    (lambda ()
+      (let ((secret (plist-get (car (auth-source-search :host hostname :user "apikey")) :secret)))
+        (when secret
+          (funcall secret)))))
   :config
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
-    :models '(deepseek-coder-v2 codellama)))
+    :models '(deepseek-coder-v2 codellama))
+  (setq
+   gptel-model 'deepseek-ai/DeepSeek-V3
+   gptel-backend (gptel-make-openai "TogetherAI"
+                   :host "api.together.xyz"
+                   :key (bg/get-api-key "together.ai")
+                   :stream t
+                   :models '(meta-llama/Llama-3.3-70B-Instruct-Turbo
+                             deepseek-ai/DeepSeek-V3))))
