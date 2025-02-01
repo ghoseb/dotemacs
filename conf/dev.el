@@ -450,7 +450,8 @@
                    :host "api.together.xyz"
                    :key (bg/get-api-key "together.ai")
                    :stream t
-                   :models '(meta-llama/Llama-3.3-70B-Instruct-Turbo
+                   :models '(Qwen/Qwen2.5-Coder-32B-Instruct
+                             meta-llama/Llama-3.3-70B-Instruct-Turbo
                              deepseek-ai/DeepSeek-V3))))
 
 (use-package flycheck-overlay
