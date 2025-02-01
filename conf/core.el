@@ -202,6 +202,9 @@
   (blackout 'emacs-lisp-mode "EL"))
 
 
+(use-package nerd-icons-corfu
+  :straight t)
+
 (use-package corfu
   :straight (corfu :repo "minad/corfu" :branch "main" :files (:defaults "extensions/*.el"))
   :config
@@ -209,6 +212,7 @@
     (interactive)
     (corfu-complete)
     (corfu-quit))
+  (add-to-list 'corfu-margin-formatters #'nerd-icons-corfu-formatter)
   :init
   (global-corfu-mode)
   (corfu-popupinfo-mode +1)
@@ -238,11 +242,7 @@
   (corfu-auto-delay 0.0)
   (corfu-auto-prefix 2)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5)
-  (corfu-max-width 100)
-  (corfu-min-width 42)
-  (corfu-popupinfo-max-height 20)
-  (corfu-popupinfo-max-width 85))
+  (corfu-scroll-margin 5))
 
 
 (use-package corfu-prescient
