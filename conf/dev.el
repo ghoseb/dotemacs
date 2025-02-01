@@ -211,10 +211,19 @@
   (rg-enable-default-bindings))
 
 
+(use-package tree-sitter-langs
+  :straight t)
+
+
 (use-package python
   :straight (:type built-in)
   :mode ("\\.py\\'" . python-mode)
-  :blackout "Π")
+  :blackout "Π"
+  :config
+  (require 'tree-sitter)
+  (require 'tree-sitter-langs)
+  (add-hook 'python-mode-hook #'tree-sitter-hl-mode))
+
 
 (use-package python-isort
   :straight t)
