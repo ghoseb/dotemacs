@@ -362,7 +362,6 @@
 
 (use-package go-mode
   :after (eglot)
-  :ensure-system-package (gopls)
   :mode "\\.go\\'"
   :config
   (setq-default eglot-workspace-configuration
