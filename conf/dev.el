@@ -329,8 +329,15 @@
   :mode ("\\.json\\'" . jsonian-mode))
 
 
-(use-package zig-mode
-  :mode ("\\.zig\\'" . zig-mode))
+(use-package zig-mode)
+
+(use-package zig-ts-mode
+  :straight (zig-ts-mode
+             :type git
+             :host codeberg
+             :repo "meow_king/zig-ts-mode")
+  :blackout "𝒵"
+  :mode ("\\.zig\\'" . zig-ts-mode))
 
 (use-package js2-mode
   :mode ("\\.js\\'" . js2-mode))
