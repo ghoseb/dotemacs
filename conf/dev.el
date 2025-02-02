@@ -130,7 +130,9 @@
   (eglot-ignored-server-capabilities '(:hoverProvider
                                        :documentOnTypeFormattingProvider
                                        :executeCommandProvider))
-  (eglot-connect-timeout 120))
+  (eglot-connect-timeout 120)
+  :custom-face
+  (eglot-inlay-hint-face  ((t (:inherit shadow :weight semi-light :height 0.8)))))
 
 
 ;; NOTE: This is for making LSP faster.

@@ -17,12 +17,12 @@
         `((regular
            :default-height ,bg--default-font-size)
           (monitor
-           :default-weight semilight
            :default-height 250
            :bold-weight bold)
           (t
            :default-family ,bg--default-font
            :default-weight normal
+           :default-width semi-condensed
            :variable-pitch-family ,bg--variable-pitch-font
            :italic-family ,bg--default-font
            :italic-slant oblique        ;specfic to Berkeley Mono
