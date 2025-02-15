@@ -35,7 +35,7 @@
   (delete-selection-mode t)
   (column-number-mode t)
   (size-indication-mode t)
-  (global-hl-line-mode 1)
+  ;; (global-hl-line-mode 1)
   (global-auto-revert-mode 1)
   (defalias 'yes-or-no-p 'y-or-n-p)
   (prefer-coding-system 'utf-8)
@@ -631,7 +631,8 @@
   :commands (dired)
   :hook
   ((dired-mode . dired-hide-details-mode)
-   (dired-mode . hl-line-mode))
+   ;; (dired-mode . hl-line-mode)
+   )
   :config
   (setq dired-recursive-copies 'always)
   (setq dired-recursive-deletes 'always)
@@ -693,3 +694,14 @@
   (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
 
 
+
+(use-package lin
+  :straight t
+  :after (ef-themes)
+  :demand t
+  :commands (lin-mode)
+  :custom
+  (lin-mode-hooks '(prog-mode-hook))
+  (lin-face 'lin-blue)
+  :config
+  (lin-global-mode +1))
