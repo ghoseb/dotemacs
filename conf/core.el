@@ -688,7 +688,7 @@
   :ensure t
   :config
   (setq compile-angel-verbose t)
-  (setq compile-angel-enable-byte-compile nil)
+  (setq compile-angel-enable-byte-compile t)
   (setq compile-angel-enable-native-compile t)
   (compile-angel-on-load-mode)
   (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
