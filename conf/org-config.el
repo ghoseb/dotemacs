@@ -3,6 +3,11 @@
   (interactive)
   (auto-fill-mode -1))
 
+(use-package verb
+  :straight t
+  :after org
+  :commands (verb-send-request-on-point-other-window-stay))
+
 (defun bg/org-font-setup ()
   "Set faces for heading levels."
   (interactive)
@@ -45,7 +50,8 @@
   (org-log-done 'time)
   (org-log-into-drawer t)
   :config
-  (bg/org-font-setup))
+  (bg/org-font-setup)
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map))
 
 
 (use-package org-appear
