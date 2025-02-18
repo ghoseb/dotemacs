@@ -468,3 +468,14 @@
              :type git
              :host github
              :repo "konrad1977/flycheck-overlay"))
+
+
+(use-package hl-column-mode
+  :straight (hl-column-mode
+             :type git
+             :host codeberg
+             :repo "akib/emacs-hl-column")
+  :after ef-themes
+  :custom-face
+  (hl-column ((t (:background ,(ef-themes-get-color-value 'bg-alt)))))
+  :commands (global-hl-column-mode))
