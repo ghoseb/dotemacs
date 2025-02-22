@@ -535,6 +535,7 @@
 
 (use-package outline-indent
   :straight t
+  :disabled t
   :commands (outline-indent-minor-mode)
   :hook ((prog-mode . outline-indent-minor-mode))
   :bind-keymap ("C-c f" . bg--outline-indent-keymap)

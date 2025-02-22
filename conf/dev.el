@@ -479,3 +479,19 @@
   :custom-face
   (hl-column ((t (:background ,(ef-themes-get-color-value 'bg-alt)))))
   :commands (global-hl-column-mode))
+
+
+(use-package treesit-fold
+  :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold")
+  :bind-keymap ("C-c f" . bg--treesit-fold-keymap)
+  :commands treesit-fold-mode
+  :init
+  (defvar-keymap bg--treesit-fold-keymap
+    :doc "Prefix map for Treesit Fold Mode"
+    "c" `("Close fold" . ,#'treesit-fold-close)
+    "o" `("Open fold". ,#'treesit-fold-open)
+    "O" `("Open fold recursive" . ,#'treesit-fold-open-recursively)
+    "M-c" `("Close all folds" . ,#'treesit-fold-close-all)
+    "M-o" `("Open all folds" . ,#'treesit-fold-open-all))
+  :config
+  (treesit-fold-indicators-mode))
