@@ -130,6 +130,12 @@
   :config
   (prescient-persist-mode +1))
 
+(use-package nerd-icons
+  :straight t
+  :demand t
+  :custom
+  (nerd-icons-font-family bg--nerd-font))
+
 
 (use-package vertico
   :straight '(vertico :files (:defaults "extensions/*")
@@ -160,6 +166,27 @@
   (read-file-name-completion-ignore-case t)
   (read-buffer-completion-ignore-case t)
   (completion-ignore-case t)
+  (minibuffer-prompt-properties
+   '(read-only t
+               cursor-intangible t
+               face (:inherit minibuffer-prompt :weight bold :height 1.0)))
+  (vertico-count-format
+   `("%-6s " . ,(concat (nerd-icons-octicon "nf-oct-search")
+                        " (%s/%s)")))
+  :config
+  nil
+  (advice-add
+   #'vertico--format-candidate :around
+   (lambda (orig-fun cand prefix suffix index start)
+     (apply orig-fun (list cand
+                           (if (= vertico--index index)
+                               (concat (nerd-icons-faicon
+                                        "nf-fa-hand_o_right"
+                                        :face 'nerd-icons-lgreen)
+                                       " " prefix)
+                             (concat "   " prefix))
+                           suffix
+                           index start))))
   :init
   (vertico-mode)
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
