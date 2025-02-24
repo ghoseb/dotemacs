@@ -506,6 +506,7 @@
 
 (use-package vundo
   :straight t
+  :commands vundo
   :custom
   (vundo-glyph-alist vundo-unicode-symbols))
 
