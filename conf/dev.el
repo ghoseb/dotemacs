@@ -67,11 +67,16 @@
   :straight t
   :after magit
   :hook
-  ((magit-pre-refresh . diff-hl-magit-pre-refresh)
-   (magit-post-refresh . diff-hl-magit-post-refresh))
-  :init
-  (setq diff-hl-draw-borders nil)
+  (magit-post-refresh . #'diff-hl-magit-post-refresh)
+  :custom
+  (diff-hl-side 'left)
+  (diff-hl-margin-symbols-alist '((insert . "│")
+                                  (delete . "-")
+                                  (change . "│")
+                                  (unknown . "?")
+                                  (ignored . "i")))
   :config
+  (setq vc-git-diff-switches '("--histogram"))
   (global-diff-hl-mode))
 
 
