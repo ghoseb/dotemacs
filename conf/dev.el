@@ -15,7 +15,8 @@
   :config
   (setf (alist-get 'cljstyle apheleia-formatters)
         '("cljstyle" "pipe"))
-  (add-to-list 'apheleia-mode-alist '(python-mode . ruff))
+  ;; NOTE: Need to install `isort` and `ruff` for this
+  (add-to-list 'apheleia-mode-alist '(python-ts-mode . (isort ruff)))
   (add-to-list 'apheleia-mode-alist '(clojure-mode . cljstyle))
   (add-to-list 'apheleia-mode-alist '(clojurec-mode . cljstyle))
   (add-to-list 'apheleia-mode-alist '(clojurescript-mode . cljstyle))
@@ -219,20 +220,12 @@
 
 (use-package python
   :straight (:type built-in)
-  :mode ("\\.py\\'" . python-mode)
+  :mode ("\\.py\\'" . python-ts-mode)
   :blackout "Π"
   :config
   (require 'tree-sitter)
   (require 'tree-sitter-langs)
   (add-hook 'python-mode-hook #'tree-sitter-hl-mode))
-
-
-(use-package python-isort
-  :straight t)
-
-
-(use-package ruff-format
-  :straight t)
 
 
 (use-package pet
@@ -339,7 +332,9 @@
   :blackout "𝒵"
   :mode ("\\.zig\\'" . zig-ts-mode))
 
+
 (use-package js2-mode
+  :blackout "JS"
   :mode ("\\.js\\'" . js2-mode))
 
 
