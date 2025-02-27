@@ -241,13 +241,6 @@
             (lambda ()
               (setq-local python-shell-interpreter (pet-executable-find "python")
                           python-shell-virtualenv-root (pet-virtualenv-root))
-              (when-let ((ruff-executable (pet-executable-find "ruff")))
-                (setq-local ruff-format-command ruff-executable)
-                (apheleia-mode -1)
-                (ruff-format-on-save-mode))
-              (when-let ((isort-executable (pet-executable-find "isort")))
-                (setq-local python-isort-command isort-executable)
-                (python-isort-on-save-mode))
               (pet-eglot-setup)
               (pet-flycheck-setup))))
 
