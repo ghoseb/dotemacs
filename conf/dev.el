@@ -339,8 +339,37 @@
 
 
 (use-package js2-mode
+  :straight t
+  :interpreter (("node" . js2-mode))
   :blackout "JS"
-  :mode ("\\.js\\'" . js2-mode))
+  :mode "\\.\\(js\\|json\\)$"
+  ;; JS2 has its own faces, here I override them with `font-lock` faces for an uniform look
+  :custom-face
+  (js2-function-param ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-function-call ((t (:foreground ,(face-foreground 'font-lock-function-name-face)))))
+  (js2-object-property ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-external-variable ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-jsdoc-tag ((t (:foreground ,(face-foreground 'font-lock-doc-face)))))
+  (js2-jsdoc-type ((t (:foreground ,(face-foreground 'font-lock-type-face)))))
+  (js2-jsdoc-value ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-private-member ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-private-function-call ((t (:foreground ,(face-foreground 'font-lock-function-name-face)))))
+  (js2-keywords ((t (:foreground ,(face-foreground 'font-lock-keyword-face)))))
+  (js2-warning ((t (:foreground ,(face-foreground 'font-lock-warning-face)))))
+  (js2-error ((t (:foreground ,(face-foreground 'error)))))
+  (js2-constant ((t (:foreground ,(face-foreground 'font-lock-constant-face)))))
+  (js2-built-in ((t (:foreground ,(face-foreground 'font-lock-builtin-face)))))
+  (js2-string ((t (:foreground ,(face-foreground 'font-lock-string-face)))))
+  (js2-regexp ((t (:foreground ,(face-foreground 'font-lock-string-face)))))
+  (js2-comment ((t (:foreground ,(face-foreground 'font-lock-comment-face)))))
+  (js2-instance-member ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
+  (js2-magic-paren ((t (:foreground ,(face-foreground 'font-lock-preprocessor-face)))))
+  :config
+  (add-hook 'js-mode-hook 'js2-minor-mode)
+  (setq js2-basic-offset 2
+        js2-highlight-level 3
+        js2-mode-show-parse-errors nil
+        js2-mode-show-strict-warnings nil))
 
 
 (use-package deadgrep
@@ -495,3 +524,9 @@
     "M-o" `("Open all folds" . ,#'treesit-fold-open-all))
   :config
   (treesit-fold-indicators-mode))
+
+(use-package tsx-mode
+  :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs30")
+  :mode "\\.tsx\\'"
+  :custom
+  (tsx-mode-enable-css-in-js t))
