@@ -372,18 +372,11 @@
   :bind ("<f5>" . deadgrep))
 
 
-(use-package spell-fu
-  :straight (spell-fu :type git
-                      :host codeberg
-                      :repo "ideasman42/emacs-spell-fu")
-  :hook (prog-mode . (lambda () (spell-fu-mode -1)))
-  :init
-  (setq ispell-personal-dictionary (expand-file-name "ispell/.pws" bg--save-dir))
-  :config
-  (global-spell-fu-mode)
-  :custom
-  (spell-fu-faces-include . '(font-lock-doc-face
-                              font-lock-comment-face)))
+(use-package jinx
+  :hook (emacs-startup . global-jinx-mode)
+  :bind (("M-$" . jinx-correct)
+         ("C-M-$" . jinx-languages)))
+
 
 (use-package elisp-slime-nav
   :straight t
@@ -517,6 +510,7 @@
     "M-o" `("Open all folds" . ,#'treesit-fold-open-all))
   :config
   (treesit-fold-indicators-mode))
+
 
 (use-package tsx-mode
   :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs30")
