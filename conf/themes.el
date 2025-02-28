@@ -25,7 +25,7 @@
            :default-width semi-condensed
            :variable-pitch-family ,bg--variable-pitch-font
            :italic-family ,bg--default-font
-           :italic-slant oblique        ;specfic to Berkeley Mono
+           :italic-slant oblique        ;specific to Berkeley Mono
            :variable-pitch-height 1.05)))
   :config
   (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
@@ -178,12 +178,13 @@
   :hook (after-init . spacious-padding-mode)
   :custom
   (spacious-padding-widths
-   '( :internal-border-width 20
+   '( :internal-border-width 24
       :header-line-width 4
-      :mode-line-width 6
+      :mode-line-width 10
       :tab-width 4
       :right-divider-width 30
-      :scroll-bar-width 8)))
+      :scroll-bar-width 12
+      :fringe-width 12)))
 
 
 ;; Replacement for `golden-ratio`
