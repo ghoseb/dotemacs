@@ -40,7 +40,7 @@
   (with-current-buffer (get-buffer-create "*Welcome*")
     (setq truncate-lines t)
     (let* ((buffer-read-only)
-           (image-path "~/.emacs.d/images/emacs.png")
+           (image-path "~/.emacs.d/images/emacs.svg")
            (image (create-image image-path))
            (size (image-size image))
            (height (cdr size))

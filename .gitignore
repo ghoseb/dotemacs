@@ -16,3 +16,4 @@ straight/repos/
 /.mc-lists.el
 /elpa/
 /tree-sitter/
+.DS_Store
