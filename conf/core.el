@@ -204,11 +204,10 @@
   :straight t
   :bind (:map minibuffer-local-map
               ("M-A" . marginalia-cycle))
+  :custom
+  (marginalia-align-offset 2)
   :init
-  (marginalia-mode)
-  (setq marginalia-annotators '(marginalia-annotators-heavy
-                                marginalia-annotators-light
-                                nil)))
+  (marginalia-mode))
 
 
 (use-package ctrlf
