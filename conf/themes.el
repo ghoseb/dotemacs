@@ -196,4 +196,5 @@
           (t                            '(0.618 . 0.618))))
   :custom
   (zoom-ignored-major-modes '(dired-mode markdown-mode magit-mode))
+  (zoom-ignored-buffer-names '("*wclock*"))
   (zoom-size #'size-callback))
