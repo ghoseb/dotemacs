@@ -1,6 +1,13 @@
-;; -*- lexical-binding: t -*-
+;;; -*- lexical-binding: t -*-
 
-(add-hook 'prog-mode-hook #'display-line-numbers-mode)
+(use-package display-line-numbers
+  :straight (:type built-in)
+  :hook
+  (prog-mode . display-line-numbers-mode)
+  :custom-face
+  (line-number-current-line ((t ( :inherit (bold line-number)
+                                  :underline ,(ef-themes-get-color-value 'fg-dim))))))
+
 
 (use-package xref
   :straight (:type built-in)

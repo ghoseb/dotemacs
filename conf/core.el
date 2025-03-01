@@ -726,6 +726,7 @@
 
 (use-package lin
   :straight t
+  :disabled t
   :after (ef-themes)
   :demand t
   :commands (lin-mode)
