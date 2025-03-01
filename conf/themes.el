@@ -198,3 +198,9 @@
   (zoom-ignored-major-modes '(dired-mode markdown-mode magit-mode))
   (zoom-ignored-buffer-names '("*wclock*"))
   (zoom-size #'size-callback))
+
+
+(use-package hide-mode-line
+  :straight t
+  :hook
+  (treemacs-mode . hide-mode-line-mode))

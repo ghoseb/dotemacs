@@ -400,6 +400,14 @@
         ("C-x t M-t" . treemacs-find-tag)))
 
 
+(use-package treemacs-nerd-icons
+  :straight t
+  :demand t
+  :after (treemacs nerd-icons)
+  :config
+  (treemacs-load-theme "nerd-icons"))
+
+
 (use-package treemacs-icons-dired
   :straight t
   :hook (dired-mode . treemacs-icons-dired-enable-once)
@@ -411,12 +419,6 @@
   :hook treemacs
   :after (treemacs magit)
   :ensure t)
-
-
-(use-package treemacs-all-the-icons
-  :straight t
-  :after treemacs)
-
 
 (use-package whitespace
   :disabled t
