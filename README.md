@@ -12,22 +12,22 @@ A next-generation [GNU/Emacs](https://www.gnu.org/software/emacs/) setup for hac
 * [project.el](https://github.com/emacs-mirror/emacs/blob/master/lisp/progmodes/project.el) for project management.
 * [joaotavora/eglot](https://github.com/joaotavora/eglot) for LSP.
 
-Optimized for [Emacs 29+](https://github.com/d12frosted/emacs-plus) on MacOS with native compilation and GC hacks.
+Optimized for [Emacs 30+](https://github.com/jimeh/emacs-builds) on MacOS with native compilation and GC hacks.
 
-*Startup time is ~500ms.*
+*Startup time is ~400ms.*
 
 ```bash
 # Installing Emacs on MacOS using Homebrew
 
-brew tap d12frosted/emacs-plus
-brew install emacs-plus@29 --with-native-comp --with-modern-papirus-icon
+brew tap jimeh/emacs-builds
+brew install --cask emacs-app
 ```
 
-## Screenshots
+## Screenshot
 
 <p>
     <figure>
-        <img src="/screenshots/pic1.png" alt="Screenshot of my GNU/Emacs setup." title="GNU/Emacs" />
-        <figcaption>Theme: <a href="https://github.com/ogdenwebb/emacs-kaolin-themes">Kaolin Valley Dark</a></figcaption>
+        <img src="/screenshots/pic2.png" alt="Screenshot of my GNU/Emacs setup." title="GNU/Emacs" />
+        <figcaption>Theme: <a href="https://protesilaos.com/emacs/ef-themes">Ef Dream</a></figcaption>
     </figure>
 </p>
