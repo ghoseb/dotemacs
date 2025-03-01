@@ -517,3 +517,16 @@
   :mode "\\.tsx\\'"
   :custom
   (tsx-mode-enable-css-in-js t))
+
+
+(use-package idle-highlight-mode
+  :straight t
+  :hook
+  ((prog-mode text-mode) . idle-highlight-mode)
+  :custom
+  (idle-highlight-idle-time 0.5)
+  :custom-face
+  (idle-highlight ((t ( :underline ( :style dots
+                                     :position 1 :color ,(ef-themes-get-color-value 'green-cooler))
+                        :background unspecified
+                        :inherit unspecified)))))
