@@ -235,6 +235,7 @@
   :mode ("\\.py\\'" . python-ts-mode)
   :blackout "Π"
   :config
+  (blackout 'python-ts-mode "Π")
   (require 'tree-sitter)
   (require 'tree-sitter-langs)
   (add-hook 'python-mode-hook #'tree-sitter-hl-mode))
