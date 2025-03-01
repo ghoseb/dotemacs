@@ -65,11 +65,10 @@
   (doom-modeline-bar-width 6)
   (doom-modeline-buffer-encoding nil)
   (doom-modeline-window-width-limit 115)
+  (doom-modeline-vcs-max-length 25)
   (doom-modeline-project-detection 'project)
   (doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
-  :custom-face
-  (mode-line ((t (:height 0.90))))
-  (mode-line-inactive ((t (:height 0.90)))))
+  (doom-modeline-env-version nil))
 
 
 (use-package ef-themes
