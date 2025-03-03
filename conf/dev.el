@@ -32,7 +32,7 @@
 
 (use-package magit
   :straight t
-  :defer 5
+  :commands (magit-status)
   :custom
   (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1)
   (magit-diff-refine-hunk t)

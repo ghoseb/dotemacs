@@ -725,7 +725,6 @@
   (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
 
 
-
 (use-package lin
   :straight t
   :disabled t

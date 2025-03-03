@@ -35,7 +35,7 @@
 
 (use-package org
   :straight t
-  :defer 10
+  :commands (org-mode)
   :mode ("\\.org\\'" . org-mode)
   :hook (org-mode . bg/org-setup)
   :custom
