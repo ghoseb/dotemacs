@@ -538,3 +538,11 @@
                                      :position 1 :color ,(ef-themes-get-color-value 'green-cooler))
                         :background unspecified
                         :inherit unspecified)))))
+
+
+(use-package emmet-mode
+  :straight t
+  :commands (emmet-mode)
+  :hook
+  ((sgml-mode . emmet-mode)
+   (css-mode . emmet-mode)))
