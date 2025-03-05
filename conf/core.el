@@ -9,7 +9,7 @@
    fill-column 115
    truncate-string-ellipsis "…"
    sentence-end-double-space nil
-   cursor-type '(hbar .  2)
+   cursor-type '(box .  2)
    cursor-in-non-selected-windows nil)
   (setq
    tab-width 4

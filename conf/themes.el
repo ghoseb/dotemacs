@@ -100,7 +100,9 @@
               ("DEPRECATED" . ,yellow)))))
   (bg/disable-themes)
   :config
-  (ef-themes-select 'ef-dream))
+  (ef-themes-select 'ef-dream)
+  ;; OKAY: Set the cursor to theme red
+  (set-cursor-color (ef-themes-get-color-value 'red)))
 
 
 (use-package highlight-indent-guides
