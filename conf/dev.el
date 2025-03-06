@@ -476,15 +476,17 @@
     :host "localhost:11434"
     :stream t
     :models '(deepseek-coder-v2 codellama))
-  (setq
-   gptel-model 'deepseek-ai/DeepSeek-V3
-   gptel-backend (gptel-make-openai "TogetherAI"
-                   :host "api.together.xyz"
-                   :key (bg/get-api-key "together.ai")
-                   :stream t
-                   :models '(Qwen/Qwen2.5-Coder-32B-Instruct
-                             meta-llama/Llama-3.3-70B-Instruct-Turbo
-                             deepseek-ai/DeepSeek-V3))))
+  (setq gptel-model 'google/gemini-2.0-flash-001
+        gptel-backend
+        (gptel-make-openai "OpenRouter"
+          :host "openrouter.ai"
+          :endpoint "/api/v1/chat/completions"
+          :stream t
+          :key (bg/get-api-key "openrouter.ai")
+          :models '(google/gemini-2.0-flash-001
+                    deepseek/deepseek-r1
+                    meta-llama/llama-3.3-70b-instruct))))
+
 
 (use-package aider
   :straight ( :host github
