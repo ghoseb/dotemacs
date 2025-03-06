@@ -21,7 +21,8 @@
                   (org-level-8 . 1.1)))
     (set-face-attribute (car face) nil :font bg--variable-pitch-font :weight 'regular :height (cdr face)))
 
-  (set-face-attribute 'org-document-title nil :font bg--variable-pitch-font :weight 'bold :height 1.5)
+  (set-face-attribute 'org-document-title nil :font bg--variable-pitch-font :weight 'bold :height 1.75)
+  (set-face-attribute 'org-document-info nil :font bg--variable-pitch-font :weight 'normal :height 1.25)
 
   ;; Ensure that anything that should be fixed-pitch in Org files appears that way
   (set-face-attribute 'org-block nil :foreground 'unspecified :inherit 'fixed-pitch)
@@ -69,6 +70,49 @@
   (setq org-bars-color-options
         '(:desaturate-level-faces 30 :darken-level-faces 15 :desaturate-level-faces 30 :darken-level-faces 15))
   :hook (org-mode . org-bars-mode))
+
+
+(use-package visual-fill-column
+  :straight t
+  :commands (visual-fill-column-mode)
+  :custom
+  (visual-fill-column-width 100)
+  (visual-fill-column-center-text t))
+
+
+(use-package org-present
+  :straight t
+  :commands (org-present-mode)
+  :init
+  (defvar bg--header-line-face-remap-cookie nil "Var to store the face remapping cookie.")
+  (defun bg/org-present-start ()
+    (visual-fill-column-mode 1)
+    (visual-line-mode 1)
+    ;; NOTE: Change the header-line face in the local context
+    (setq bg--header-line-face-remap-cookie
+          (face-remap-add-relative 'header-line
+                                   :box nil
+                                   :height 900
+                                   :background (ef-themes-get-color-value 'bg-main)))
+    (setq header-line-format " "))
+
+  (defun bg/org-present-end ()
+    (visual-fill-column-mode 0)
+    (visual-line-mode 0)
+    (setq header-line-format nil)
+    ;; NOTE: Remove face remapping if we have a cookie
+    (when bg--header-line-face-remap-cookie
+      (face-remap-remove-relative bg--header-line-face-remap-cookie)))
+
+  (defun bg/org-present-prepare-slide (buffer-name heading)
+    (org-overview)
+    (org-show-entry)
+    (org-show-children))
+  :hook
+  (org-present-mode . bg/org-present-start)
+  (org-present-mode-quit . bg/org-present-end)
+  :config
+  (add-hook 'org-present-after-navigate-functions 'bg/org-present-prepare-slide))
 
 
 (provide 'org-config)
