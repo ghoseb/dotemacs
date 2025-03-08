@@ -535,6 +535,13 @@
   (setf (alist-get ?H avy-dispatch-alist) 'avy-action-helpful))
 
 
+(use-package casual-avy
+  :straight t
+  :commands (casual-avy-tmenu)
+  :bind
+  ("M-g M-i" . casual-avy-tmenu))
+
+
 (use-package outline-indent
   :straight t
   :disabled t
