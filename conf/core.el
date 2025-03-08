@@ -130,11 +130,26 @@
   :config
   (prescient-persist-mode +1))
 
+
 (use-package nerd-icons
   :straight t
   :demand t
   :custom
   (nerd-icons-font-family bg--nerd-font))
+
+
+(use-package nerd-icons-completion
+  :straight t
+  :after (marginalia)
+  :demand t
+  :config
+  (nerd-icons-completion-mode)
+  :hook
+  (marginalia-mode . nerd-icons-completion-marginalia-setup))
+
+
+(use-package nerd-icons-corfu
+  :straight t)
 
 
 (use-package vertico
@@ -228,9 +243,6 @@
   (blackout 'emacs-lisp-mode "EL"))
 
 
-(use-package nerd-icons-corfu
-  :straight t)
-
 (use-package corfu
   :straight (corfu :repo "minad/corfu" :branch "main" :files (:defaults "extensions/*.el"))
   :config
@@ -283,18 +295,6 @@
   :demand t
   :init
   (add-to-list 'completion-at-point-functions #'cape-file))
-
-
-(use-package kind-icon
-  :straight t
-  :demand t
-  :after corfu
-  :custom
-  (kind-icon-use-icons t)
-  (kind-icon-default-face 'corfu-default)
-  (kind-icon-default-style '(:padding 0 :stroke 0 :margin 0 :radius 0 :height 0.75 :scale 0.85 :background nil))
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
 (use-package orderless
@@ -408,10 +408,10 @@
   (treemacs-load-theme "nerd-icons"))
 
 
-(use-package treemacs-icons-dired
+(use-package nerd-icons-dired
   :straight t
-  :hook (dired-mode . treemacs-icons-dired-enable-once)
-  :ensure t)
+  :hook
+  (dired-mode . nerd-icons-dired-mode))
 
 
 (use-package treemacs-magit

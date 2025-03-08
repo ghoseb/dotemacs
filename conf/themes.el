@@ -32,30 +32,6 @@
   (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset))
 
 
-(use-package all-the-icons
-  :straight t
-  :demand t
-  :if (display-graphic-p)
-  :custom
-  (all-the-icons-scale-factor 1.1))
-
-
-(use-package all-the-icons-completion
-  :straight t
-  :after (marginalia all-the-icons)
-  :hook
-  (marginalia-mode . all-the-icons-completion-marginalia-setup)
-  :init
-  (all-the-icons-completion-mode))
-
-
-(use-package all-the-icons-dired
-  :straight t
-  :after all-the-icons
-  :hook
-  (dired-mode . all-the-icons-dired-mode))
-
-
 (use-package doom-modeline
   :straight t
   :hook (after-init . doom-modeline-mode)
