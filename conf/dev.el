@@ -544,22 +544,52 @@
   (tsx-mode-enable-css-in-js t))
 
 
-(use-package idle-highlight-mode
-  :straight t
-  :hook
-  ((prog-mode text-mode) . idle-highlight-mode)
-  :custom
-  (idle-highlight-idle-time 0.5)
-  :custom-face
-  (idle-highlight ((t ( :underline ( :style dots
-                                     :position 1 :color ,(ef-themes-get-color-value 'green-cooler))
-                        :background unspecified
-                        :inherit unspecified)))))
-
-
 (use-package emmet-mode
   :straight t
   :commands (emmet-mode)
   :hook
   ((sgml-mode . emmet-mode)
    (css-mode . emmet-mode)))
+
+
+(use-package symbol-overlay
+  :straight t
+  :hook
+  ((prog-mode text-mode) . symbol-overlay-mode)
+  :custom-face
+  (symbol-overlay-face-1 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'blue)))))
+  (symbol-overlay-face-2 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'magenta)))))
+  (symbol-overlay-face-3 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'yellow)))))
+  (symbol-overlay-face-4 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'magenta-cooler)))))
+  (symbol-overlay-face-5 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'red)))))
+  (symbol-overlay-face-6 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'red-faint)))))
+  (symbol-overlay-face-7 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'green)))))
+  (symbol-overlay-face-8 ((t ( :foreground ,(ef-themes-get-color-value 'bg-main)
+                               :background ,(ef-themes-get-color-value 'cyan)))))
+  (symbol-overlay-default-face ((t (:underline
+                                    ( :style dots
+                                      :position 1
+                                      :color ,(ef-themes-get-color-value 'green-cooler))
+                                    :background unspecified
+                                    :inherit unspecified)))))
+
+
+(use-package symbol-overlay-mc
+  :straight t)
+
+
+(use-package casual-symbol-overlay
+  :straight t
+  :after (symbol-overlay)
+  :commands (casual-symbol-overlay-tmenu)
+  :bind
+  ("C-o" . casual-symbol-overlay-tmenu)
+  :config
+  (symbol-overlay-mc-insert-into-casual-tmenu))
