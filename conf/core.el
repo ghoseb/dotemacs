@@ -572,6 +572,9 @@
   (setq pulsar-iterations 13)
   (setq pulsar-face 'pulsar-green)
   (setq pulsar-highlight-face 'pulsar-green)
+  :custom-face
+  (pulsar-green ((t (:background ,(ef-themes-get-color-value 'green)))))
+  (pulsar-red ((t (:background ,(ef-themes-get-color-value 'red)))))
   :bind
   ("C-x l" . #'pulsar-pulse-line-red)
   ("C-c h h" . #'pulsar-highlight-dwim)
