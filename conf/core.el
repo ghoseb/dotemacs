@@ -730,16 +730,3 @@
   (setq compile-angel-enable-native-compile t)
   (compile-angel-on-load-mode)
   (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
-
-
-(use-package lin
-  :straight t
-  :disabled t
-  :after (ef-themes)
-  :demand t
-  :commands (lin-mode)
-  :custom
-  (lin-mode-hooks '(prog-mode-hook))
-  (lin-face 'lin-blue)
-  :config
-  (lin-global-mode +1))
