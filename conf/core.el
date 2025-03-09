@@ -733,3 +733,21 @@
   (setq compile-angel-enable-native-compile t)
   (compile-angel-on-load-mode)
   (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
+
+
+(use-package dictionary
+  :straight (:type built-in)
+  :after (org)
+  :bind (:map text-mode-map
+              ("M-." . dictionary-lookup-definition)
+              :map org-mode-map
+              ("M-." . dictionary-lookup-definition)
+              :map dictionary-mode-map
+              ("M-." . dictionary-lookup-definition))
+  :init
+  (add-to-list 'display-buffer-alist
+               '("^\\*Dictionary\\*" display-buffer-in-side-window
+                 (side . right)
+                 (window-width . 50)))
+  :custom
+  (dictionary-server "dict.org"))
