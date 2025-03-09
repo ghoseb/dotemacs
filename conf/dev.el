@@ -186,7 +186,8 @@
 
 (defcustom bg--project-root-markers
   '("project.clj" "shadow-cljs.edn" ".git"
-    "Cargo.toml" "compile_commands.json" "compile_flags.txt" "deps.edn")
+    "Cargo.toml" "compile_commands.json" "compile_flags.txt"
+    "deps.edn" "pyproject.toml")
   "Files or directories that indicate the root of a project."
   :type '(repeat string)
   :group 'project)
@@ -593,3 +594,23 @@
   ("C-o" . casual-symbol-overlay-tmenu)
   :config
   (symbol-overlay-mc-insert-into-casual-tmenu))
+
+
+(use-package blamer
+  :straight (:host github :repo "artawower/blamer.el")
+  :bind (("s-i" . blamer-show-posframe-commit-info))
+  :custom
+  (blamer-idle-time 0.5)
+  (blamer-min-offset 10)
+  (blamer-author-formatter "  ✎ %s ")
+  (blamer-datetime-formatter "[%s]")
+  (blamer-commit-formatter " ● %s")
+  (blamer-type 'visual)
+  (blamer-view 'overlay-right)
+  (blamer-max-commit-message-length 70)
+  :custom-face
+  (blamer-face ((t :foreground ,(ef-themes-get-color-value 'fg-changed)
+                   :background nil
+                   :height 200
+                   :italic t)))
+  :commands (blamer-mode))
