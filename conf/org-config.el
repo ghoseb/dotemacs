@@ -3,10 +3,16 @@
   (interactive)
   (auto-fill-mode -1))
 
+
 (use-package verb
   :straight t
   :after org
-  :commands (verb-send-request-on-point-other-window-stay))
+  :commands (verb-send-request-on-point-other-window-stay)
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((verb . t))))
+
 
 (defun bg/org-font-setup ()
   "Set faces for heading levels."
