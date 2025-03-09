@@ -13,12 +13,12 @@
 (setq file-name-handler-alist nil)
 
 (add-hook 'emacs-startup-hook
-  (lambda ()
-    (setq file-name-handler-alist bg--file-name-handler-alist)
-    (makunbound 'bg--file-name-handler-alist)))
+          (lambda ()
+            (setq file-name-handler-alist bg--file-name-handler-alist)
+            (makunbound 'bg--file-name-handler-alist)))
 
 
-;; we wanna go straight this time!
+;; Disable package.el and use straight.el instead
 (setq package-enable-at-startup nil)
 (setq package-quickstart nil)
 
@@ -45,6 +45,12 @@
 (push '(width . 130) default-frame-alist)
 (push '(left . 70) default-frame-alist)
 (push '(top . 30) default-frame-alist)
+
+;; NOTE: For screen-sharing
+;; (push '(height . 33) default-frame-alist)
+;; (push '(width . 130) default-frame-alist)
+;; (push '(left . 1087) default-frame-alist)
+;; (push '(top . 121) default-frame-alist)
 
 
 ;; disable all GUI elements
