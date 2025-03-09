@@ -45,7 +45,28 @@ the prefix argument is supplied."
   :init
   (require 'project)
   (add-to-list 'project-switch-commands
-               '(vterm-project-dir "vterm") t))
+               '(vterm-project-dir "vterm") t)
+  ;; Remove window if we exit vterm
+  (add-hook 'vterm-exit-functions
+            (lambda (_ _)
+              (let* ((buffer (current-buffer))
+                     (window (get-buffer-window buffer)))
+                (when (not (one-window-p))
+                  (delete-window window))
+                (kill-buffer buffer))))
+
+  (defun bg/display-vterm-buffer (buffer alist)
+    (let ((window (display-buffer-in-direction
+                   buffer '((direction . bottom)
+                            (split-height-threshold . 1)
+                            (window-height . .33)))))
+      (if window
+          (select-window window)
+        (message "No appropriate window found for displaying VTerm buffer"))))
+
+  (add-to-list 'display-buffer-alist
+               '("\\*vterm"
+                 bg/display-vterm-buffer)))
 
 
 (use-package centaur-tabs
