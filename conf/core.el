@@ -10,7 +10,8 @@
    truncate-string-ellipsis "…"
    sentence-end-double-space nil
    cursor-type '(box .  2)
-   cursor-in-non-selected-windows nil)
+   cursor-in-non-selected-windows nil
+   bidi-paragraph-direction 'left-to-right)
   (setq
    tab-width 4
    tab-always-indent 'complete
@@ -564,6 +565,7 @@
 (use-package pulsar
   :straight t
   :defer 5
+  :after (ef-themes)
   :init
   (pulsar-global-mode 1)
   :config
