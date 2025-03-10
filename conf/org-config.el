@@ -67,15 +67,12 @@
   :hook (org-mode . org-appear-mode))
 
 
-(use-package org-bars
-  :after (org)
-  :straight (org-bars :type git
-                      :host github
-                      :repo "tonyaldon/org-bars")
-  :config
-  (setq org-bars-color-options
-        '(:desaturate-level-faces 30 :darken-level-faces 15 :desaturate-level-faces 30 :darken-level-faces 15))
-  :hook (org-mode . org-bars-mode))
+(use-package org-modern
+  :straight t
+  :hook
+  (org-mode . org-modern-mode)
+  :custom
+  (org-modern-star 'replace))
 
 
 (use-package visual-fill-column
