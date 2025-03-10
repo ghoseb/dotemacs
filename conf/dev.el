@@ -473,6 +473,7 @@
         (when secret
           (funcall secret)))))
   :config
+  (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
   (gptel-make-ollama "Ollama"
     :host "localhost:11434"
     :stream t
