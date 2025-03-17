@@ -254,6 +254,13 @@
               (pet-flycheck-setup))))
 
 
+(use-package combobulate
+  :straight t
+  :custom
+  (combobulate-key-prefix "C-c o")
+  :hook ((python-ts-mode . combobulate-mode)))
+
+
 (use-package paredit
   :straight t
   :blackout t
