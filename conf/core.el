@@ -757,6 +757,7 @@
 
 (use-package popper
   :straight t
+  :after (project)
   :bind (("C-`"   . popper-toggle)
          ("M-`"   . popper-cycle)
          ("C-M-`" . popper-toggle-type))
