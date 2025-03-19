@@ -136,7 +136,7 @@ the prefix argument is supplied."
        ;; Buffer name not match below blacklist.
        (string-prefix-p "*epc" name)
        (string-prefix-p "*Compile-Log*" name)
-       (string-prefix-p "*Async-native*" name)
+       (string-prefix-p "*Async-native" name)
        (string-prefix-p "*lsp" name)
        (string-prefix-p "*Flycheck" name)
        (string-prefix-p "*tramp" name)
@@ -209,5 +209,68 @@ the prefix argument is supplied."
 
 (use-package zone-select
   :straight (zone-select :type git :host github :repo "kawabata/zone-select"))
+
+
+(defun xah/title-case-region-or-line (&optional Begin End)
+  "Title case text between nearest brackets, or current line or selection.
+Capitalize first letter of each word, except words like {to, of, the, a, in, or, and}. If a word already contains cap letters such as HTTP, URL, they are left as is.
+
+When called in a elisp program, Begin End are region boundaries.
+
+URL `http://xahlee.info/emacs/emacs/elisp_title_case_text.html'
+Version: 2017-01-11 2021-03-30 2021-09-19"
+  (interactive)
+  (let* ((xskipChars "^\"<>(){}[]“”‘’‹›«»「」『』【】〖〗《》〈〉〔〕")
+         (xp0 (point))
+         (xp1 (if Begin
+                  Begin
+                (if (region-active-p)
+                    (region-beginning)
+                  (progn
+                    (skip-chars-backward xskipChars (line-beginning-position)) (point)))))
+         (xp2 (if End
+                  End
+                (if (region-active-p)
+                    (region-end)
+                  (progn (goto-char xp0)
+                         (skip-chars-forward xskipChars (line-end-position)) (point)))))
+         (xstrPairs [
+                     [" A " " a "]
+                     [" An " " an "]
+                     [" And " " and "]
+                     [" At " " at "]
+                     [" As " " as "]
+                     [" By " " by "]
+                     [" Be " " be "]
+                     [" Into " " into "]
+                     [" In " " in "]
+                     [" Is " " is "]
+                     [" It " " it "]
+                     [" For " " for "]
+                     [" Of " " of "]
+                     [" Or " " or "]
+                     [" On " " on "]
+                     [" Via " " via "]
+                     [" The " " the "]
+                     [" That " " that "]
+                     [" To " " to "]
+                     [" Vs " " vs "]
+                     [" With " " with "]
+                     [" From " " from "]
+                     ["'S " "'s "]
+                     ["'T " "'t "]
+                     ]))
+    (save-excursion
+      (save-restriction
+        (narrow-to-region xp1 xp2)
+        (upcase-initials-region (point-min) (point-max))
+        (let ((case-fold-search nil))
+          (mapc
+           (lambda (xx)
+             (goto-char (point-min))
+             (while
+                 (search-forward (aref xx 0) nil t)
+               (replace-match (aref xx 1) t t)))
+           xstrPairs))))))
 
 ;;; utils.el ends here
