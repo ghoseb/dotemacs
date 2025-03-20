@@ -278,10 +278,14 @@
   (corfu-on-exact-match 'quit)
   (corfu-preselect-first t)
   (corfu-quit-at-boundary 'separator)
-  (corfu-auto-delay 0.0)
+  (corfu-preview-current 'insert)
+  (corfu-separator ?\s)
+  (corfu-auto-delay 0.25)
+  (corfu-min-width 20)
+  (corfu-max-width 100)
   (corfu-auto-prefix 2)
   (corfu-quit-no-match t)
-  (corfu-scroll-margin 5))
+  (corfu-scroll-margin 10))
 
 
 (use-package corfu-prescient
