@@ -618,7 +618,7 @@
   (blamer-max-commit-message-length 70)
   :custom-face
   (blamer-face ((t :foreground ,(ef-themes-get-color-value 'fg-changed)
-                   :background nil
+                   :background unspecified
                    :height 200
                    :italic t)))
   :commands (blamer-mode))
