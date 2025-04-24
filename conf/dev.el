@@ -329,11 +329,18 @@
 
 
 (use-package jsonian
+  :disabled t
   :straight (jsonian :type git
                      :host github
                      :repo "iwahbe/jsonian"
                      :branch "main")
   :mode ("\\.json\\'" . jsonian-mode))
+
+
+(use-package json-ts-mode
+  :blackout "🇯🇸"
+  :straight (:type built-in)
+  :mode ("\\.json\\'" . json-ts-mode))
 
 
 (use-package zig-mode)
@@ -351,7 +358,7 @@
   :straight t
   :interpreter (("node" . js2-mode))
   :blackout "JS"
-  :mode "\\.\\(js\\|json\\)$"
+  :mode "\\.\\(js\\|ts\\)$"
   ;; JS2 has its own faces, here I override them with `font-lock` faces for an uniform look
   :custom-face
   (js2-function-param ((t (:foreground ,(face-foreground 'font-lock-variable-name-face)))))
