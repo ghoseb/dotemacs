@@ -6,11 +6,12 @@
 (add-to-list 'default-frame-alist '(ns-appearance . dark))
 (setq ns-use-proxy-icon  nil)
 (setq frame-title-format nil)
+(setq ns-use-srgb-colorspace nil)
 
 ;; if `gnu ls' is in path, use that for dired
 (let ((bg--gnuls (executable-find "gls")))
   (if bg--gnuls
-   (setq dired-use-ls-dired t
-         insert-directory-program bg--gnuls
-         dired-listing-switches "-aBhl --group-directories-first")
-   (setq dired-use-ls-dired nil)))
+      (setq dired-use-ls-dired t
+            insert-directory-program bg--gnuls
+            dired-listing-switches "-aBhl --group-directories-first")
+    (setq dired-use-ls-dired nil)))
