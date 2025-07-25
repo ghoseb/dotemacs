@@ -52,6 +52,12 @@
   ("C-x g" . magit-status))
 
 
+(use-package magit-prime
+  :straight (:type git :host github :repo "Azkae/magit-prime")
+  :config
+  (add-hook 'magit-pre-refresh-hook 'magit-prime-refresh-cache))
+
+
 (use-package git-timemachine
   :after magit
   :straight (git-timemachine :type git
