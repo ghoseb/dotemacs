@@ -173,7 +173,11 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "multimarkdown")
+  :custom
+  (markdown-fontify-code-block-natively t)
+  (markdown-header-scaling t)
+  (markdown-header-scaling-values '(1.75 1.5 1.25 1.1 1.0 1.0)))
 
 
 (use-package yaml-mode :straight t)
