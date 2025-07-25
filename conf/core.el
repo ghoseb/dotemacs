@@ -777,3 +777,13 @@
           compilation-mode))
   (popper-mode +1)
   (popper-echo-mode +1))
+
+
+(use-package treesit-auto
+  :straight t
+  :demand t
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
