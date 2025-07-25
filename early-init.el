@@ -1,5 +1,9 @@
 ;;; early-init.el --- Early Init File -*- lexical-binding: t; no-byte-compile: t -*-
 
+;; Disable package.el and use straight.el instead
+(setq package-enable-at-startup nil)
+(setq package-quickstart nil)
+
 (defvar bg--init-load-path load-path)
 
 ;; redirect eln cache
@@ -17,10 +21,6 @@
             (setq file-name-handler-alist bg--file-name-handler-alist)
             (makunbound 'bg--file-name-handler-alist)))
 
-
-;; Disable package.el and use straight.el instead
-(setq package-enable-at-startup nil)
-(setq package-quickstart nil)
 
 ;; defer GC to much later to speed up the startup process
 (setq gc-cons-threshold most-positive-fixnum
