@@ -41,10 +41,10 @@
 (push '(undecorated-round . t) default-frame-alist)
 
 ;; initial starting position
-(push '(height . 43) default-frame-alist)
-(push '(width . 130) default-frame-alist)
-(push '(left . 70) default-frame-alist)
-(push '(top . 30) default-frame-alist)
+(push '(height . 100) default-frame-alist)
+(push '(width . 225) default-frame-alist)
+(push '(left . 1100) default-frame-alist)
+(push '(top . 575) default-frame-alist)
 
 ;; NOTE: For screen-sharing
 ;; (push '(height . 33) default-frame-alist)
