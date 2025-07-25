@@ -547,6 +547,8 @@
   :straight (treesit-fold :type git :host github :repo "emacs-tree-sitter/treesit-fold")
   :bind-keymap ("C-c f" . bg--treesit-fold-keymap)
   :commands treesit-fold-mode
+  :hook
+  (zig-ts-mode . (lambda () (treesit-parser-create 'zig)))
   :init
   (defvar-keymap bg--treesit-fold-keymap
     :doc "Prefix map for Treesit Fold Mode"
