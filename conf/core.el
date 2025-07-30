@@ -190,19 +190,13 @@
    `("%-6s " . ,(concat (nerd-icons-octicon "nf-oct-search")
                         " (%s/%s)")))
   :config
-  nil
-  (advice-add
-   #'vertico--format-candidate :around
-   (lambda (orig-fun cand prefix suffix index start)
-     (apply orig-fun (list cand
-                           (if (= vertico--index index)
-                               (concat (nerd-icons-faicon
-                                        "nf-fa-hand_o_right"
-                                        :face 'nerd-icons-lgreen)
-                                       " " prefix)
-                             (concat "   " prefix))
-                           suffix
-                           index start))))
+  (advice-add #'vertico--format-candidate :around
+              (lambda (orig cand prefix suffix index _start)
+                (concat
+                 (if (= vertico--index index)
+                     (propertize "» " 'face '(:foreground "#80adf0" :weight bold))
+                   "  ")
+                 (funcall orig cand prefix suffix index _start))))
   :init
   (vertico-mode)
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
