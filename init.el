@@ -49,6 +49,13 @@
   :config
   (gcmh-mode 1))
 
+
+(use-package benchmark-init
+  :straight t
+  :demand t
+  :config
+  (add-hook 'emacs-startup-hook 'benchmark-init/deactivate))
+
 ;; load other settings files
 
 (bg/maybe-load "settings.el")
