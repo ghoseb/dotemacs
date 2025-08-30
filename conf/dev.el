@@ -253,6 +253,7 @@
 
 
 (use-package pet
+  :straight t
   :commands (pet-mode)
   :init
   (add-hook 'python-base-mode-hook 'pet-mode -10)
