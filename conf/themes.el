@@ -78,7 +78,15 @@
   :config
   (ef-themes-select 'ef-dream)
   ;; OKAY: Set the cursor to theme red
-  (set-cursor-color (ef-themes-get-color-value 'red)))
+  (set-cursor-color (ef-themes-get-color-value 'red))
+
+  ;; Custom wrapping colors
+  (defface bg/custom-curly-face
+    `((t (:foreground ,(ef-themes-get-color-value 'fg-dim))))
+    "Face for fringe curly bitmaps."
+    :group 'basic-faces)
+  (set-fringe-bitmap-face 'right-curly-arrow 'bg/custom-curly-face)
+  (set-fringe-bitmap-face 'left-curly-arrow 'bg/custom-curly-face))
 
 
 (use-package highlight-indent-guides
