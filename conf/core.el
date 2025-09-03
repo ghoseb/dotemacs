@@ -86,6 +86,9 @@
      (t
       (keyboard-quit))))
   :bind
+  ("<pinch>" . 'ignore)
+  ("<C-wheel-up>" . 'ignore)
+  ("<C-wheel-down>" . 'ignore)
   ("C-g" . #'prot/keyboard-quit-dwim)
   ("C-c q" . #'bury-buffer)
   ("<escape>" . #'keyboard-escape-quit))
