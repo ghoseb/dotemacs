@@ -656,3 +656,8 @@
                          (:exclude ".dir-locals.el" "*-tests.el")))
   :custom
   (eat-term-name "xterm-256color"))
+
+
+(use-package typst-ts-mode
+  :straight '(:type git :host codeberg :repo "meow_king/typst-ts-mode")
+  :mode ("\\.typ\\'" . typst-ts-mode))
