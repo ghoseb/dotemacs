@@ -51,7 +51,14 @@ For the REPL type use the function `cider-repl-type'."
        ((seq-some #'derived-mode-p '(clojure-ts-mode clojure-mode)) 'clj)
        (cider-repl-type))))
   ;; (defun cider--xref-backend () nil)
-  (cider-repl-toggle-pretty-printing))
+  (cider-repl-toggle-pretty-printing)
+  :custom-face
+  (cider-test-success-face ((t ( :foreground ,(ef-themes-get-color-value 'bg-dim)
+                                 :background ,(ef-themes-get-color-value 'green-warmer)))))
+  (cider-test-error-face ((t ( :foreground ,(ef-themes-get-color-value 'bg-dim)
+                               :background ,(ef-themes-get-color-value 'yellow)))))
+  (cider-test-failure-face ((t ( :foreground ,(ef-themes-get-color-value 'bg-dim)
+                                 :background ,(ef-themes-get-color-value 'red-warmer))))))
 
 
 (use-package clojure-ts-mode
