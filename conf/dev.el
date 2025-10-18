@@ -661,3 +661,10 @@
 (use-package typst-ts-mode
   :straight '(:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode))
+
+
+(use-package jj-mode
+  :commands (jj-log)
+  :straight (:host github :repo "bolivier/jj-mode.el")
+  :bind
+  ("C-x j" . jj-log))
