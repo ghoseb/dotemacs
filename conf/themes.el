@@ -48,7 +48,7 @@
 
 
 (use-package ef-themes
-  :straight t
+  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes" :branch "1.10.0")
   :demand t
   :custom
   (ef-themes-region '(intense no-extend neutral))
