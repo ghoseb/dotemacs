@@ -660,7 +660,12 @@
 
 (use-package typst-ts-mode
   :straight '(:type git :host codeberg :repo "meow_king/typst-ts-mode")
-  :mode ("\\.typ\\'" . typst-ts-mode))
+  :mode ("\\.typ\\'" . typst-ts-mode)
+  :config
+  (with-eval-after-load 'eglot
+    (add-to-list 'eglot-server-programs
+                 `((typst-ts-mode)
+                   "tinymist" "lsp" "--font-path" "/Users/bg/Library/Fonts/"))))
 
 
 (use-package jj-mode
