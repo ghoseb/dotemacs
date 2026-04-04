@@ -554,21 +554,6 @@
                     meta-llama/llama-3.3-70b-instruct))))
 
 
-(use-package aider
-  :straight ( :host github
-              :repo "tninja/aider.el"
-              :files ("aider.el"
-                      "aider-core.el"
-                      "aider-file.el"
-                      "aider-code-change.el"
-                      "aider-discussion.el"
-                      "aider-prompt-mode.el"))
-  :bind
-  ("C-c a" . aider-transient-menu)
-  :config
-  (setq aider-args `("--config" ,(expand-file-name "~/.config/aider/aider.conf.yml"))))
-
-
 (use-package flycheck-overlay
   :straight (flycheck-overlay
              :type git
