@@ -68,10 +68,7 @@
 
 (bg/maybe-load "org-config.el")
 
-(add-hook 'emacs-startup-hook #'bg/display-startup-msg)
 
-(add-hook 'emacs-startup-hook (lambda ()
-                                (when (display-graphic-p)
-                                  (ar/show-welcome-buffer))))
+
 
 ;;; init.el ends here

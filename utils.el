@@ -34,6 +34,7 @@
    (bg/startup-time-str)
    gcs-done))
 
+(add-hook 'emacs-startup-hook #'bg/display-startup-msg)
 
 (defun ar/show-welcome-buffer ()
   "Show *Welcome* buffer."
@@ -74,6 +75,9 @@
     (switch-to-buffer (current-buffer))
     (local-set-key (kbd "q") 'kill-current-buffer)))
 
+(add-hook 'emacs-startup-hook (lambda ()
+                                (when (display-graphic-p)
+                                  (ar/show-welcome-buffer))))
 
 (provide 'utils)
 ;;; utils.el Ends here
