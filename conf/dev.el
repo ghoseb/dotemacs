@@ -4,9 +4,15 @@
   :straight (:type built-in)
   :hook
   (prog-mode . display-line-numbers-mode)
-  :custom-face
-  (line-number-current-line ((t ( :inherit (bold line-number)
-                                  :underline ,(ef-themes-get-color-value 'fg-dim))))))
+  (modus-themes-post-load . #'bg/setup-line-number-faces)
+  :init
+  (defun bg/setup-line-number-faces ()
+    (set-face-attribute 'line-number nil
+                        :family bg--monaspace-keyword-font :weight 'light)
+    (set-face-attribute 'line-number-current-line nil
+                        :family bg--monaspace-keyword-font :weight 'bold))
+  :config
+  (bg/setup-line-number-faces))
 
 
 (use-package xref
