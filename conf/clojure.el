@@ -13,7 +13,9 @@
          (clojure-mode . eldoc-mode))
   :config
   (setq clojure-indent-style 'always-indent)
-  (setq clojure-use-metadata-for-privacy t))
+  (setq clojure-use-metadata-for-privacy t)
+  (set-face-attribute 'clojure-keyword-face nil
+                      :family bg--monaspace-keyword-font :weight 'light))
 
 
 (use-package cider
