@@ -175,7 +175,46 @@
   :custom
   (markdown-fontify-code-block-natively t)
   (markdown-header-scaling t)
-  (markdown-header-scaling-values '(1.75 1.5 1.25 1.1 1.0 1.0)))
+  (markdown-header-scaling-values '(1.4 1.3 1.2 1.1 1.0 0.9))
+  :config
+  (markdown-update-header-faces t markdown-header-scaling-values)
+  ;; Krypton
+  (dolist (face '(markdown-language-keyword-face
+                  markdown-metadata-key-face
+                  markdown-markup-face
+                  markdown-list-face))
+    (set-face-attribute face nil :family bg--monaspace-keyword-font :weight 'light))
+  ;; Argon
+  (dolist (face '(markdown-header-face
+                  markdown-header-face-1
+                  markdown-header-face-2
+                  markdown-header-face-3
+                  markdown-header-face-4
+                  markdown-header-face-5
+                  markdown-header-face-6
+                  markdown-header-rule-face
+                  markdown-header-delimiter-face
+                  markdown-blockquote-face
+                  markdown-comment-face
+                  markdown-footnote-text-face
+                  markdown-footnote-marker-face
+                  markdown-italic-face))
+    (set-face-attribute face nil :family bg--monaspace-comment-font))
+  ;; Xenon
+  (dolist (face '(markdown-link-face
+                  markdown-url-face
+                  markdown-plain-url-face
+                  markdown-math-face
+                  markdown-metadata-value-face
+                  markdown-reference-face))
+    (set-face-attribute face nil :family bg--monaspace-string-font))
+  ;; Code block background from active ef-theme palette, re-applied on theme change.
+  (defun bg/setup-markdown-code-face ()
+    (set-face-attribute 'markdown-code-face nil
+                        :background (ef-themes-get-color-value 'bg-dim)
+                        :extend t))
+  (bg/setup-markdown-code-face)
+  (add-hook 'modus-themes-post-load-hook #'bg/setup-markdown-code-face))
 
 
 (use-package yaml-mode :straight t)
