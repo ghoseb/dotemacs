@@ -56,7 +56,6 @@ Runs after fontaine preset changes and theme loads so overrides survive both."
   :straight t
   :hook (after-init . doom-modeline-mode)
   :custom-face
-  ;; Inherits font-lock-doc-face (Argon) — override to keep mode-line font consistent.
   (doom-modeline-buffer-minor-mode ((t (:family ,bg--mode-line-font :weight light))))
   :custom
   (doom-modeline-hud t)
