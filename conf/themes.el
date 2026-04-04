@@ -22,7 +22,7 @@
            :default-family ,bg--default-font
            :default-weight normal
            :variable-pitch-family ,bg--variable-pitch-font
-           :italic-family ,bg--monaspace-comment-font  ;Argon for italic emphasis
+           :italic-family ,bg--monaspace-comment-font ;Argon for italic emphasis
            :italic-slant italic
            :variable-pitch-height 1.05
            :mode-line-active-family ,bg--mode-line-font
@@ -48,13 +48,16 @@ Runs after fontaine preset changes and theme loads so overrides survive both."
       (set-face-attribute face nil :family bg--monaspace-keyword-font :weight 'light)))
 
   (add-hook 'fontaine-set-preset-hook #'bg/setup-monaspace-faces)
-  (add-hook 'ef-themes-post-load-hook #'bg/setup-monaspace-faces)
+  (add-hook 'modus-themes-post-load-hook #'bg/setup-monaspace-faces)
   (add-hook 'after-init-hook #'bg/setup-monaspace-faces))
 
 
 (use-package doom-modeline
   :straight t
   :hook (after-init . doom-modeline-mode)
+  :custom-face
+  ;; Inherits font-lock-doc-face (Argon) — override to keep mode-line font consistent.
+  (doom-modeline-buffer-minor-mode ((t (:family ,bg--mode-line-font :weight light))))
   :custom
   (doom-modeline-hud t)
   (doom-modeline-height 25)
@@ -67,14 +70,17 @@ Runs after fontaine preset changes and theme loads so overrides survive both."
   (doom-modeline-env-version nil))
 
 
+(use-package modus-themes
+  :straight (modus-themes :type git :host github :repo "protesilaos/modus-themes"))
+
 (use-package ef-themes
-  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes" :branch "1.10.0")
+  :straight (ef-themes :type git :host github :repo "protesilaos/ef-themes")
   :demand t
   :custom
-  (ef-themes-region '(intense no-extend neutral))
-  (ef-themes-variable-pitch-ui nil)
-  (ef-themes-disable-other-themes t)
-  (ef-themes-to-toggle '(ef-dream ef-light))
+  (modus-themes-region '(intense no-extend neutral))
+  (modus-themes-variable-pitch-ui nil)
+  (modus-themes-disable-other-themes t)
+  (modus-themes-to-toggle '(ef-dream ef-light))
   :init
   ;; NOTE: Keeping this only for documentation purposes, actual setup happens with `hl-todo`
   (defun bg/ef-themes-hl-todo-faces ()
@@ -96,7 +102,7 @@ Runs after fontaine preset changes and theme loads so overrides survive both."
               ("DEPRECATED" . ,yellow)))))
   (bg/disable-themes)
   :config
-  (ef-themes-select 'ef-dream)
+  (ef-themes-load-theme 'ef-dream)
   ;; OKAY: Set the cursor to theme red
   (set-cursor-color (ef-themes-get-color-value 'red))
 
@@ -139,8 +145,8 @@ Runs after fontaine preset changes and theme loads so overrides survive both."
   "Load theme, taking current system APPEARANCE into consideration."
   (bg/disable-themes)
   (pcase appearance
-    ('light (ef-themes-select 'ef-elea-light))
-    ('dark (ef-themes-select 'ef-elea-dark))))
+    ('light (ef-themes-load-theme 'ef-elea-light))
+    ('dark (ef-themes-load-theme 'ef-elea-dark))))
 
 ;; (add-hook 'ns-system-appearance-change-functions #'bg/apply-theme)
 
