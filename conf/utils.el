@@ -168,6 +168,13 @@ the prefix argument is supplied."
      ("Etc/UTC" "UTC"))
    (world-clock-time-format "%a, %d %b %I:%M %p %Z")))
 
+
+(use-package time-zones
+  :bind
+  ("C-c C-w" . #'time-zones)
+  :commands (time-zones)
+  :straight (:host github :repo "xenodium/time-zones"))
+
 (use-package crux
   :straight t
   :bind

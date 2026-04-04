@@ -17,3 +17,4 @@ straight/repos/
 /elpa/
 /tree-sitter/
 .DS_Store
+/.time-zones.el
