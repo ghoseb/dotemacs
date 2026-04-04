@@ -14,22 +14,42 @@
   :if window-system
   :init
   (setq fontaine-presets
-        `((regular
-           :default-height ,bg--default-font-size)
-          (monitor
-           :default-height 250
-           :bold-weight bold)
+        `((monitor
+           :default-height 250)
+          (laptop
+           :default-height 180)
           (t
            :default-family ,bg--default-font
            :default-weight normal
-           :default-width semi-condensed
            :variable-pitch-family ,bg--variable-pitch-font
-           :italic-family ,bg--default-font
-           :italic-slant oblique        ;specific to Berkeley Mono
-           :variable-pitch-height 1.05)))
+           :italic-family ,bg--monaspace-comment-font  ;Argon for italic emphasis
+           :italic-slant italic
+           :variable-pitch-height 1.05
+           :mode-line-active-family ,bg--mode-line-font
+           :mode-line-active-weight light
+           :mode-line-inactive-family ,bg--mode-line-font
+           :mode-line-inactive-weight light)))
   :config
-  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'regular))
-  (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset))
+  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'monitor))
+  (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
+
+  (defun bg/setup-monaspace-faces ()
+    "Apply Monaspace Frozen variant fonts to specific font-lock faces.
+Runs after fontaine preset changes and theme loads so overrides survive both."
+    (dolist (face '(font-lock-comment-face
+                    font-lock-comment-delimiter-face
+                    font-lock-doc-face))
+      (set-face-attribute face nil :family bg--monaspace-comment-font))
+    (dolist (face '(font-lock-string-face))
+      (set-face-attribute face nil :family bg--monaspace-string-font))
+    (dolist (face '(font-lock-keyword-face
+                    font-lock-builtin-face
+                    font-lock-type-face))
+      (set-face-attribute face nil :family bg--monaspace-keyword-font :weight 'light)))
+
+  (add-hook 'fontaine-set-preset-hook #'bg/setup-monaspace-faces)
+  (add-hook 'ef-themes-post-load-hook #'bg/setup-monaspace-faces)
+  (add-hook 'after-init-hook #'bg/setup-monaspace-faces))
 
 
 (use-package doom-modeline
