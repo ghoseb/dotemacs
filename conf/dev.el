@@ -48,6 +48,7 @@
     (set-face-attribute 'magit-section-child-count nil :family sans-serif-family :weight 'normal :bold nil)
     (set-face-attribute 'magit-section-heading nil :family sans-serif-family :bold t)
     (set-face-attribute 'magit-section-highlight nil :family sans-serif-family :bold t))
+  (add-hook 'git-commit-setup-hook (lambda () (corfu-mode -1)))
   :bind
   ("C-x g" . magit-status))
 
