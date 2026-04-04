@@ -41,18 +41,30 @@
     (setq truncate-lines t)
     (let* ((buffer-read-only)
            (image-path "~/.emacs.d/images/emacs.svg")
-           (image (create-image image-path))
-           (size (image-size image))
-           (height (cdr size))
-           (width (car size))
-           (top-margin (floor (/ (- (window-height) height) 2)))
-           (left-margin (floor (/ (- (window-width) width) 2)))
+           ;; Target box: 40% of window pixel dimensions.
+           (max-w   (floor (* 0.25 (window-pixel-width))))
+           (max-h   (floor (* 0.25 (window-pixel-height))))
+           ;; Natural SVG size in pixels, then uniform scale to fit the box.
+           (natural (image-size (create-image image-path) 'pixels))
+           (scale   (min (/ (float max-w) (car natural))
+                         (/ (float max-h) (cdr natural))))
+           ;; Scaled image passed directly to the display engine.
+           (image   (create-image image-path 'svg nil
+                                  :width  (floor (* scale (car natural)))
+                                  :height (floor (* scale (cdr natural)))))
+           ;; image-size without 'pixels returns character-cell dimensions for margins.
+           (size        (image-size image))
+           ;; Center the whole content block (image + 3 blank lines + title row).
+           ;; Use window-body-height since mode-line-format is nil.
+           (content-h   (+ (cdr size) 4))
+           (top-margin  (floor (/ (- (window-body-height) content-h) 2)))
+           (left-margin (floor (/ (- (window-width) (car size)) 2)))
            (title (format "Welcome to GNU/Emacs v%s!" emacs-version)))
       (erase-buffer)
       (setq mode-line-format nil)
       (goto-char (point-min))
-      (insert (make-string top-margin ?\n ))
-      (insert (make-string left-margin ?\ ))
+      (insert (make-string (max 0 top-margin) ?\n))
+      (insert (make-string (max 0 left-margin) ?\ ))
       (insert-image image)
       (insert "\n\n\n")
       (insert (make-string (floor (/ (- (window-width) (string-width title)) 2)) ?\ ))
