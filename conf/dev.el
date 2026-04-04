@@ -130,7 +130,7 @@
 
 ;; use eglot-mode as lsp client because it's a lot less intrusive
 (use-package eglot
-  :straight (eglot :fork (:repo "joaotavora/eglot"))
+  :straight (:type built-in)
   :bind (:map eglot-mode-map
               ("C-c r" . eglot-rename))
   :hook
@@ -157,6 +157,7 @@
 ;; NOTE: This is for making LSP faster.
 ;; `cargo install emacs-lsp-booster`
 (use-package eglot-booster
+  :disabled t
   :straight (eglot-booster :type git
                            :host github
                            :repo "jdtsmith/eglot-booster"
@@ -218,7 +219,7 @@
 
 
 (use-package project
-  :straight 'gnu-elpa-mirror
+  :straight (:type built-in)
   :demand t
   :commands (project-root project-current)
   :bind (:map project-prefix-map ("m" . magit-project-status))
@@ -253,6 +254,7 @@
 
 
 (use-package pet
+  :disabled t
   :straight t
   :commands (pet-mode)
   :init
@@ -267,9 +269,10 @@
 
 (use-package combobulate
   :straight t
+  :disabled t
   :custom
   (combobulate-key-prefix "C-c o")
-  :hook ((python-ts-mode . combobulate-mode)))
+  :hook (python-ts-mode . combobulate-mode))
 
 
 (use-package paredit
@@ -568,6 +571,7 @@
 
 (use-package tsx-mode
   :straight '(tsx-mode :type git :host github :repo "orzechowskid/tsx-mode.el" :branch "emacs30")
+  :disabled t
   :mode "\\.tsx\\'"
   :custom
   (tsx-mode-enable-css-in-js t))
