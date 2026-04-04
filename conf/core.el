@@ -783,4 +783,14 @@
   (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
-  (global-treesit-auto-mode))
+  (global-treesit-auto-mode)
+  ;; treesit-auto--build-major-mode-remap-alist probes every installed grammar
+  ;; via treesit-language-available-p on every find-file. The result is static
+  ;; at runtime so cache it after the first call.
+  (defvar bg--treesit-auto-remap-cache nil)
+  (advice-add #'treesit-auto--set-major-remap :override
+              (lambda (&rest _)
+                (unless bg--treesit-auto-remap-cache
+                  (setq bg--treesit-auto-remap-cache
+                        (treesit-auto--build-major-mode-remap-alist)))
+                (setq-local major-mode-remap-alist bg--treesit-auto-remap-cache))))
