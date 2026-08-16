@@ -15,9 +15,11 @@
   :init
   (setq fontaine-presets
         `((monitor
-           :default-height 250)
+           :default-height 220)
           (laptop
            :default-height 180)
+          (smol
+           :default-height 140)
           (t
            :default-family ,bg--default-font
            :default-weight normal
