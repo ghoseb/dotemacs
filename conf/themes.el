@@ -1,4 +1,4 @@
-;;; themes.el
+;;; themes.el  -*- lexical-binding: t; -*-
 
 (set-fontset-font "fontset-default" 'unicode bg--nerd-font nil 'prepend)
 (set-fontset-font "fontset-default" 'unicode bg--emoji-font nil 'prepend)

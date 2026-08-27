@@ -1,4 +1,4 @@
-;;; utils.el
+;;; utils.el  -*- lexical-binding: t; -*-
 
 (defun bg/kill-current-buffer ()
   "Kill the current buffer, without confirmation."

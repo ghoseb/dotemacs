@@ -1,4 +1,4 @@
-;;; settings.el
+;;; settings.el  -*- lexical-binding: t; -*-
 
 (setq user-full-name "Baishampayan Ghose"
       user-mail-address "b.ghose@gmail.com")

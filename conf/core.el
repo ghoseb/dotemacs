@@ -1,4 +1,4 @@
-;;; core.el
+;;; core.el  -*- lexical-binding: t; -*-
 
 (use-package emacs
   :hook
@@ -194,12 +194,12 @@
                         " (%s/%s)")))
   :config
   (advice-add #'vertico--format-candidate :around
-              (lambda (orig cand prefix suffix index _start)
+              (lambda (orig cand prefix suffix index start)
                 (concat
                  (if (= vertico--index index)
                      (propertize "» " 'face '(:foreground "#80adf0" :weight bold))
                    "  ")
-                 (funcall orig cand prefix suffix index _start))))
+                 (funcall orig cand prefix suffix index start))))
   :init
   (vertico-mode)
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))

@@ -1,4 +1,4 @@
-;;; clojure.el
+;;; clojure.el  -*- lexical-binding: t; -*-
 
 (use-package clojure-mode
   :blackout ((clojure-mode . "CLJ")

@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 (defun bg/org-setup ()
   "Customize org by setting a bunch of variables."
   (interactive)

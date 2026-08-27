@@ -41,7 +41,7 @@
 (push '(undecorated-round . t) default-frame-alist)
 
 ;; initial starting position
-(push '(height . 100) default-frame-alist)
+(push '(height . 70) default-frame-alist)
 (push '(width . 225) default-frame-alist)
 (push '(left . 1100) default-frame-alist)
 (push '(top . 575) default-frame-alist)
