@@ -88,7 +88,6 @@ the prefix argument is supplied."
   :config
   (centaur-tabs-headline-match)
   (centaur-tabs-group-by-projectile-project)
-  (centaur-tabs-change-fonts bg--variable-pitch-font bg--default-font-size)
   (defun centaur-tabs-buffer-groups ()
     (list
      (cond
@@ -156,18 +155,6 @@ the prefix argument is supplied."
   ("C-<next>" . centaur-tabs-forward)
   ("C-M-<prior>" . centaur-tabs-backward-group)
   ("C-M-<next>" . centaur-tabs-forward-group))
-
-(use-package emacs
-  :bind
-  ("C-c C-w" . #'world-clock)
-  :custom
-  (world-clock-list
-   '(("Asia/Calcutta" "Pune")
-     ("America/Los_Angeles" "San Francisco")
-     ("America/New_York" "New York")
-     ("Etc/UTC" "UTC"))
-   (world-clock-time-format "%a, %d %b %I:%M %p %Z")))
-
 
 (use-package time-zones
   :bind

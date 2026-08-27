@@ -1,4 +1,4 @@
-;;; init.el --- GNU/Emacs FTW!
+;;; init.el --- GNU/Emacs FTW!  -*- lexical-binding: t; -*-
 
 (load-file (expand-file-name "utils.el" user-emacs-directory))
 

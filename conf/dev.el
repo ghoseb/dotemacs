@@ -256,7 +256,7 @@
 
 (defun bg/project-find-root (path)
   "Search up the PATH for `bg--project-root-markers'."
-  (when-let ((root (locate-dominating-file path #'bg/project-root-p)))
+  (when-let* ((root (locate-dominating-file path #'bg/project-root-p)))
     (cons 'transient (expand-file-name root))))
 
 
