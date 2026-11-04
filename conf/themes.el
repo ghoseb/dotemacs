@@ -11,7 +11,8 @@
 
 (use-package fontaine
   :demand t
-  :if window-system
+  ;; No `:if window-system': if this block is skipped and fontaine is later
+  ;; autoloaded, only fontaine's built-in presets exist.
   :init
   (setq fontaine-presets
         `((monitor
@@ -32,7 +33,21 @@
            :mode-line-inactive-family ,bg--mode-line-font
            :mode-line-inactive-weight light)))
   :config
-  (fontaine-set-preset (or (fontaine-restore-latest-preset) 'monitor))
+  (defun bg/fontaine-preset-p (preset)
+    "Return non-nil if PRESET (symbol or string) is a named `fontaine-presets' entry."
+    (let ((preset (if (stringp preset) (intern preset) preset)))
+      (and preset (not (eq preset t)) (assq preset fontaine-presets))))
+
+  ;; Drop names that aren't ours (e.g. fontaine's built-in `large'/`regular')
+  ;; from the savehist-persisted history; `fontaine-store-latest-preset'
+  ;; saves its first entry.
+  (setq fontaine-preset-history (seq-filter #'bg/fontaine-preset-p fontaine-preset-history))
+
+  ;; A stale stored preset would make `fontaine-set-preset' warn and apply
+  ;; nothing, leaving Emacs's default font.
+  (when (display-graphic-p)
+    (let ((restored (fontaine-restore-latest-preset)))
+      (fontaine-set-preset (if (bg/fontaine-preset-p restored) restored 'monitor))))
   (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
 
   (defun bg/setup-monaspace-faces ()
