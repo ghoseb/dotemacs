@@ -727,17 +727,6 @@
   (ultra-scroll-mode 1))
 
 
-(use-package compile-angel
-  :straight t
-  :ensure t
-  :config
-  (setq compile-angel-verbose t)
-  (setq compile-angel-enable-byte-compile t)
-  (setq compile-angel-enable-native-compile t)
-  (compile-angel-on-load-mode)
-  (add-hook 'emacs-lisp-mode-hook #'compile-angel-on-save-local-mode))
-
-
 (use-package dictionary
   :straight (:type built-in)
   :after (org)
