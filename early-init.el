@@ -66,6 +66,8 @@
       echo-keystrokes 1e-6
       comp-deferred-compilation nil
       native-comp-async-report-warnings-errors nil
+      ;; Log warnings to *Warnings* but only pop the buffer up for errors.
+      warning-minimum-level :error
       debug-on-error t
       ;; better scrolling
       scroll-step 1
