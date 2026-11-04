@@ -6,6 +6,27 @@
 
 (defvar bg--init-load-path load-path)
 
+;; Emacs.app launched from the Dock/Finder inherits launchd's minimal PATH
+;; (/usr/bin:/bin:/usr/sbin:/sbin); the emacs-plus cask can't inject one.
+;; Import PATH from a login shell (~/.zprofile), which takes ~16ms.
+;; Launches from a terminal already have the full PATH and skip this.
+(defun bg--import-login-shell-path ()
+  "Set PATH and `exec-path' from a login shell if PATH lacks Homebrew."
+  (unless (string-match-p "/opt/homebrew/bin" (or (getenv "PATH") ""))
+    (let ((path (with-temp-buffer
+                  ;; The marker skips anything the shell's startup files print.
+                  (and (eq 0 (call-process (or (getenv "SHELL") "/bin/zsh") nil '(t nil) nil
+                                           "-l" "-c" "printf '\\n__PATH__%s' \"$PATH\""))
+                       (goto-char (point-min))
+                       (search-forward "\n__PATH__" nil t)
+                       (buffer-substring (point) (point-max))))))
+      (when (and path (string-match-p "/opt/homebrew/bin" path))
+        (setenv "PATH" path)
+        (setq exec-path (append (parse-colon-path path) (list exec-directory)))))))
+
+(when (eq system-type 'darwin)
+  (bg--import-login-shell-path))
+
 ;; redirect eln cache
 (when (fboundp 'startup-redirect-eln-cache)
   (startup-redirect-eln-cache

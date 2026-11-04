@@ -93,13 +93,6 @@
   ("<escape>" . keyboard-escape-quit))
 
 
-(use-package exec-path-from-shell
-  :straight t
-  :defer 2
-  :config
-  (exec-path-from-shell-initialize))
-
-
 ;; Keep .emacs.d clean
 (use-package no-littering
   :straight t
