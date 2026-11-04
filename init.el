@@ -7,6 +7,19 @@
 
 (defvar bg--conf-dir (expand-file-name "conf" user-emacs-directory) "The directory for config files.")
 
+;; Defined by straight.el, use-package and utils.el, which load later;
+;; declare them so the byte compiler doesn't warn.
+(defvar straight-base-dir)
+(defvar straight-repository-branch)
+(defvar straight-use-package-by-default)
+(defvar straight-cache-autoloads)
+(defvar straight-vc-git-default-clone-depth)
+(defvar straight-check-for-modifications)
+(defvar straight-recipes-emacsmirror-use-mirror)
+(defvar use-package-always-defer)
+(declare-function straight-use-package "straight")
+(declare-function bg/maybe-load "utils")
+
 ;; straight.el settings (must be set before bootstrap)
 (setq straight-base-dir (expand-file-name "var/" bg--local-dir)
       straight-repository-branch "develop"
