@@ -829,3 +829,9 @@ the default, and savehist persists it (it held ~/.emacs.d/tree-sitter)."
                   (setq bg--treesit-auto-remap-cache
                         (treesit-auto--build-major-mode-remap-alist)))
                 (setq-local major-mode-remap-alist bg--treesit-auto-remap-cache))))
+
+(use-package server
+  :straight (:type built-in)
+  :demand t
+  :config
+  (unless (server-running-p) (server-start)))
