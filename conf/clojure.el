@@ -72,5 +72,6 @@ For the REPL type use the function `cider-repl-type'."
          ("\\.cljc\\'" . clojurec-ts-mode)
          ("\\.cljs\\'" . clojurescript-ts-mode)
          ("\\.edn\\'" . clojure-ts-mode))
-  :custom
-  (treesit-extra-load-path '("~/Code/src/tree-sitter-clojure/dist")))
+  :init
+  ;; Append so the main grammar dir (set in core.el) stays first.
+  (add-to-list 'treesit-extra-load-path "~/Code/src/tree-sitter-clojure/dist" t))

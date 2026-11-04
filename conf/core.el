@@ -776,6 +776,41 @@
   (popper-echo-mode +1))
 
 
+(defvar bg--treesit-grammar-dir (expand-file-name "var/tree-sitter/" bg--local-dir)
+  "Directory where tree-sitter grammars are installed and loaded from.")
+
+(defvar treesit--install-language-grammar-out-dir-history) ; dynamic, for `let' below
+
+(defun bg--treesit-install-to-grammar-dir (orig &rest args)
+  "Call ORIG with ARGS, defaulting the install dir to `bg--treesit-grammar-dir'.
+Redirects only the \"tree-sitter\" lookup of `locate-user-emacs-file', which
+`treesit-install-language-grammar' uses both for its interactive prompt
+default and when called without OUT-DIR.  An explicit OUT-DIR still wins.
+
+The OUT-DIR history is shadowed too: its first entry takes precedence over
+the default, and savehist persists it (it held ~/.emacs.d/tree-sitter)."
+  (let ((treesit--install-language-grammar-out-dir-history nil))
+    (cl-letf* ((locate (symbol-function 'locate-user-emacs-file))
+               ((symbol-function 'locate-user-emacs-file)
+                (lambda (name &rest rest)
+                  (if (equal name "tree-sitter")
+                      (directory-file-name bg--treesit-grammar-dir)
+                    (apply locate name rest)))))
+      (apply orig args))))
+
+(use-package treesit
+  :straight (:type built-in)
+  :demand t
+  :config
+  ;; First entry: grammars load from here, and `treesit-ensure-installed'
+  ;; installs here (it uses the first writable directory in this list).
+  (add-to-list 'treesit-extra-load-path bg--treesit-grammar-dir)
+  ;; `treesit-install-language-grammar' ignores `treesit-extra-load-path' and
+  ;; falls back to ~/.emacs.d/tree-sitter/, both for M-x and for callers such
+  ;; as treesit-auto and zig-ts-install-grammars that pass no OUT-DIR.
+  (advice-add #'treesit-install-language-grammar :around #'bg--treesit-install-to-grammar-dir))
+
+
 (use-package treesit-auto
   :straight t
   :demand t
