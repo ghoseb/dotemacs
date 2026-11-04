@@ -823,4 +823,20 @@ the default, and savehist persists it (it held ~/.emacs.d/tree-sitter)."
   :straight (:type built-in)
   :demand t
   :config
-  (unless (server-running-p) (server-start)))
+  (defun bg/hide-daemon-startup-warnings ()
+    "Close the *Warnings* window that a daemon pops up on its first client frame.
+Warnings raised during daemon init bypass `warning-minimum-level' and are
+shown on the first client frame (see `display-warning'). Keep the window
+if any entry is an error."
+    (remove-hook 'server-after-make-frame-hook #'bg/hide-daemon-startup-warnings)
+    (when-let* ((buf (get-buffer "*Warnings*"))
+                (win (get-buffer-window buf)))
+      (unless (with-current-buffer buf
+                (save-excursion
+                  (goto-char (point-min))
+                  (re-search-forward "^.*Error (" nil t)))
+        (quit-window nil win))))
+
+  (if (daemonp)
+      (add-hook 'server-after-make-frame-hook #'bg/hide-daemon-startup-warnings)
+    (unless (server-running-p) (server-start))))
