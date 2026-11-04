@@ -50,9 +50,10 @@
 
 (add-hook 'emacs-startup-hook
           (lambda ()
-            ;; restore after startup
-            (setq gc-cons-threshold 16777216
-                  gc-cons-percentage 0.1)))
+            ;; Restore after startup. `gcmh' (init.el) manages
+            ;; `gc-cons-threshold'; resetting it here would force a
+            ;; full GC before the first frame is drawn.
+            (setq gc-cons-percentage 0.1)))
 
 ;; prevent the glimpse of unstyled UI elements
 (push '(menu-bar-lines . 0) default-frame-alist)
@@ -83,6 +84,9 @@
 ;; settings live in `use-package emacs' in conf/core.el.
 (setq inhibit-splash-screen t
       initial-scratch-message nil
+      ;; lisp-interaction-mode would run every prog-mode hook (and load
+      ;; their packages) during startup; *Welcome* is shown instead anyway.
+      initial-major-mode 'fundamental-mode
       ;; don't load site-start.el (loaded after early-init, before init)
       site-run-file nil
       ;; don't resize frames a character at a time, but use pixels

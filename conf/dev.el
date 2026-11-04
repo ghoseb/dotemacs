@@ -127,8 +127,8 @@
 
 
 (use-package jarchive
-  :demand t
-  :straight (jarchive :type git :host sourcehut :repo "dannyfreeman/jarchive"))
+  :straight (jarchive :type git :host sourcehut :repo "dannyfreeman/jarchive")
+  :hook (clojure-mode . jarchive-mode))
 
 
 ;; use eglot-mode as lsp client because it's a lot less intrusive
@@ -139,7 +139,7 @@
   :hook
   (go-mode . eglot-ensure)
   :config
-  (jarchive-setup)
+  (jarchive-mode 1)
   (add-to-list 'eglot-server-programs
                `((python-mode python-ts-mode)
                  "basedpyright-langserver" "--stdio"))
@@ -520,20 +520,15 @@
   :straight t
   :hook (tuareg-mode . utop-minor-mode)
   :config
-  (setq utop-command "opam exec -- dune utop . -- -emacs")
-  :init
-  (add-to-list
-   'load-path
-   (replace-regexp-in-string
-    "\n" "/share/emacs/site-lisp"
-    (shell-command-to-string "opam var prefix"))))
+  (setq utop-command "opam exec -- dune utop . -- -emacs"))
 
 
 (use-package gptel
   :straight t
   :init
   ;; Instruct `auth-source` to look into ~/.emacs.d/ for secrets
-  (add-to-list 'auth-sources (expand-file-name "var/.authinfo" bg--local-dir))
+  (with-eval-after-load 'auth-source
+    (add-to-list 'auth-sources (expand-file-name "var/.authinfo" bg--local-dir)))
   (defun bg/get-api-key (hostname)
     "Return a function that retrieves the API key for the given HOSTNAME."
     (lambda ()

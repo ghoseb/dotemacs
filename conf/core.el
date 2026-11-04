@@ -428,7 +428,6 @@
 
 (use-package multiple-cursors
   :straight t
-  :hook (prog-mode . multiple-cursors-mode)
   :bind
   (("C-M-s-. C-M-s-." . mc/edit-lines)
    ("C->" . mc/mark-next-like-this)     ;FIXME: conflicts with paredit
@@ -467,14 +466,16 @@
 (use-package recentf
   :straight (:type built-in)
   :demand t
-  :init
-  (recentf-mode t)
+  :custom
+  (recentf-max-saved-items 500)
+  (recentf-max-menu-items 50)
+  ;; Must be set before `recentf-mode' is enabled, else it cleans up
+  ;; (stats every entry) at startup.
+  (recentf-auto-cleanup 60)
   :config
-  (setq recentf-max-saved-items 500
-        recentf-max-menu-items 50
-        recentf-auto-cleanup 60)
   (add-to-list 'recentf-exclude bg--local-dir)
-  (add-to-list 'recentf-exclude "/opt/homebrew/Cellar/"))
+  (add-to-list 'recentf-exclude "/opt/homebrew/Cellar/")
+  (recentf-mode 1))
 
 
 (use-package uniquify
