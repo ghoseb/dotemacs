@@ -581,7 +581,7 @@
   :bind-keymap ("C-c f" . bg--treesit-fold-keymap)
   :commands treesit-fold-mode
   :hook
-  (zig-ts-mode . (lambda () (treesit-parser-create 'zig)))
+  (zig-ts-mode . treesit-fold-line-comment-mode)
   :init
   (defvar-keymap bg--treesit-fold-keymap
     :doc "Prefix map for Treesit Fold Mode"
@@ -591,6 +591,22 @@
     "M-c" `("Close all folds" . ,#'treesit-fold-close-all)
     "M-o" `("Open all folds" . ,#'treesit-fold-open-all))
   :config
+  ;; treesit-fold only ships rules for `zig-mode', written for the old
+  ;; grammar's node names; these match tree-sitter-grammars/tree-sitter-zig.
+  (defun bg/treesit-fold-range-zig-braces (node offset)
+    "Fold NODE from its opening brace, with OFFSET."
+    (treesit-fold-range-markers node offset "{"))
+  (setf (alist-get 'zig-ts-mode treesit-fold-range-alist)
+        '((block                        . treesit-fold-range-seq)
+          (initializer_list             . treesit-fold-range-seq)
+          (struct_declaration           . bg/treesit-fold-range-zig-braces)
+          (enum_declaration             . bg/treesit-fold-range-zig-braces)
+          (union_declaration            . bg/treesit-fold-range-zig-braces)
+          (opaque_declaration           . bg/treesit-fold-range-zig-braces)
+          (error_set_declaration        . bg/treesit-fold-range-zig-braces)
+          (switch_expression            . bg/treesit-fold-range-zig-braces)
+          (anonymous_struct_initializer . bg/treesit-fold-range-zig-braces)
+          (comment                      . treesit-fold-range-c-like-comment)))
   (treesit-fold-indicators-mode))
 
 
