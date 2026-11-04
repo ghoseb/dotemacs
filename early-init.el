@@ -58,31 +58,17 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-;; sane defaults
+;; Settings that must be in place before init runs. General editor
+;; settings live in `use-package emacs' in conf/core.el.
 (setq inhibit-splash-screen t
       initial-scratch-message nil
-      use-file-dialog nil
-      ring-bell-function #'ignore
-      echo-keystrokes 1e-6
-      comp-deferred-compilation nil
+      ;; don't load site-start.el (loaded after early-init, before init)
+      site-run-file nil
+      ;; don't resize frames a character at a time, but use pixels
+      frame-resize-pixelwise t
       native-comp-async-report-warnings-errors nil
       ;; Log warnings to *Warnings* but only pop the buffer up for errors.
       warning-minimum-level :error
-      debug-on-error t
-      ;; better scrolling
-      scroll-step 1
-      scroll-conservatively 101
-      scroll-preserve-screen-position 1
-      mouse-wheel-scroll-amount '(1 ((shift) . 5))
-      mouse-wheel-follow-mouse t
-      ;; lines between the cursor and the edge of the screen
-      scroll-margin 3
-      ;; wrap lines that are too long.
-      truncate-lines nil
-      ;; don't resize frames a character at a time, but use pixels
-      frame-resize-pixelwise t
-      cursor-in-non-selected-windows nil
-      site-run-file nil
-      system-time-locale "en_US.utf8")
+      debug-on-error t)
 
 ;;; early-init.el ends here

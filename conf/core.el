@@ -2,66 +2,48 @@
 
 (use-package emacs
   :hook
-  ('before-save . #'delete-trailing-whitespace)
-  :config
-  (setq-default
-   indent-tabs-mode nil
-   fill-column 115
-   truncate-string-ellipsis "…"
-   sentence-end-double-space nil
-   cursor-type '(box .  2)
-   cursor-in-non-selected-windows nil
-   bidi-paragraph-direction 'left-to-right)
-  (setq
-   tab-width 4
-   tab-always-indent 'complete
-   require-final-newline t
-   custom-safe-themes t
-   confirm-kill-emacs #'yes-or-no-p
-   dired-kill-when-opening-new-dired-buffer t
-   completion-cycle-threshold 3
-   tab-always-indent 'complete
-   version-control t
-   kept-new-versions 10
-   kept-old-versions 0
-   delete-old-versions t
-   vc-make-backup-files t
-   make-backup-files nil
-   use-dialog-box nil
-   global-auto-revert-non-file-buffers t
-   blink-cursor-mode nil
-   history-delete-duplicates t
-   default-directory "~/"
-   confirm-kill-processes nil)
-  (delete-selection-mode t)
-  (column-number-mode t)
-  (size-indication-mode t)
-  ;; (global-hl-line-mode 1)
-  (global-auto-revert-mode 1)
-  (defalias 'yes-or-no-p 'y-or-n-p)
-  (prefer-coding-system 'utf-8)
-  (set-charset-priority 'unicode)
-  (set-default-coding-systems 'utf-8)
-  (set-terminal-coding-system 'utf-8)
-  (set-keyboard-coding-system 'utf-8)
-  (set-language-environment   'utf-8)
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  (before-save . delete-trailing-whitespace)
+  :custom
+  ;; Editing. `:custom' sets the default value, which matters for
+  ;; buffer-local variables like `tab-width' and `indent-tabs-mode'.
+  (indent-tabs-mode nil)
+  (tab-width 4)
+  (tab-always-indent 'complete)
+  (fill-column 115)
+  (sentence-end-double-space nil)
+  (require-final-newline t)
+  (bidi-paragraph-direction 'left-to-right)
 
+  ;; Files
+  (make-backup-files nil)
+  (global-auto-revert-non-file-buffers t)
+
+  ;; UI
+  (cursor-type '(box . 2))
+  (cursor-in-non-selected-windows nil)
+  (truncate-string-ellipsis "…")
+  (ring-bell-function #'ignore)
+  (echo-keystrokes 1e-6)
+  (use-dialog-box nil)
+  (use-file-dialog nil)
+  (custom-safe-themes t)
+
+  ;; Scrolling (`ultra-scroll' sets `scroll-conservatively' and `scroll-margin')
+  (scroll-preserve-screen-position 1)
+  (mouse-wheel-scroll-amount '(1 ((shift) . 5)))
+  (mouse-wheel-follow-mouse t)
+
+  ;; Minibuffer and completion
+  (use-short-answers t)
+  (completion-cycle-threshold 3)
+  (history-delete-duplicates t)
   ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (minibuffer-prompt-properties '(read-only t cursor-intangible t face minibuffer-prompt))
 
+  ;; Quitting
+  (confirm-kill-emacs #'yes-or-no-p)
+  (confirm-kill-processes nil)
+  :init
   (defun prot/keyboard-quit-dwim ()
     "Do-What-I-Mean behaviour for a general `keyboard-quit'.
 
@@ -85,13 +67,30 @@
       (abort-recursive-edit))
      (t
       (keyboard-quit))))
+  :config
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  (delete-selection-mode 1)
+  (column-number-mode 1)
+  (size-indication-mode 1)
+  (global-auto-revert-mode 1)
+  (blink-cursor-mode -1)
+
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-language-environment "UTF-8")
+
+  ;; Start *scratch* in ~ (Emacs.app launched from Finder starts in /).
+  (setq default-directory "~/")
   :bind
-  ("<pinch>" . 'ignore)
-  ("<C-wheel-up>" . 'ignore)
-  ("<C-wheel-down>" . 'ignore)
-  ("C-g" . #'prot/keyboard-quit-dwim)
-  ("C-c q" . #'bury-buffer)
-  ("<escape>" . #'keyboard-escape-quit))
+  ("<pinch>" . ignore)
+  ("<C-wheel-up>" . ignore)
+  ("<C-wheel-down>" . ignore)
+  ("C-g" . prot/keyboard-quit-dwim)
+  ("C-c q" . bury-buffer)
+  ("<escape>" . keyboard-escape-quit))
 
 
 (use-package exec-path-from-shell
@@ -681,7 +680,8 @@
   (setq dired-recursive-copies 'always)
   (setq dired-recursive-deletes 'always)
   (setq delete-by-moving-to-trash t)
-  (setq dired-dwim-target t))
+  (setq dired-dwim-target t)
+  (setq dired-kill-when-opening-new-dired-buffer t))
 
 
 (use-package dired-subtree
@@ -720,6 +720,7 @@
              :host github
              :repo "jdtsmith/ultra-scroll"
              :branch "main")
+  :demand t
   :init
   (setq scroll-conservatively 101       ; important!
         scroll-margin 0)

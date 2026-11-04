@@ -7,23 +7,22 @@
 
 (defvar bg--conf-dir (expand-file-name "conf" user-emacs-directory) "The directory for config files.")
 
-;; initialise straight.el
-(setf straight-base-dir (expand-file-name "var/" bg--local-dir))
-(setf straight-repository-branch "develop")
-
-;; some settings to make straight.el even better
-(setq straight-use-package-by-default t
-      use-package-always-defer t
+;; straight.el settings (must be set before bootstrap)
+(setq straight-base-dir (expand-file-name "var/" bg--local-dir)
+      straight-repository-branch "develop"
+      straight-use-package-by-default t
       straight-cache-autoloads t
       straight-vc-git-default-clone-depth 1
-      vc-follow-symlinks t
       straight-check-for-modifications '(check-on-save find-when-checking)
-      straight-recipes-emacsmirror-use-mirror nil)
+      straight-recipes-emacsmirror-use-mirror nil
+      use-package-always-defer t
+      ;; follow symlinks silently during bootstrap; restored below
+      vc-follow-symlinks t)
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" straight-base-dir))
-      (bootstrap-version 6))
+      (bootstrap-version 7))
   (unless (file-exists-p bootstrap-file)
     (with-current-buffer
         (url-retrieve-synchronously
