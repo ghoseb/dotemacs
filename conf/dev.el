@@ -537,20 +537,29 @@
           (funcall secret)))))
   :config
   (add-hook 'gptel-post-response-functions 'gptel-end-of-response)
-  (gptel-make-ollama "Ollama"
-    :host "localhost:11434"
-    :stream t
-    :models '(deepseek-coder-v2 codellama))
-  (setq gptel-model 'google/gemini-2.0-flash-001
+  (setq gptel-model 'z-ai/glm-5.3-flash
         gptel-backend
         (gptel-make-openai "OpenRouter"
           :host "openrouter.ai"
           :endpoint "/api/v1/chat/completions"
           :stream t
           :key (bg/get-api-key "openrouter.ai")
-          :models '(google/gemini-2.0-flash-001
-                    deepseek/deepseek-r1
-                    meta-llama/llama-3.3-70b-instruct))))
+          :models '(z-ai/glm-5.3-flash
+                    moonshotai/kimi-k3
+                    minimax/minimax-m3.1-flash))))
+
+
+;; Tools from gptel-agent, without its agent mode/presets (gptel-agent.el).
+;; Loading this only registers tools; the `coding' preset selects a curated
+;; set. Edit, Write, Bash and Eval ask for confirmation before running.
+(use-package gptel-agent-tools
+  :straight (gptel-agent :type git :host github :repo "karthink/gptel-agent")
+  :after gptel
+  :demand t                             ; load as soon as gptel does
+  :config
+  (gptel-make-preset 'coding
+    :description "Read/edit/write files, search, run Bash and Elisp"
+    :tools '("Read" "Edit" "Write" "Bash" "Eval" "Grep" "Glob")))
 
 
 (use-package flycheck-overlay
