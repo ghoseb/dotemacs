@@ -399,8 +399,6 @@
   :mode ("\\.json\\'" . json-ts-mode))
 
 
-(use-package zig-mode)
-
 (use-package zig-ts-mode
   :straight (zig-ts-mode
              :type git
