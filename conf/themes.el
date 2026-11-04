@@ -43,11 +43,22 @@
   ;; saves its first entry.
   (setq fontaine-preset-history (seq-filter #'bg/fontaine-preset-p fontaine-preset-history))
 
-  ;; A stale stored preset would make `fontaine-set-preset' warn and apply
-  ;; nothing, leaving Emacs's default font.
-  (when (display-graphic-p)
-    (let ((restored (fontaine-restore-latest-preset)))
-      (fontaine-set-preset (if (bg/fontaine-preset-p restored) restored 'monitor))))
+  (defun bg/fontaine-apply-initial-preset (&optional frame)
+    "Apply the stored fontaine preset once FRAME (default: selected) is graphical.
+Fontaine sets faces for all frames, so this only needs to run once. A daemon
+has no graphical frame during init, so it waits for the first GUI client
+frame via `after-make-frame-functions'."
+    (when (display-graphic-p frame)
+      (remove-hook 'after-make-frame-functions #'bg/fontaine-apply-initial-preset)
+      (with-selected-frame (or frame (selected-frame))
+        ;; A stale stored preset would make `fontaine-set-preset' warn and
+        ;; apply nothing, leaving Emacs's default font.
+        (let ((restored (fontaine-restore-latest-preset)))
+          (fontaine-set-preset (if (bg/fontaine-preset-p restored) restored 'monitor))))))
+
+  (if (display-graphic-p)
+      (bg/fontaine-apply-initial-preset)
+    (add-hook 'after-make-frame-functions #'bg/fontaine-apply-initial-preset))
   (add-hook 'kill-emacs-hook #'fontaine-store-latest-preset)
 
   (defun bg/setup-monaspace-faces ()
