@@ -15,58 +15,81 @@
   (set-face-attribute 'default nil :height (* font-size 10)))
 
 
-(use-package vterm
+;; Ghostel: terminal emulator powered by libghostty-vt (the Ghostty VT engine).
+;; The native module is ALWAYS built locally from source with `zig' (0.17.x)
+;; -- never downloaded -- and the compiled dylib lands in the dotemacs var dir
+;; so straight/package rebuilds never clobber a loaded module.
+(use-package ghostel
   :straight t
-  :when (bound-and-true-p module-file-suffix)
-  :ensure-system-package
-  ((libtool . "brew install libtool")
-   (cmake . "brew install cmake"))
-  :bind (:map vterm-mode-map
-              ("<insert>" . ignore)
-              ("<f2>" . ignore)
-              :map project-prefix-map
-              ("t" . vterm-project-dir))
+  :hook (after-init . ghostel-status-indicator-mode)
+  :bind (:map ghostel-semi-char-mode-map
+              ("C-s" . consult-line)
+              ("C-k" . bg/ghostel-send-C-k-and-kill)
+              ;; Walk shell history with M-p/M-n like eshell, by sending C-p/C-n.
+              ("M-p" . (lambda () (interactive) (ghostel-send-key "p" "ctrl")))
+              ("M-n" . (lambda () (interactive) (ghostel-send-key "n" "ctrl"))))
   :custom
-  (vterm-always-compile-module t)
-  (vterm-environment '("VTERM=1" "LC_ALL=en_US.UTF-8"))
-  :preface
-  (unless (fboundp 'project-prefixed-buffer-name)
-    (autoload #'project-prefixed-buffer-name "project"))
-  (defun vterm-project-dir (&optional _)
-    "Launch vterm in current project.
-Opens an existing vterm buffer for a project if present, unless
-the prefix argument is supplied."
-    (interactive "P")
-    (let* ((default-directory (project-root (project-current t)))
-           (name (project-prefixed-buffer-name "vterm")))
-      (if (and (not current-prefix-arg) (get-buffer name))
-          (switch-to-buffer name)
-        (funcall-interactively #'vterm name))))
+  (ghostel-module-auto-install 'compile)
+  (ghostel-module-directory (expand-file-name "var/ghostel/" bg--local-dir))
   :init
   (require 'project)
   (add-to-list 'project-switch-commands
-               '(vterm-project-dir "vterm") t)
-  ;; Remove window if we exit vterm
-  (add-hook 'vterm-exit-functions
-            (lambda (_ _)
-              (let* ((buffer (current-buffer))
-                     (window (get-buffer-window buffer)))
-                (when (not (one-window-p))
-                  (delete-window window))
-                (kill-buffer buffer))))
+               '(ghostel-project "Ghostel") t)
+  (add-to-list 'project-switch-commands
+               '(ghostel-project-list-buffers "Ghostel buffers") t)
+  :config
+  (defun bg/ghostel-send-C-k-and-kill ()
+    "Send `C-k' to ghostel, like Emacs `C-k'.
+Kill to end of line and copy the killed text to the `kill-ring'."
+    (interactive)
+    (kill-ring-save (point) (line-end-position))
+    (ghostel-send-key "k" "ctrl"))
+  ;; Allow launching Emacs commands (e.g. `magit-status') from the shell.
+  (add-to-list 'ghostel-eval-cmds
+               '("magit-status-setup-buffer" magit-status-setup-buffer)))
 
-  (defun bg/display-vterm-buffer (buffer alist)
-    (let ((window (display-buffer-in-direction
-                   buffer '((direction . bottom)
-                            (split-height-threshold . 1)
-                            (window-height . .33)))))
-      (if window
-          (select-window window)
-        (message "No appropriate window found for displaying VTerm buffer"))))
+;; Consult integration: pick/create terminals with live preview, add ghostel
+;; sources to `consult-buffer'/`consult-bookmark', and match across soft wraps.
+(use-package consult-ghostel
+  :straight t
+  :after ghostel
+  :hook (after-init . consult-ghostel-mode)
+  :bind (("C-x m" . consult-ghostel)
+         :map project-prefix-map
+         ("m" . consult-ghostel-project)
+         ("M" . ghostel-project-list-buffers)
+         :map ghostel-semi-char-mode-map
+         ("C-c h" . consult-ghostel-history)))
 
-  (add-to-list 'display-buffer-alist
-               '("\\*vterm"
-                 bg/display-vterm-buffer)))
+;; The extensions below ship inside the `ghostel' package (hence `:straight
+;; nil'); their global-mode commands are autoloaded, so they stay deferred until
+;; `after-init' / `eshell-load' fire.
+
+;; Run all `compile' commands in a ghostel buffer.
+(use-package ghostel-compile
+  :straight nil
+  :hook (after-init . ghostel-compile-global-mode))
+
+;; Replace `async-shell-command' with a ghostel version.
+(use-package ghostel-shell-command
+  :straight nil
+  :hook (after-init . ghostel-shell-command-global-mode))
+
+;; Use ghostel's VT parser for comint output (replaces `ansi-color-process-output').
+(use-package ghostel-comint
+  :straight nil
+  :hook (after-init . ghostel-comint-global-mode))
+
+;; Make `eshell-visual-commands' run in a ghostel buffer.
+(use-package ghostel-eshell
+  :straight nil
+  :hook (eshell-load . ghostel-eshell-visual-command-mode))
+
+;; Add a `ghostel:' Org link type.
+(use-package ghostel-org
+  :straight nil
+  :after (ghostel org)
+  :demand t)
 
 
 (use-package centaur-tabs
@@ -93,7 +116,7 @@ the prefix argument is supplied."
      (cond
       ((not (eq (file-remote-p (buffer-file-name)) nil))
        "Remote")
-      ((derived-mode-p 'eshell-mode 'term-mode 'shell-mode 'vterm-mode)
+      ((derived-mode-p 'eshell-mode 'term-mode 'shell-mode 'ghostel-mode)
        "Term")
       ((or (string-equal "*" (substring (buffer-name) 0 1))
            (memq major-mode '(magit-process-mode

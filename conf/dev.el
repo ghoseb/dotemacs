@@ -693,20 +693,6 @@
   :commands (blamer-mode))
 
 
-(use-package eat
-  :commands (eat)
-  :straight (eat :type git
-                 :host codeberg
-                 :repo "akib/emacs-eat"
-                 :files ("*.el" ("term" "term/*.el") "*.texi"
-                         "*.ti" ("terminfo/e" "terminfo/e/*")
-                         ("terminfo/65" "terminfo/65/*")
-                         ("integration" "integration/*")
-                         (:exclude ".dir-locals.el" "*-tests.el")))
-  :custom
-  (eat-term-name "xterm-256color"))
-
-
 (use-package typst-ts-mode
   :straight '(:type git :host codeberg :repo "meow_king/typst-ts-mode")
   :mode ("\\.typ\\'" . typst-ts-mode)
