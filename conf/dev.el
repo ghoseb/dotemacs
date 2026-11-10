@@ -225,6 +225,11 @@
 
 (use-package yaml-mode :straight t)
 
+(use-package yaml-ts-mode
+  :straight (:type built-in)
+  :blackout "☰"
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode))
+
 
 (use-package flycheck
   :straight t
@@ -394,7 +399,7 @@
 
 
 (use-package json-ts-mode
-  :blackout "🇯🇸"
+  :blackout "⦃"
   :straight (:type built-in)
   :mode ("\\.json\\'" . json-ts-mode))
 
